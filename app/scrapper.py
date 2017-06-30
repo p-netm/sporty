@@ -220,7 +220,7 @@ def parse_scores_for_match(insoup):
     full_score_info_div = event_header_wrapper.find_all('div', class_='full')
     for div in full_score_info_div:
         if len(div.find_all('p', class_='event_header_date')) == 0:
-            full_score_info t= div.get_text()
+            full_score_info = div.get_text()
 
     # validation of score data
     pattern = r'[(]\d-\d , \d-\d[)]'
