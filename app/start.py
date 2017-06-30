@@ -2,9 +2,7 @@
 This example uses docopt with the built in cmd module to demonstrate an
 interactive command application.
 Usage:
-    Stats save_days_results <url>
-    Stats view_flagged_results
-    Stats check_flagged_today
+    Stats scrap <url>
     Stats (-i | --interactive)
     Stats (-h | --help | --version)
 
@@ -56,20 +54,10 @@ class MyInteractive (cmd.Cmd):
     prompt = '(stats) '
 
     @docopt_cmd
-    def do_save(self, arg):
-        """ Usage: save_days_results <url>"""
+    def do_scrap(self, arg):
+        """ Usage: scrap <url>"""
         url = arg['<url>']
         scrap(url)
-
-    @docopt_cmd
-    def do_view_flagged(self, arg):
-        """Usage: view_flagged_results"""
-        print(arg)
-
-    @docopt_cmd
-    def do_check_flagged_today(self, arg):
-        """ Usage: check_flagged_today"""
-        print(arg)
 
     @docopt_cmd
     def do_quit(self, arg):
