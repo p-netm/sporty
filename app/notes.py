@@ -5,7 +5,8 @@
     able to restatr from its last point of execution to save time, resources and money
  3). telegram bot api integration
  4). increased metric patterns analysis
- 5). trivial write a proper format and logic for the reporting part"""
+ 5). trivial write a proper format and logic for the reporting part
+ 6). acocunt for extra time and penalties in the retrieve scores function"""
 
 
 """ On the second point am trying to tose a round a few ideas on how this might be accomplished without incurring
