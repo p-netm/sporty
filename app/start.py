@@ -14,7 +14,7 @@ Options:
 import sys
 import cmd
 from docopt import docopt, DocoptExit
-from scrapper import scrap
+from scrapper import scrap_for_mutual_matches
 
 
 def docopt_cmd(func):
@@ -57,7 +57,7 @@ class MyInteractive (cmd.Cmd):
     def do_scrap(self, arg):
         """ Usage: scrap <url>"""
         url = arg['<url>']
-        scrap(url)
+        scrap_for_mutual_matches(url)
 
     @docopt_cmd
     def do_quit(self, arg):

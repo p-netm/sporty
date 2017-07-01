@@ -219,7 +219,6 @@ def get_specific_match_details(url):
 
     return match_dict
 
-
 def date_from_string(string):
     # example : Today, 26 Jun 2017, 00:00++++
     date_pattern = r'(\d+ \S+ \d{4})'
@@ -252,35 +251,68 @@ def date_from_string(string):
     date_of_play = datetime(_year, _month, _day, _hour, _minute)
     return date_of_play
 
+def retrieve_scores(insoup):
+   # there are three cases that this function should deal with
+    main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
+    div = main_divs_info[0]
+    div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
+    experimental_string = div_date_time_string
+    date_of_play = date_from_string(experimental_string).timestamp()
+
+    if Time.time() < date_of_play:
+        # means future match and those no scores
+        return None
+    elif date_of_play > (Time.time() - (2 * 60 *60)) and date_of_play < Time.time():
+        # means the game is currently in play
+        return None
+    else:
+        # here we standardise the format regardless of the page display, follow the pattern [(]\d-\d , \d-\d[)]
+        event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
+        full_score_info_div = event_header_wrapper.find_all('div', class_='full')[1]
+        # now we format
+        full_score_info = full_score_info_div.p.get_text()
+        full_score_info = re.findall(r'\S-\S', full_score_info)
+        full_score_info = "(" + " , ".join(full_score_info) + ")"
+        return full_score_info
+
 def parse_scores_for_match(insoup):
     """creates a proper representation of a goals scored before half tym and at full tym
     returns a dictionary containing the full_time, first_half and second_half scores."""
     # input is a div tag that holds the results
     event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
-    event_header_score = event_header_wrapper.find_all('div', class_='event_header-score')[0]
+    event_header_score = event_header_wrapper.find_all('div', class_='event-header-score')[0]
     full_time_score = event_header_score.span.get_text()
     full_time_score = full_time_score.split(' - ')
     full_time_score = '-'.join(full_time_score)
 
     # now for the half time and full time results
-    full_score_info_div = event_header_wrapper.find_all('div', class_='full')
-    for div in full_score_info_div:
-        if len(div.find_all('p', class_='event_header_date')) == 0:
-            full_score_info = div.get_text()
+    full_score_info = retrieve_scores(insoup)
 
     # validation of score data
-    pattern = r'[(]\d-\d , \d-\d[)]'
-    if len(re.find_all(pattern, full_score_info)) == 1:
-        scores = re.findall(pattern, full_score_info)[0]
-        first_half_scores_pattern = r'[(](\d-\d) , \d-\d[)]'
-        first_half_scores = re.findall(first_half_scores_pattern, scores)[0]
-        second_half_scores_pattern = r'[(]\d-\d , (\d-\d)[)]'
-        second_half_scores = re.findall(second_half_scores_pattern, scores)[0]
-    else:
-        raise Exception('The score format for half time , full time seems to have changed')
 
+    pattern = r'[(]\d-\d , \d-\d[)]'
+    if full_score_info is not None:
+        if len(re.findall(pattern, full_score_info)) == 1:
+            scores = re.findall(pattern, full_score_info)[0]
+            first_half_scores_pattern = r'[(](\d-\d) , \d-\d[)]'
+            first_half_scores = re.findall(first_half_scores_pattern, scores)[0]
+            second_half_scores_pattern = r'[(]\d-\d , (\d-\d)[)]'
+            second_half_scores = re.findall(second_half_scores_pattern, scores)[0]
+        else:
+            print(len(re.findall(pattern, full_score_info)), re.findall(pattern, full_score_info), full_score_info, len(full_score_info))
+            raise Exception('The score format for half time , full time seems to have changed')
+
+    else:
+        return {'full_time_score': None, 'first_half_score': None,
+                'second_half_score': None}
     # how about a little validation. we do so by checking that the scores equal to full-time scores
-    score_validated  = score_validator(first_half_scores, second_half_scores, full_time_score)
+    # validate only when full_tim_score is length is 1
+
+    if len(full_time_score) == 3:
+        score_validated = score_validator(first_half_scores, second_half_scores, full_time_score)
+    else:
+        return {'full_time_score': full_time_score, 'first_half_score': first_half_scores,
+                'second_half_score': second_half_scores}
     if score_validated:
         # return the data in a parsable format
         return {'full_time_score': full_time_score, 'first_half_score': first_half_scores,
@@ -294,10 +326,10 @@ def score_validator(first_score, second_score, full_score):
     else:
         if len(first_score) != 3 and len(second_score) != 3 and len(full_score) != 3:
             raise Exception('There was a problem ')
-    full = int(full_score.split('-'))
-    first = int(first_score.split('-'))
-    second = int(second_score.split('-'))
-    if first[0] + second[0] == full[0] and first[1] + second[1] == full[1]:
+    full = (full_score.split('-'))
+    first = (first_score.split('-'))
+    second = (second_score.split('-'))
+    if int(first[0]) + int(second[0]) == int(full[0]) and int(first[1]) + int(second[1]) == int(full[1]):
         return True
     else:
         return False
@@ -305,7 +337,14 @@ def score_validator(first_score, second_score, full_score):
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
     output: a dictionary of a single mutual_matches key with a list of dictionaries"""
-    url = 'http://www.sportstats.com' + url
+    if not isinstance(url, str):
+        raise Exception('Url should be string format, to be parsed')
+    else:
+        if 'http://www.sportstats.com' in url:
+            url = url
+        else:
+            url = 'http://www.sportstats.com' + url
+    print(url)
     full_page = requests.get(url)
     soup = BeautifulSoup(full_page.text, 'html.parser')
     sub_content = soup.find_all(id='subContent_0')[0]
