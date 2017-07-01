@@ -166,42 +166,39 @@ def start_conveyer(match_dict):
                 away_team_counter += 1
             overall += 1
 
-    over_25_percentage = over_counter / overall * 100
-    print('over: ', over_25_percentage, over_counter)
-
-    under_25_percentage = 100 - over_25_percentage
-    home_win_percentage = home_win_counter / overall * 100
-    draw_percentage = draw_counter / overall * 100
-    away_win_percentage = away_win_counter / overall * 100
-    home_team_percentage = home_team_counter / overall * 100
-    away_team_percentage = away_team_counter / overall * 100
+    over_25_percentage = round(over_counter / overall * 100, 2)
+    under_25_percentage = round(100 - over_25_percentage, 2)
+    home_win_percentage = round(home_win_counter / overall * 100, 2)
+    draw_percentage = round(draw_counter / overall * 100, 2)
+    away_win_percentage = round(away_win_counter / overall * 100, 2)
+    home_team_percentage = round(home_team_counter / overall * 100, 2)
+    away_team_percentage = round(away_team_counter / overall * 100, 2)
 
     # now the question remains how do we report the findings, below is a rudimentary way of how
     # i will be doing it for now, i will improve on this model later
     over_string = under_string = string1 = string2 = string3 = string4 = string5 = ''
-
     full_string = None
 
     if over_25_percentage > 0:
-        over_string += "\n OVER 25\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        over_string += "\n\n OVER 25\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], over_25_percentage)
     if under_25_percentage:
-        under_string += "\n UNDER 25\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        under_string += "\n\n UNDER 25\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], under_25_percentage)
     if home_win_percentage:
-        string1 += "\nhome_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        string1 += "\n\nhome_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], home_win_percentage)
     if draw_percentage:
-        string2 += "\ndraw_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        string2 += "\n\ndraw_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], draw_percentage)
     if away_win_percentage:
-        string3 += "\naway_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        string3 += "\n\naway_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], away_win_percentage)
     if home_team_percentage:
-        string4 += "\nwin_pattern\n" + "{}  |  >{}<  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        string4 += "\n\nwin_pattern\n" + "{}  |  >{}<  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], home_team_percentage)
     if away_team_percentage:
-        string5 += "\nwin_pattern\n" + "{}  |  {}  |  >{}<  |  {}".format(match_dict['time'], match_dict['home_team'],
+        string5 += "\n\nwin_pattern\n" + "{}  |  {}  |  >{}<  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], away_team_percentage)
     checker = False
     string_list = [over_string, under_string, string1, string2, string3, string4, string5]
@@ -215,7 +212,6 @@ def start_conveyer(match_dict):
     if checker:
         full_string = "%s %s %s %s %s %s %s" % (over_string, under_string, string1, string2,
                                                           string3, string4, string5)
-    print(full_string)
     return full_string
 
 
