@@ -231,7 +231,6 @@ def date_from_string(string):
         siku = siku[0].split(' ')
         _day = int(siku[0])
         _month = str(siku[1])
-        print(_month)
         _year = int(siku[2])
         for month in months:
             if str(_month) in month:
@@ -299,7 +298,6 @@ def parse_scores_for_match(insoup):
             second_half_scores_pattern = r'[(]\d-\d , (\d-\d)[)]'
             second_half_scores = re.findall(second_half_scores_pattern, scores)[0]
         else:
-            print(len(re.findall(pattern, full_score_info)), re.findall(pattern, full_score_info), full_score_info, len(full_score_info))
             raise Exception('The score format for half time , full time seems to have changed')
 
     else:
@@ -344,7 +342,6 @@ def retrieve_mutual_matches_data(url):
             url = url
         else:
             url = 'http://www.sportstats.com' + url
-    print(url)
     full_page = requests.get(url)
     soup = BeautifulSoup(full_page.text, 'html.parser')
     sub_content = soup.find_all(id='subContent_0')[0]
