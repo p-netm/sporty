@@ -42,6 +42,7 @@ def scrap_for_mutual_matches(url):
         ]
     }
     """
+    print('Initialising scrapper')
     full_webpage = requests.get(url)
     webpage_text = full_webpage.text
     soup = BeautifulSoup(webpage_text, 'html.parser')
@@ -53,26 +54,30 @@ def scrap_for_mutual_matches(url):
     for tag in tbody_list:
         td_list.extend(tag.find_all('a', class_='tabOdds'))
 
-
-    flag_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                 'files', 'flagged', str(int(Time.time())) + '.txt'))
-
     all_hrefs = list()
     for link in td_list:
         all_hrefs.append(link.get('href'))
 
     for link in all_hrefs:
         parent_match = get_specific_match_details(link)
-        uncle_match = retrieve_mutual_matches_data(link)
-        match = parent_match.update(uncle_match)
+        mutual_match = retrieve_mutual_matches_data(link)
+        parent_match.update(mutual_match)
+        match = parent_match
         string = start_conveyer(match)
-        file_handler = open(flag_dir, 'w')
-        file_handler.write(string)
-        file_handler.close()
+        flag_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                'files', 'flagged', str(int(Time.time())) + '.txt'))
+
+        if string is not None:
+            file_handler = open(flag_dir, 'w')
+            file_handler.write(string)
+            file_handler.close()
+        else:
+            pass
 
 
 def splitter(scores):
     """ returns the scores in the desired integer format"""
+    print('splitting scores')
     scores = scores.split('-')
     home_goals = int(scores[0])
     away_goals = int(scores[1])
@@ -82,6 +87,7 @@ def splitter(scores):
 def check_over(scores):
     """ input scores, output either 1 or 0"""
     # if result is equal or greater than 3; then increment over counter else increment under counter
+    print('Checking Overs')
     scores_diction = splitter(scores)
     if scores_diction['home_goals'] + scores_diction['away_goals'] >= 3:
         return 1
@@ -93,6 +99,7 @@ def one_x_2(scores):
 
     # if home goals scored are more than the
     # away goals increment home_counter else, draw or away_counter
+    print('checking 1x2')
     scores = splitter(scores)
     if scores['home_goals'] > scores['away_goals']:
         return 1
@@ -104,6 +111,7 @@ def one_x_2(scores):
 
 def relative_win(scores, home_team, away_team):
     """if one_teams goals are always above the others increment a counter too..."""
+    print('running relative win')
     scores = splitter(scores)
     home_goals = scores['home_goals']
     away_goals = scores['away_goals']
@@ -116,8 +124,10 @@ def relative_win(scores, home_team, away_team):
 def start_conveyer(match_dict):
     # we first deal with over and under 25 patterns from mutual matches only, we
     # will take the simplest approach
+    print('starting Conveyer')
     our_list = match_dict['mutual']
-
+    if our_list is None:
+        return None
     over_counter = 0
     home_win_counter = 0
     draw_counter = 0
@@ -128,20 +138,21 @@ def start_conveyer(match_dict):
         home_team_name = diction['home_team']
         away_team_name = diction['away_team']
         full_time_score = diction['full_time_score']
-        over_counter += check_over(full_time_score)
-        if one_x_2(full_time_score) == 1:
-            home_win_counter += 1
-        elif one_x_2(full_time_score) == 0:
-            draw_counter += 1
-        elif one_x_2(full_time_score) == 'x':
-            away_win_counter +=1
-        else:
-            raise Exception('Unrecognized returned Value for 1 x 2')
-        if relative_win(full_time_score, home_team_name, away_team_name) == home_team_name:
-            home_team_counter += 1
-        elif relative_win(full_time_score, home_team_name, away_team_name) == away_team_name:
-            away_team_counter += 1
-    overall = len(our_list)
+        if full_time_score is not None:
+            over_counter += check_over(full_time_score)
+            if one_x_2(full_time_score) == 1:
+                home_win_counter += 1
+            elif one_x_2(full_time_score) == 0:
+                draw_counter += 1
+            elif one_x_2(full_time_score) == 'x':
+                away_win_counter +=1
+            else:
+                raise Exception('Unrecognized returned Value for 1 x 2')
+            if relative_win(full_time_score, home_team_name, away_team_name) == home_team_name:
+                home_team_counter += 1
+            elif relative_win(full_time_score, home_team_name, away_team_name) == away_team_name:
+                away_team_counter += 1
+        overall = len(our_list)
 
     over_25_percentage = over_counter / overall * 100
     under_25_percentage = 100 - over_25_percentage
@@ -153,35 +164,47 @@ def start_conveyer(match_dict):
 
     # now the question remains how do we report the findings, below is a rudimentary way of how
     # i will be doing it for now, i will improve on this model later
-    over_string = "\n\n OVER 25\n"
-    under_string = "\n\n UNDER 25\n"
+    over_string = ''
+    under_string = ''
+    string1 = string2 = string3 = string4 = string5 = ''
+    string_list = [over_string, under_string, string1, string2, string3, string4, string5]
+    full_string = None
     if over_25_percentage > 80:
-        over_string += "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        over_string += "\n OVER 25\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], over_25_percentage)
     if under_25_percentage > 80:
-        under_string += "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
+        under_string += "\n UNDER 25\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], under_25_percentage)
     if home_win_percentage > 80:
-        string1 = "home_pattern {} {} {} {}".format(match_dict['time'], match_dict['home_team'],
+        string1 += "\nhome_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], home_win_percentage)
     if draw_percentage > 80:
-        string2 = "draw_pattern {} {} {} {}".format(match_dict['time'], match_dict['home_team'],
+        string2 += "\ndraw_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], draw_percentage)
     if away_win_percentage > 80:
-        string3 = "away_pattern {} {} {} {}".format(match_dict['time'], match_dict['home_team'],
+        string3 += "\naway_pattern\n" + "{}  |  {}  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], away_win_percentage)
     if home_team_percentage > 80:
-        string4 = "win_pattern {} >{}< {} {}".format(match_dict['time'], match_dict['home_team'],
+        string4 += "\nwin_pattern\n" + "{}  |  >{}<  |  {}  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], home_team_percentage)
     if away_team_percentage > 80:
-        string5 = "win_pattern {} {} >{}< {}".format(match_dict['time'], match_dict['home_team'],
+        string5 += "\nwin_pattern\n" + "{}  |  {}  |  >{}<  |  {}".format(match_dict['time'], match_dict['home_team'],
                                           match_dict['away_team'], away_team_percentage)
-    full_string = "%s\n %s\n %s\n %s\n %s\n %s\n %s\n" % (over_string, under_string, string1, string2,
+    checker = False
+
+    for string in string_list:
+        if len(string) > 0:
+            checker = True
+        else:
+            pass
+    if checker:
+        full_string = "%s %s %s %s %s %s %s" % (over_string, under_string, string1, string2,
                                                           string3, string4, string5)
     return full_string
 
 
 def get_specific_match_details(url):
+    print('getting specific match details')
     url = 'http://www.sportstats.com' + url
     full_page = requests.get(url)
     match_dict = dict()
@@ -218,13 +241,14 @@ def get_specific_match_details(url):
         experimental_string = div_date_time_string
         date_of_play = date_from_string(experimental_string)
         tarehe = date_of_play
-        match_dict['time_of_play'] = tarehe.timestamp()
+        match_dict['time'] = tarehe.timestamp()
 
     return match_dict
 
 
 def date_from_string(string):
     # example : Today, 26 Jun 2017, 00:00++++
+    print('extracting timestamp from string')
     date_pattern = r'(\d+ \S+ \d{4})'
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
@@ -256,7 +280,8 @@ def date_from_string(string):
 
 
 def retrieve_scores(insoup):
-   # there are three cases that this function should deal with
+    # there are three cases that this function should deal with
+    print('Retrieveing Scores')
     main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
     div = main_divs_info[0]
     div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
@@ -285,6 +310,7 @@ def parse_scores_for_match(insoup):
     """creates a proper representation of a goals scored before half tym and at full tym
     returns a dictionary containing the full_time, first_half and second_half scores."""
     # input is a div tag that holds the results
+    print('REfactoring scores')
     event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
     event_header_score = event_header_wrapper.find_all('div', class_='event-header-score')[0]
     full_time_score = event_header_score.span.get_text()
@@ -327,6 +353,7 @@ def parse_scores_for_match(insoup):
 
 
 def score_validator(first_score, second_score, full_score):
+    print('Validating scores')
     if not isinstance(first_score, str) or not isinstance(second_score, str) or not isinstance(full_score,str):
         raise TypeError('One of the argument scores is in an unrecognizable format')
     else:
@@ -344,6 +371,8 @@ def score_validator(first_score, second_score, full_score):
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
     output: a dictionary of a single mutual_matches key with a list of dictionaries"""
+    print('retrieving a matches mutual details', url)
+
     if not isinstance(url, str):
         raise Exception('Url should be string format, to be parsed')
     else:
@@ -356,7 +385,10 @@ def retrieve_mutual_matches_data(url):
     sub_content = soup.find_all(id='subContent_0')[0]
     mutual_block = sub_content.find_all(id='pos_21')[0]
     maintainable_content = mutual_block.find_all(id='LS_maintableContent')[0]
-    table = maintainable_content.find_all(id='maintable_0')[0]
+    try:
+        table = maintainable_content.find_all(id='maintable_0')[0]
+    except IndexError as maintainable_error:
+        return {'mutual': None}
     links_list = table.find_all('a',  class_='tabOdds')
     all_hrefs = list()
     for link in links_list:
@@ -370,4 +402,5 @@ def retrieve_mutual_matches_data(url):
     # create a dictionary to be returned
 
     mutual_diction = {'mutual': all_mutual_matches}
+
     return mutual_diction
