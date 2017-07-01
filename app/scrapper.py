@@ -65,7 +65,10 @@ def scrap_for_mutual_matches(url):
         parent_match = get_specific_match_details(link)
         uncle_match = retrieve_mutual_matches_data(link)
         match = parent_match.update(uncle_match)
-        start_conveyer(match)
+        string = start_conveyer(match)
+        file_handler = open(flag_dir, 'w')
+        file_handler.write(string)
+        file_handler.close()
 
 
 def splitter(scores):
@@ -219,6 +222,7 @@ def get_specific_match_details(url):
 
     return match_dict
 
+
 def date_from_string(string):
     # example : Today, 26 Jun 2017, 00:00++++
     date_pattern = r'(\d+ \S+ \d{4})'
@@ -250,6 +254,7 @@ def date_from_string(string):
     date_of_play = datetime(_year, _month, _day, _hour, _minute)
     return date_of_play
 
+
 def retrieve_scores(insoup):
    # there are three cases that this function should deal with
     main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
@@ -261,18 +266,20 @@ def retrieve_scores(insoup):
     if Time.time() < date_of_play:
         # means future match and those no scores
         return None
-    elif date_of_play > (Time.time() - (2 * 60 *60)) and date_of_play < Time.time():
+    if date_of_play > (Time.time() - (2 * 60 *60)) and date_of_play < Time.time():
         # means the game is currently in play
         return None
-    else:
-        # here we standardise the format regardless of the page display, follow the pattern [(]\d-\d , \d-\d[)]
-        event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
-        full_score_info_div = event_header_wrapper.find_all('div', class_='full')[1]
-        # now we format
-        full_score_info = full_score_info_div.p.get_text()
-        full_score_info = re.findall(r'\S-\S', full_score_info)
-        full_score_info = "(" + " , ".join(full_score_info) + ")"
-        return full_score_info
+    # here we standardise the format regardless of the page display, follow the pattern [(]\d-\d , \d-\d[)]
+    event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
+    full_score_info_div = event_header_wrapper.find_all('div', class_='full')[1]
+    # now we format
+    full_score_info = full_score_info_div.p.get_text()
+    full_score_info = re.findall(r'\S-\S', full_score_info)
+    full_score_info = "(" + " , ".join(full_score_info) + ")"
+    if len(full_score_info) <= 2:
+        return  None
+    return full_score_info
+
 
 def parse_scores_for_match(insoup):
     """creates a proper representation of a goals scored before half tym and at full tym
@@ -318,6 +325,7 @@ def parse_scores_for_match(insoup):
     else:
         raise Exception('Problem validating the Scores.')
 
+
 def score_validator(first_score, second_score, full_score):
     if not isinstance(first_score, str) or not isinstance(second_score, str) or not isinstance(full_score,str):
         raise TypeError('One of the argument scores is in an unrecognizable format')
@@ -331,6 +339,7 @@ def score_validator(first_score, second_score, full_score):
         return True
     else:
         return False
+
 
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
