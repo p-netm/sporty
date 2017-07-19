@@ -8,9 +8,14 @@ import re
 import sys
 import time as Time
 
+
+init()
+
+
 def success(string):
     print(Fore.GREEN + string)
     print(Style.RESET_ALL)
+
 
 def warning(string):
     print(Fore.YELLOW + string)
@@ -21,6 +26,7 @@ def info(string):
     print(Fore.BLUE + string)
     print(Style.RESET_ALL)
 
+
 def danger(string):
     print(Fore.RED + string)
     print(Style.RESET_ALL)
@@ -30,6 +36,7 @@ def stringify(a):
     if len(str(a)) == 1:
         return '0' + str(a)
     return str(a)
+
 
 def scrap_for_mutual_matches(url):
     """
