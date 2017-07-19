@@ -1,10 +1,30 @@
 import requests
+from colorama import init
+from colorama import Fore, Back, Style
 import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 import re
 import sys
 import time as Time
+
+def success(string):
+    print(Fore.GREEN + string)
+    print(Style.RESET_ALL)
+
+def warning(string):
+    print(Fore.YELLOW + string)
+    print(Style.RESET_ALL)
+
+
+def info(string):
+    print(Fore.BLUE + string)
+    print(Style.RESET_ALL)
+
+def danger(string):
+    print(Fore.RED + string)
+    print(Style.RESET_ALL)
+
 
 def stringify(a):
     if len(str(a)) == 1:
@@ -48,7 +68,7 @@ def scrap_for_mutual_matches(url):
         ]
     }
     """
-    print('Initialising scrapper')
+    success('Initialising scrapper')
     initial_dir = os.getcwd()
     flag_top_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'files', 'flagged'))
     if os.path.exists(os.path.join(flag_top_dir, 'sportstats')):
@@ -140,17 +160,17 @@ def scrap_for_mutual_matches(url):
                 file_handler.write(string)
                 file_handler.close()
             else:
-                print('****one record passed*****')
+                danger('****one record passed*****')
                 pass
         except KeyboardInterrupt as ctr_C:
             sys.exit(2)
         except BaseException as any_error:
-            print('Base Exception thrown ', any_error)
+            danger('Base Exception thrown ', any_error)
 
 
 def splitter(scores):
     """ returns the scores in the desired integer format"""
-    print('splitting scores')
+    info('splitting scores')
     scores = scores.split('-')
     home_goals = int(scores[0])
     away_goals = int(scores[1])
@@ -160,7 +180,7 @@ def splitter(scores):
 def check_over(scores_diction):
     """ input scores, output either 1 or 0"""
     # if result is equal or greater than 3; then increment over counter else increment under counter
-    print('Checking Overs')
+    info('Checking Overs')
     if scores_diction['home_goals'] + scores_diction['away_goals'] >= 3:
         return 1
     elif scores_diction['home_goals'] + scores_diction['away_goals'] <= 2:
@@ -171,7 +191,7 @@ def one_x_2(scores):
 
     # if home goals scored are more than the
     # away goals increment home_counter else, draw or away_counter
-    print('checking 1x2')
+    info('checking 1x2')
     if scores['home_goals'] > scores['away_goals']:
         return 1
     elif scores['home_goals'] < scores['away_goals']:
@@ -182,7 +202,7 @@ def one_x_2(scores):
 
 def relative_win(scores, home_team, away_team):
     """if one_teams goals are always above the others increment a counter too..."""
-    print('running relative win')
+    info('running relative win')
     home_goals = scores['home_goals']
     away_goals = scores['away_goals']
     if home_goals > away_goals:
@@ -194,7 +214,7 @@ def relative_win(scores, home_team, away_team):
 def start_conveyer(match_dict):
     # we first deal with over and under 25 patterns from mutual matches only, we
     # will take the simplest approach
-    print('starting Conveyer')
+    success('starting Conveyer')
     our_list = match_dict['mutual']
     if our_list is None:
         return None
@@ -280,7 +300,7 @@ def start_conveyer(match_dict):
 
 
 def get_specific_match_details(url):
-    print('getting specific match details')
+    success('getting specific match details')
     url = 'http://www.sportstats.com' + url
     full_page = requests.get(url)
     match_dict = dict()
@@ -324,7 +344,7 @@ def get_specific_match_details(url):
 
 def date_from_string(string):
     # example : Today, 26 Jun 2017, 00:00++++
-    print('extracting timestamp from string')
+    info('extracting timestamp from string')
     date_pattern = r'(\d+ \S+ \d{4})'
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
@@ -357,7 +377,7 @@ def date_from_string(string):
 
 def retrieve_scores(insoup):
     # there are three cases that this function should deal with
-    print('Retrieveing Scores')
+    info('Retrieveing Scores')
     main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
     div = main_divs_info[0]
     div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
@@ -386,7 +406,7 @@ def parse_scores_for_match(insoup):
     """creates a proper representation of a goals scored before half tym and at full tym
     returns a dictionary containing the full_time, first_half and second_half scores."""
     # input is a div tag that holds the results
-    print('REfactoring scores')
+    info('Refactoring scores')
     event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
     event_header_score = event_header_wrapper.find_all('div', class_='event-header-score')[0]
     full_time_score = event_header_score.span.get_text()
@@ -429,7 +449,7 @@ def parse_scores_for_match(insoup):
 
 
 def score_validator(first_score, second_score, full_score):
-    print('Validating scores')
+    info('Validating scores')
     if not isinstance(first_score, str) or not isinstance(second_score, str) or not isinstance(full_score,str):
         raise TypeError('One of the argument scores is in an unrecognizable format')
     else:
@@ -447,7 +467,7 @@ def score_validator(first_score, second_score, full_score):
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
     output: a dictionary of a single mutual_matches key with a list of dictionaries"""
-    print('retrieving a matches mutual details', url)
+    success('retrieving a matches mutual details', url)
 
     if not isinstance(url, str):
         raise Exception('Url should be string format, to be parsed')
