@@ -1,1 +1,1 @@
-__author__ = 'Sudo Pnet'
+"""app Package constructor"""

@@ -14,7 +14,7 @@ Options:
 import sys
 import cmd
 from docopt import docopt, DocoptExit
-from scrapper import scrap_for_mutual_matches
+from .gears.scrapper import scrap_for_mutual_matches
 
 
 def docopt_cmd(func):
