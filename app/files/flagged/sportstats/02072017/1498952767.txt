@@ -1,0 +1,9 @@
+
+ OVER 25
+1498964400.0  |  Peninsula  |  Capalaba FC  |  100.0  
+home_pattern
+1498964400.0  |  Peninsula  |  Capalaba FC  |  66.66666666666666 
+draw_pattern
+1498964400.0  |  Peninsula  |  Capalaba FC  |  33.33333333333333  
+win_pattern
+1498964400.0  |  >Peninsula<  |  Capalaba FC  |  66.66666666666666 

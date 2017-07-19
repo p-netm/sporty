@@ -1,0 +1,7 @@
+    
+
+away_pattern
+1499500800.0  |  Avispa Fukuoka  |  Kanazawa  |  100.0  ||  4  
+
+win_pattern
+1499500800.0  |  Avispa Fukuoka  |  >Kanazawa<  |  100.0  ||  4

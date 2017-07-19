@@ -1,0 +1,13 @@
+
+ OVER 25
+1498953600.0  |  Colorado Springs  |  Rio Grande  |  66.66666666666666 
+ UNDER 25
+1498953600.0  |  Colorado Springs  |  Rio Grande  |  33.33333333333334 
+home_pattern
+1498953600.0  |  Colorado Springs  |  Rio Grande  |  66.66666666666666  
+away_pattern
+1498953600.0  |  Colorado Springs  |  Rio Grande  |  33.33333333333333 
+win_pattern
+1498953600.0  |  >Colorado Springs<  |  Rio Grande  |  66.66666666666666 
+win_pattern
+1498953600.0  |  Colorado Springs  |  >Rio Grande<  |  33.33333333333333

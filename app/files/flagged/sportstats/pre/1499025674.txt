@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499169600.0  |  Kedah  |  Malacca United  |  100.0  ||  1  
+
+home_pattern
+1499169600.0  |  Kedah  |  Malacca United  |  100.0  ||  1   
+
+win_pattern
+1499169600.0  |  >Kedah<  |  Malacca United  |  100.0  ||  1 

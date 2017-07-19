@@ -1,0 +1,7 @@
+    
+
+away_pattern
+1499298300.0  |  Palestino (Chi)  |  Flamengo RJ (Bra)  |  100.0  ||  3  
+
+win_pattern
+1499298300.0  |  Palestino (Chi)  |  >Flamengo RJ (Bra)<  |  100.0  ||  3

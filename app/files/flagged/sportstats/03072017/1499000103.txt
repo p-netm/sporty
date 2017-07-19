@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499111100.0  |  CD Clan Juvenil  |  U. Catolica  |  100.0  ||  1  
+
+home_pattern
+1499111100.0  |  CD Clan Juvenil  |  U. Catolica  |  100.0  ||  1   
+
+win_pattern
+1499111100.0  |  >CD Clan Juvenil<  |  U. Catolica  |  100.0  ||  1 

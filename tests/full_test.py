@@ -25,9 +25,10 @@ class BeatifulSoupTests(unittest.TestCase):
 
 class ScoreFunctions(unittest.TestCase):
     def setUp(self):
-        self.score = "2-3"
-        self.draw = "1-1"
-        self.home = "1-0"
+        score = "2-3"
+        self.score = splitter(score)
+        self.draw = splitter("1-1")
+        self.home = splitter("1-0")
         self.diction = {'mutual': [{'home_team': 'Arsenal', 'away_team': 'Manchester United', 'full_time_score': '2-3'},
                               {'home_team': 'Arsenal', 'away_team': 'Manchester United', 'full_time_score': '2-3'},
                               {'home_team': 'Arsenal', 'away_team': 'Manchester United', 'full_time_score': '2-3'},

@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499774400.0  |  T-Team  |  Kelantan  |  100.0  ||  6   
+
+win_pattern
+1499774400.0  |  >T-Team<  |  Kelantan  |  100.0  ||  6 

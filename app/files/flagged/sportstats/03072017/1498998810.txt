@@ -1,0 +1,13 @@
+
+
+ OVER 25
+1499094000.0  |  Infonet Tallinn II  |  Kuressaare  |  100.0  ||  5  
+
+home_pattern
+1499094000.0  |  Infonet Tallinn II  |  Kuressaare  |  80.0  ||  5 
+
+draw_pattern
+1499094000.0  |  Infonet Tallinn II  |  Kuressaare  |  20.0  ||  5  
+
+win_pattern
+1499094000.0  |  >Infonet Tallinn II<  |  Kuressaare  |  80.0  ||  5 

@@ -1,0 +1,7 @@
+
+ OVER 25
+1498946400.0  |  Charleston  |  Tampa Bay  |  100.0    
+away_pattern
+1498946400.0  |  Charleston  |  Tampa Bay  |  100.0  
+win_pattern
+1498946400.0  |  Charleston  |  >Tampa Bay<  |  100.0

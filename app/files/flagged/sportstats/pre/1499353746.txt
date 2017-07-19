@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499362200.0  |  Floriana (Mlt)  |  FK Crvena zvezda (Srb)  |  100.0  ||  1  
+
+home_pattern
+1499362200.0  |  Floriana (Mlt)  |  FK Crvena zvezda (Srb)  |  100.0  ||  1   
+
+win_pattern
+1499362200.0  |  >Floriana (Mlt)<  |  FK Crvena zvezda (Srb)  |  100.0  ||  1 

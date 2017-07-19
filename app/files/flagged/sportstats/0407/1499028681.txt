@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499169600.0  |  Altyn Asyr  |  Merw  |  100.0  ||  1   
+
+away_pattern
+1499169600.0  |  Altyn Asyr  |  Merw  |  100.0  ||  1  
+
+win_pattern
+1499169600.0  |  Altyn Asyr  |  >Merw<  |  100.0  ||  1

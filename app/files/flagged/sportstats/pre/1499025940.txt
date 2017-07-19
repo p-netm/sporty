@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499179500.0  |  Balzan (Mlt)  |  Videoton (Hun)  |  100.0  ||  1 
+
+home_pattern
+1499179500.0  |  Balzan (Mlt)  |  Videoton (Hun)  |  100.0  ||  1   
+
+win_pattern
+1499179500.0  |  >Balzan (Mlt)<  |  Videoton (Hun)  |  100.0  ||  1 

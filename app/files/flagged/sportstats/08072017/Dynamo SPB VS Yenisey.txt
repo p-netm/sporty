@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499511600.0  |  Dynamo SPB  |  Yenisey  |  83.33  ||  6   
+
+win_pattern
+1499511600.0  |  >Dynamo SPB<  |  Yenisey  |  83.33  ||  6 

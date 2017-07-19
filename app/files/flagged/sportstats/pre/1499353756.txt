@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499362200.0  |  Jagiellonia (Pol)  |  Dinamo Batumi (Geo)  |  100.0  ||  1   
+
+away_pattern
+1499362200.0  |  Jagiellonia (Pol)  |  Dinamo Batumi (Geo)  |  100.0  ||  1  
+
+win_pattern
+1499362200.0  |  Jagiellonia (Pol)  |  >Dinamo Batumi (Geo)<  |  100.0  ||  1

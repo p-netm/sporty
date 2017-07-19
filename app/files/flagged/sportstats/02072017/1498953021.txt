@@ -1,0 +1,9 @@
+
+ OVER 25
+1498968000.0  |  Wollongong Wolves  |  Sydney Utd  |  75.0 
+ UNDER 25
+1498968000.0  |  Wollongong Wolves  |  Sydney Utd  |  25.0 
+home_pattern
+1498968000.0  |  Wollongong Wolves  |  Sydney Utd  |  100.0   
+win_pattern
+1498968000.0  |  >Wollongong Wolves<  |  Sydney Utd  |  100.0 

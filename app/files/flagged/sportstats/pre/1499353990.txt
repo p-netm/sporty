@@ -1,0 +1,7 @@
+ 
+
+ UNDER 25
+1499367600.0  |  Valur (Ice)  |  Ventspils (Lat)  |  100.0  ||  1  
+
+draw_pattern
+1499367600.0  |  Valur (Ice)  |  Ventspils (Lat)  |  100.0  ||  1   

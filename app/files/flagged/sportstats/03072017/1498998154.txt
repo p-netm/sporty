@@ -1,0 +1,22 @@
+
+
+ OVER 25
+1499081400.0  |  Bunyodkor  |  Nasaf Qarshi  |  33.33  ||  6 
+
+ UNDER 25
+1499081400.0  |  Bunyodkor  |  Nasaf Qarshi  |  66.67  ||  6 
+
+home_pattern
+1499081400.0  |  Bunyodkor  |  Nasaf Qarshi  |  16.67  ||  6 
+
+draw_pattern
+1499081400.0  |  Bunyodkor  |  Nasaf Qarshi  |  50.0  ||  6 
+
+away_pattern
+1499081400.0  |  Bunyodkor  |  Nasaf Qarshi  |  33.33  ||  6 
+
+win_pattern
+1499081400.0  |  >Bunyodkor<  |  Nasaf Qarshi  |  16.67  ||  6 
+
+win_pattern
+1499081400.0  |  Bunyodkor  |  >Nasaf Qarshi<  |  33.33  ||  6

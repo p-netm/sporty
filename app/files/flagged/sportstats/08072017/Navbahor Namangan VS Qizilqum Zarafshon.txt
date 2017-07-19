@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499508000.0  |  Navbahor Namangan  |  Qizilqum Zarafshon  |  83.33  ||  6   
+
+win_pattern
+1499508000.0  |  >Navbahor Namangan<  |  Qizilqum Zarafshon  |  83.33  ||  6 

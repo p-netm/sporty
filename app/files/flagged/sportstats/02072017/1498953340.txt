@@ -1,0 +1,13 @@
+
+ OVER 25
+1498968000.0  |  Tuggeranong Utd  |  Gungahlin  |  60.0 
+ UNDER 25
+1498968000.0  |  Tuggeranong Utd  |  Gungahlin  |  40.0 
+home_pattern
+1498968000.0  |  Tuggeranong Utd  |  Gungahlin  |  80.0  
+away_pattern
+1498968000.0  |  Tuggeranong Utd  |  Gungahlin  |  20.0 
+win_pattern
+1498968000.0  |  >Tuggeranong Utd<  |  Gungahlin  |  80.0 
+win_pattern
+1498968000.0  |  Tuggeranong Utd  |  >Gungahlin<  |  20.0

@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499351400.0  |  Jelgava (Lat)  |  Ferencvaros (Hun)  |  100.0  ||  1 
+
+home_pattern
+1499351400.0  |  Jelgava (Lat)  |  Ferencvaros (Hun)  |  100.0  ||  1   
+
+win_pattern
+1499351400.0  |  >Jelgava (Lat)<  |  Ferencvaros (Hun)  |  100.0  ||  1 

@@ -1,0 +1,19 @@
+ 
+
+ UNDER 25
+1499032800.0  |  Real Santander  |  Barranquilla  |  100.0  ||  6 
+
+home_pattern
+1499032800.0  |  Real Santander  |  Barranquilla  |  33.33  ||  6 
+
+draw_pattern
+1499032800.0  |  Real Santander  |  Barranquilla  |  33.33  ||  6 
+
+away_pattern
+1499032800.0  |  Real Santander  |  Barranquilla  |  33.33  ||  6 
+
+win_pattern
+1499032800.0  |  >Real Santander<  |  Barranquilla  |  33.33  ||  6 
+
+win_pattern
+1499032800.0  |  Real Santander  |  >Barranquilla<  |  33.33  ||  6

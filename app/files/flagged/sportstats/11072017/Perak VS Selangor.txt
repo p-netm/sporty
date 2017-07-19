@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499774400.0  |  Perak  |  Selangor  |  83.33  ||  6   
+
+away_pattern
+1499774400.0  |  Perak  |  Selangor  |  83.33  ||  6  
+
+win_pattern
+1499774400.0  |  Perak  |  >Selangor<  |  83.33  ||  6

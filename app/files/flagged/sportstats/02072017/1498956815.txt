@@ -1,0 +1,11 @@
+
+ OVER 25
+1499000400.0  |  Al Jazira  |  Al Majd  |  20.0 
+ UNDER 25
+1499000400.0  |  Al Jazira  |  Al Majd  |  80.0 
+home_pattern
+1499000400.0  |  Al Jazira  |  Al Majd  |  40.0 
+draw_pattern
+1499000400.0  |  Al Jazira  |  Al Majd  |  60.0  
+win_pattern
+1499000400.0  |  >Al Jazira<  |  Al Majd  |  40.0 

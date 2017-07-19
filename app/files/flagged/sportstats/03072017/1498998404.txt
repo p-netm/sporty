@@ -1,0 +1,22 @@
+
+
+ OVER 25
+1499090400.0  |  Nykobing (Den)  |  Helsingor (Den)  |  50.0  ||  6 
+
+ UNDER 25
+1499090400.0  |  Nykobing (Den)  |  Helsingor (Den)  |  50.0  ||  6 
+
+home_pattern
+1499090400.0  |  Nykobing (Den)  |  Helsingor (Den)  |  50.0  ||  6 
+
+draw_pattern
+1499090400.0  |  Nykobing (Den)  |  Helsingor (Den)  |  33.33  ||  6 
+
+away_pattern
+1499090400.0  |  Nykobing (Den)  |  Helsingor (Den)  |  16.67  ||  6 
+
+win_pattern
+1499090400.0  |  >Nykobing (Den)<  |  Helsingor (Den)  |  50.0  ||  6 
+
+win_pattern
+1499090400.0  |  Nykobing (Den)  |  >Helsingor (Den)<  |  16.67  ||  6

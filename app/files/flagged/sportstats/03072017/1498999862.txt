@@ -1,0 +1,19 @@
+
+
+ OVER 25
+1499105700.0  |  Leiknir  |  Akranes  |  50.0  ||  6 
+
+ UNDER 25
+1499105700.0  |  Leiknir  |  Akranes  |  50.0  ||  6 
+
+home_pattern
+1499105700.0  |  Leiknir  |  Akranes  |  66.67  ||  6  
+
+away_pattern
+1499105700.0  |  Leiknir  |  Akranes  |  33.33  ||  6 
+
+win_pattern
+1499105700.0  |  >Leiknir<  |  Akranes  |  66.67  ||  6 
+
+win_pattern
+1499105700.0  |  Leiknir  |  >Akranes<  |  33.33  ||  6

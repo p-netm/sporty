@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499488200.0  |  West Adelaide  |  Adelaide U21  |  100.0  ||  3  
+
+home_pattern
+1499488200.0  |  West Adelaide  |  Adelaide U21  |  100.0  ||  3   
+
+win_pattern
+1499488200.0  |  >West Adelaide<  |  Adelaide U21  |  100.0  ||  3 

@@ -1,0 +1,15 @@
+
+ OVER 25
+1498975200.0  |  Sydney Olympic  |  Manly Utd  |  20.0 
+ UNDER 25
+1498975200.0  |  Sydney Olympic  |  Manly Utd  |  80.0 
+home_pattern
+1498975200.0  |  Sydney Olympic  |  Manly Utd  |  20.0 
+draw_pattern
+1498975200.0  |  Sydney Olympic  |  Manly Utd  |  40.0 
+away_pattern
+1498975200.0  |  Sydney Olympic  |  Manly Utd  |  40.0 
+win_pattern
+1498975200.0  |  >Sydney Olympic<  |  Manly Utd  |  20.0 
+win_pattern
+1498975200.0  |  Sydney Olympic  |  >Manly Utd<  |  40.0

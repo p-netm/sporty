@@ -1,0 +1,9 @@
+ 
+ UNDER 25
+1498993200.0  |  Gor Mahia  |  Ulinzi Stars  |  100.0 
+home_pattern
+1498993200.0  |  Gor Mahia  |  Ulinzi Stars  |  40.0 
+draw_pattern
+1498993200.0  |  Gor Mahia  |  Ulinzi Stars  |  60.0  
+win_pattern
+1498993200.0  |  >Gor Mahia<  |  Ulinzi Stars  |  40.0 

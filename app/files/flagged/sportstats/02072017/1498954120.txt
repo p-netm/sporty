@@ -1,0 +1,13 @@
+
+ OVER 25
+1498986000.0  |  Sangju Sangmu  |  Pohang  |  33.33333333333333 
+ UNDER 25
+1498986000.0  |  Sangju Sangmu  |  Pohang  |  66.66666666666667 
+home_pattern
+1498986000.0  |  Sangju Sangmu  |  Pohang  |  50.0  
+away_pattern
+1498986000.0  |  Sangju Sangmu  |  Pohang  |  50.0 
+win_pattern
+1498986000.0  |  >Sangju Sangmu<  |  Pohang  |  50.0 
+win_pattern
+1498986000.0  |  Sangju Sangmu  |  >Pohang<  |  50.0

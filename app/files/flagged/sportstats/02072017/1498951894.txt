@@ -1,0 +1,9 @@
+
+ OVER 25
+1498951800.0  |  Mexico  |  Paraguay  |  50.0 
+ UNDER 25
+1498951800.0  |  Mexico  |  Paraguay  |  50.0 
+home_pattern
+1498951800.0  |  Mexico  |  Paraguay  |  100.0   
+win_pattern
+1498951800.0  |  >Mexico<  |  Paraguay  |  100.0 

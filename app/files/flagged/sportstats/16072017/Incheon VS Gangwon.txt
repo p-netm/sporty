@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1500195600.0  |  Incheon  |  Gangwon  |  83.33  ||  6   
+
+win_pattern
+1500195600.0  |  >Incheon<  |  Gangwon  |  83.33  ||  6 

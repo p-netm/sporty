@@ -1,0 +1,7 @@
+ 
+ UNDER 25
+1498978800.0  |  Shanghai Sunfun  |  Nantong Zhiyun  |  100.0   
+away_pattern
+1498978800.0  |  Shanghai Sunfun  |  Nantong Zhiyun  |  100.0  
+win_pattern
+1498978800.0  |  Shanghai Sunfun  |  >Nantong Zhiyun<  |  100.0

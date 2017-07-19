@@ -1,0 +1,7 @@
+    
+
+away_pattern
+1499362200.0  |  Arbroath (Sco)  |  Aberdeen (Sco)  |  100.0  ||  3  
+
+win_pattern
+1499362200.0  |  Arbroath (Sco)  |  >Aberdeen (Sco)<  |  100.0  ||  3

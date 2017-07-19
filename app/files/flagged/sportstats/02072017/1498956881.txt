@@ -1,0 +1,15 @@
+
+ OVER 25
+1499000400.0  |  Al Shorta  |  Al-Ittih.Aleppo  |  16.666666666666664 
+ UNDER 25
+1499000400.0  |  Al Shorta  |  Al-Ittih.Aleppo  |  83.33333333333334 
+home_pattern
+1499000400.0  |  Al Shorta  |  Al-Ittih.Aleppo  |  33.33333333333333 
+draw_pattern
+1499000400.0  |  Al Shorta  |  Al-Ittih.Aleppo  |  33.33333333333333 
+away_pattern
+1499000400.0  |  Al Shorta  |  Al-Ittih.Aleppo  |  33.33333333333333 
+win_pattern
+1499000400.0  |  >Al Shorta<  |  Al-Ittih.Aleppo  |  33.33333333333333 
+win_pattern
+1499000400.0  |  Al Shorta  |  >Al-Ittih.Aleppo<  |  33.33333333333333

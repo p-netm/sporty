@@ -1,0 +1,13 @@
+
+ OVER 25
+1498986000.0  |  Jeonnam  |  Jeju Utd  |  66.66666666666666 
+ UNDER 25
+1498986000.0  |  Jeonnam  |  Jeju Utd  |  33.33333333333334 
+home_pattern
+1498986000.0  |  Jeonnam  |  Jeju Utd  |  83.33333333333334  
+away_pattern
+1498986000.0  |  Jeonnam  |  Jeju Utd  |  16.666666666666664 
+win_pattern
+1498986000.0  |  >Jeonnam<  |  Jeju Utd  |  83.33333333333334 
+win_pattern
+1498986000.0  |  Jeonnam  |  >Jeju Utd<  |  16.666666666666664

@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499298300.0  |  Barcelona SC  |  Palmeiras  |  100.0  ||  1 
+
+home_pattern
+1499298300.0  |  Barcelona SC  |  Palmeiras  |  100.0  ||  1   
+
+win_pattern
+1499298300.0  |  >Barcelona SC<  |  Palmeiras  |  100.0  ||  1 

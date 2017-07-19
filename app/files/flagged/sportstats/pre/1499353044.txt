@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499349600.0  |  Ordabasy (Kaz)  |  Siroki Brijeg (Bih)  |  100.0  ||  1 
+
+home_pattern
+1499349600.0  |  Ordabasy (Kaz)  |  Siroki Brijeg (Bih)  |  100.0  ||  1   
+
+win_pattern
+1499349600.0  |  >Ordabasy (Kaz)<  |  Siroki Brijeg (Bih)  |  100.0  ||  1 

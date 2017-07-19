@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499510100.0  |  Nei Mongol  |  Shanghai Shenxin  |  100.0  ||  3   
+
+win_pattern
+1499510100.0  |  >Nei Mongol<  |  Shanghai Shenxin  |  100.0  ||  3 

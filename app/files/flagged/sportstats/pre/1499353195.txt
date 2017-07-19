@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499353200.0  |  Flora (Est)  |  Domzale (Slo)  |  100.0  ||  1 
+
+home_pattern
+1499353200.0  |  Flora (Est)  |  Domzale (Slo)  |  100.0  ||  1   
+
+win_pattern
+1499353200.0  |  >Flora (Est)<  |  Domzale (Slo)  |  100.0  ||  1 

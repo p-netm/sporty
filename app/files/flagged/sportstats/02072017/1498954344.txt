@@ -1,0 +1,13 @@
+
+ OVER 25
+1498986000.0  |  Thanh Hoa  |  Gia Lai  |  100.0  
+home_pattern
+1498986000.0  |  Thanh Hoa  |  Gia Lai  |  50.0 
+draw_pattern
+1498986000.0  |  Thanh Hoa  |  Gia Lai  |  16.666666666666664 
+away_pattern
+1498986000.0  |  Thanh Hoa  |  Gia Lai  |  33.33333333333333 
+win_pattern
+1498986000.0  |  >Thanh Hoa<  |  Gia Lai  |  50.0 
+win_pattern
+1498986000.0  |  Thanh Hoa  |  >Gia Lai<  |  33.33333333333333

@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499518800.0  |  Skovde AIK  |  Kristianstads  |  83.33  ||  6   
+
+win_pattern
+1499518800.0  |  >Skovde AIK<  |  Kristianstads  |  83.33  ||  6 

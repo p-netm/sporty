@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499356800.0  |  Botev Plovdiv (Bul)  |  Partizani (Alb)  |  100.0  ||  1    
+
+away_pattern
+1499356800.0  |  Botev Plovdiv (Bul)  |  Partizani (Alb)  |  100.0  ||  1  
+
+win_pattern
+1499356800.0  |  Botev Plovdiv (Bul)  |  >Partizani (Alb)<  |  100.0  ||  1

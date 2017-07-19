@@ -1,0 +1,7 @@
+    
+
+away_pattern
+1499190300.0  |  St. Mirren (Sco)  |  Dundee FC (Sco)  |  83.33  ||  6  
+
+win_pattern
+1499190300.0  |  St. Mirren (Sco)  |  >Dundee FC (Sco)<  |  83.33  ||  6

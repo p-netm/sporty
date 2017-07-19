@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499363100.0  |  Cork City (Irl)  |  Levadia (Est)  |  100.0  ||  1   
+
+away_pattern
+1499363100.0  |  Cork City (Irl)  |  Levadia (Est)  |  100.0  ||  1  
+
+win_pattern
+1499363100.0  |  Cork City (Irl)  |  >Levadia (Est)<  |  100.0  ||  1

@@ -1,0 +1,11 @@
+
+ OVER 25
+1498996800.0  |  Rosengard  |  Qviding  |  50.0 
+ UNDER 25
+1498996800.0  |  Rosengard  |  Qviding  |  50.0 
+home_pattern
+1498996800.0  |  Rosengard  |  Qviding  |  50.0 
+draw_pattern
+1498996800.0  |  Rosengard  |  Qviding  |  50.0  
+win_pattern
+1498996800.0  |  >Rosengard<  |  Qviding  |  50.0 

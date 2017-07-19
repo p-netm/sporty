@@ -1,0 +1,22 @@
+
+
+ OVER 25
+1499065200.0  |  Persipura Jayapura  |  Mitra Kukar  |  16.67  ||  6 
+
+ UNDER 25
+1499065200.0  |  Persipura Jayapura  |  Mitra Kukar  |  83.33  ||  6 
+
+home_pattern
+1499065200.0  |  Persipura Jayapura  |  Mitra Kukar  |  33.33  ||  6 
+
+draw_pattern
+1499065200.0  |  Persipura Jayapura  |  Mitra Kukar  |  33.33  ||  6 
+
+away_pattern
+1499065200.0  |  Persipura Jayapura  |  Mitra Kukar  |  33.33  ||  6 
+
+win_pattern
+1499065200.0  |  >Persipura Jayapura<  |  Mitra Kukar  |  33.33  ||  6 
+
+win_pattern
+1499065200.0  |  Persipura Jayapura  |  >Mitra Kukar<  |  33.33  ||  6

@@ -1,0 +1,11 @@
+
+ OVER 25
+1498986000.0  |  BHTS Quang Nam  |  Sai Gon FC  |  66.66666666666666 
+ UNDER 25
+1498986000.0  |  BHTS Quang Nam  |  Sai Gon FC  |  33.33333333333334 
+home_pattern
+1498986000.0  |  BHTS Quang Nam  |  Sai Gon FC  |  33.33333333333333 
+draw_pattern
+1498986000.0  |  BHTS Quang Nam  |  Sai Gon FC  |  66.66666666666666  
+win_pattern
+1498986000.0  |  >BHTS Quang Nam<  |  Sai Gon FC  |  33.33333333333333 

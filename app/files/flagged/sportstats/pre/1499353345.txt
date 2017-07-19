@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499355900.0  |  FK Liepaja (Lat)  |  Crusaders (Nir)  |  100.0  ||  1  
+
+home_pattern
+1499355900.0  |  FK Liepaja (Lat)  |  Crusaders (Nir)  |  100.0  ||  1   
+
+win_pattern
+1499355900.0  |  >FK Liepaja (Lat)<  |  Crusaders (Nir)  |  100.0  ||  1 

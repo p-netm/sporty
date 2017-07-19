@@ -1,0 +1,7 @@
+ 
+
+ UNDER 25
+1499162400.0  |  Brno (Cze)  |  Trnava (Svk)  |  100.0  ||  1  
+
+draw_pattern
+1499162400.0  |  Brno (Cze)  |  Trnava (Svk)  |  100.0  ||  1   

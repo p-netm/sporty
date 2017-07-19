@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499367600.0  |  Lincoln Red Imps (Gib)  |  AEK Larnaca (Cyp)  |  100.0  ||  1  
+
+home_pattern
+1499367600.0  |  Lincoln Red Imps (Gib)  |  AEK Larnaca (Cyp)  |  100.0  ||  1   
+
+win_pattern
+1499367600.0  |  >Lincoln Red Imps (Gib)<  |  AEK Larnaca (Cyp)  |  100.0  ||  1 

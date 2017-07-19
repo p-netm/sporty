@@ -1,0 +1,15 @@
+
+ OVER 25
+1498968000.0  |  Rockdale City Suns  |  Sutherland Sharks  |  66.66666666666666 
+ UNDER 25
+1498968000.0  |  Rockdale City Suns  |  Sutherland Sharks  |  33.33333333333334 
+home_pattern
+1498968000.0  |  Rockdale City Suns  |  Sutherland Sharks  |  50.0 
+draw_pattern
+1498968000.0  |  Rockdale City Suns  |  Sutherland Sharks  |  16.666666666666664 
+away_pattern
+1498968000.0  |  Rockdale City Suns  |  Sutherland Sharks  |  33.33333333333333 
+win_pattern
+1498968000.0  |  >Rockdale City Suns<  |  Sutherland Sharks  |  50.0 
+win_pattern
+1498968000.0  |  Rockdale City Suns  |  >Sutherland Sharks<  |  33.33333333333333

@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499296200.0  |  Guillermo Brown  |  Chacarita Juniors  |  83.33  ||  6   
+
+win_pattern
+1499296200.0  |  >Guillermo Brown<  |  Chacarita Juniors  |  83.33  ||  6 

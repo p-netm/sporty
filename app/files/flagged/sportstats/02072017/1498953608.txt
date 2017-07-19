@@ -1,0 +1,7 @@
+ 
+ UNDER 25
+1498978800.0  |  Beijing Technology  |  Dalian Boyang  |  100.0 
+home_pattern
+1498978800.0  |  Beijing Technology  |  Dalian Boyang  |  100.0   
+win_pattern
+1498978800.0  |  >Beijing Technology<  |  Dalian Boyang  |  100.0 

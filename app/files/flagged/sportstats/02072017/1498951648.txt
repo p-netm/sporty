@@ -1,0 +1,13 @@
+
+ OVER 25
+1498950000.0  |  Orange County SC  |  Portland 2  |  60.0 
+ UNDER 25
+1498950000.0  |  Orange County SC  |  Portland 2  |  40.0 
+home_pattern
+1498950000.0  |  Orange County SC  |  Portland 2  |  60.0  
+away_pattern
+1498950000.0  |  Orange County SC  |  Portland 2  |  40.0 
+win_pattern
+1498950000.0  |  >Orange County SC<  |  Portland 2  |  60.0 
+win_pattern
+1498950000.0  |  Orange County SC  |  >Portland 2<  |  40.0

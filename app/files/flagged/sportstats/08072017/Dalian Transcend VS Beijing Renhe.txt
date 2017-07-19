@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499509800.0  |  Dalian Transcend  |  Beijing Renhe  |  100.0  ||  3  
+
+home_pattern
+1499509800.0  |  Dalian Transcend  |  Beijing Renhe  |  100.0  ||  3   
+
+win_pattern
+1499509800.0  |  >Dalian Transcend<  |  Beijing Renhe  |  100.0  ||  3 

@@ -1,0 +1,9 @@
+ 
+ UNDER 25
+1498960800.0  |  Sacramento Republic  |  San Antonio  |  100.0 
+home_pattern
+1498960800.0  |  Sacramento Republic  |  San Antonio  |  50.0 
+draw_pattern
+1498960800.0  |  Sacramento Republic  |  San Antonio  |  50.0  
+win_pattern
+1498960800.0  |  >Sacramento Republic<  |  San Antonio  |  50.0 

@@ -1,0 +1,16 @@
+
+
+ OVER 25
+1499105700.0  |  Throttur  |  Fylkir  |  80.0  ||  5 
+
+ UNDER 25
+1499105700.0  |  Throttur  |  Fylkir  |  20.0  ||  5  
+
+draw_pattern
+1499105700.0  |  Throttur  |  Fylkir  |  40.0  ||  5 
+
+away_pattern
+1499105700.0  |  Throttur  |  Fylkir  |  60.0  ||  5  
+
+win_pattern
+1499105700.0  |  Throttur  |  >Fylkir<  |  60.0  ||  5

@@ -1,0 +1,15 @@
+
+ OVER 25
+1498942800.0  |  Vancouver Whitecaps 2  |  Seattle 2  |  83.33333333333334 
+ UNDER 25
+1498942800.0  |  Vancouver Whitecaps 2  |  Seattle 2  |  16.666666666666657 
+home_pattern
+1498942800.0  |  Vancouver Whitecaps 2  |  Seattle 2  |  50.0 
+draw_pattern
+1498942800.0  |  Vancouver Whitecaps 2  |  Seattle 2  |  33.33333333333333 
+away_pattern
+1498942800.0  |  Vancouver Whitecaps 2  |  Seattle 2  |  16.666666666666664 
+win_pattern
+1498942800.0  |  >Vancouver Whitecaps 2<  |  Seattle 2  |  50.0 
+win_pattern
+1498942800.0  |  Vancouver Whitecaps 2  |  >Seattle 2<  |  16.666666666666664

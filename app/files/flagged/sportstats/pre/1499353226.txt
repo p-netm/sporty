@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499353200.0  |  Gandzasar (Arm)  |  Mladost Podgorica (Mne)  |  100.0  ||  1 
+
+home_pattern
+1499353200.0  |  Gandzasar (Arm)  |  Mladost Podgorica (Mne)  |  100.0  ||  1   
+
+win_pattern
+1499353200.0  |  >Gandzasar (Arm)<  |  Mladost Podgorica (Mne)  |  100.0  ||  1 

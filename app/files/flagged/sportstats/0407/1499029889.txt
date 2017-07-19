@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499189400.0  |  La Fiorita (San)  |  Linfield (Nir)  |  100.0  ||  1 
+
+home_pattern
+1499189400.0  |  La Fiorita (San)  |  Linfield (Nir)  |  100.0  ||  1   
+
+win_pattern
+1499189400.0  |  >La Fiorita (San)<  |  Linfield (Nir)  |  100.0  ||  1 

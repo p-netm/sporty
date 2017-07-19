@@ -1,0 +1,9 @@
+ 
+ UNDER 25
+1498993200.0  |  Rangers  |  Chemelil  |  100.0  
+draw_pattern
+1498993200.0  |  Rangers  |  Chemelil  |  75.0 
+away_pattern
+1498993200.0  |  Rangers  |  Chemelil  |  25.0  
+win_pattern
+1498993200.0  |  Rangers  |  >Chemelil<  |  25.0

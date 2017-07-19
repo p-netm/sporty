@@ -1,0 +1,9 @@
+
+ OVER 25
+1498986000.0  |  Seongnam  |  Bucheon FC 1995  |  50.0 
+ UNDER 25
+1498986000.0  |  Seongnam  |  Bucheon FC 1995  |  50.0   
+away_pattern
+1498986000.0  |  Seongnam  |  Bucheon FC 1995  |  100.0  
+win_pattern
+1498986000.0  |  Seongnam  |  >Bucheon FC 1995<  |  100.0

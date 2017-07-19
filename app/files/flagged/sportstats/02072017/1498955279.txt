@@ -1,0 +1,13 @@
+
+ OVER 25
+1498993200.0  |  Muang Thong Utd  |  Pattaya Utd  |  83.33333333333334 
+ UNDER 25
+1498993200.0  |  Muang Thong Utd  |  Pattaya Utd  |  16.666666666666657 
+home_pattern
+1498993200.0  |  Muang Thong Utd  |  Pattaya Utd  |  50.0  
+away_pattern
+1498993200.0  |  Muang Thong Utd  |  Pattaya Utd  |  50.0 
+win_pattern
+1498993200.0  |  >Muang Thong Utd<  |  Pattaya Utd  |  50.0 
+win_pattern
+1498993200.0  |  Muang Thong Utd  |  >Pattaya Utd<  |  50.0

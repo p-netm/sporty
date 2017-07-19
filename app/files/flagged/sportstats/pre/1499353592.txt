@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499360400.0  |  Prishtina (Kos)  |  Norrkoping (Swe)  |  100.0  ||  1  
+
+home_pattern
+1499360400.0  |  Prishtina (Kos)  |  Norrkoping (Swe)  |  100.0  ||  1   
+
+win_pattern
+1499360400.0  |  >Prishtina (Kos)<  |  Norrkoping (Swe)  |  100.0  ||  1 

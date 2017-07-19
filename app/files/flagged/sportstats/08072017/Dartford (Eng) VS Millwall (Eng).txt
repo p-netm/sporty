@@ -1,0 +1,7 @@
+    
+
+away_pattern
+1499511600.0  |  Dartford (Eng)  |  Millwall (Eng)  |  100.0  ||  3  
+
+win_pattern
+1499511600.0  |  Dartford (Eng)  |  >Millwall (Eng)<  |  100.0  ||  3

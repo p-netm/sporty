@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499410800.0  |  Mitra Kukar  |  Semen Padang  |  100.0  ||  2   
+
+win_pattern
+1499410800.0  |  >Mitra Kukar<  |  Semen Padang  |  100.0  ||  2 

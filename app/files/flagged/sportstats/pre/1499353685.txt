@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499362200.0  |  Folgore (San)  |  Valletta (Mlt)  |  100.0  ||  1 
+
+home_pattern
+1499362200.0  |  Folgore (San)  |  Valletta (Mlt)  |  100.0  ||  1   
+
+win_pattern
+1499362200.0  |  >Folgore (San)<  |  Valletta (Mlt)  |  100.0  ||  1 

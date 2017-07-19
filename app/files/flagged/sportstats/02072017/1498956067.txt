@@ -1,0 +1,15 @@
+
+ OVER 25
+1498996800.0  |  Arna-Bjornar W  |  Avaldsnes W  |  83.33333333333334 
+ UNDER 25
+1498996800.0  |  Arna-Bjornar W  |  Avaldsnes W  |  16.666666666666657 
+home_pattern
+1498996800.0  |  Arna-Bjornar W  |  Avaldsnes W  |  50.0 
+draw_pattern
+1498996800.0  |  Arna-Bjornar W  |  Avaldsnes W  |  16.666666666666664 
+away_pattern
+1498996800.0  |  Arna-Bjornar W  |  Avaldsnes W  |  33.33333333333333 
+win_pattern
+1498996800.0  |  >Arna-Bjornar W<  |  Avaldsnes W  |  50.0 
+win_pattern
+1498996800.0  |  Arna-Bjornar W  |  >Avaldsnes W<  |  33.33333333333333

@@ -1,0 +1,7 @@
+ 
+ UNDER 25
+1498996800.0  |  CAPS Utd (Zim)  |  Zamalek (Egy)  |  100.0 
+home_pattern
+1498996800.0  |  CAPS Utd (Zim)  |  Zamalek (Egy)  |  100.0   
+win_pattern
+1498996800.0  |  >CAPS Utd (Zim)<  |  Zamalek (Egy)  |  100.0 

@@ -1,0 +1,11 @@
+
+ OVER 25
+1498982400.0  |  Kofu  |  Sagan Tosu  |  33.33333333333333 
+ UNDER 25
+1498982400.0  |  Kofu  |  Sagan Tosu  |  66.66666666666667  
+draw_pattern
+1498982400.0  |  Kofu  |  Sagan Tosu  |  33.33333333333333 
+away_pattern
+1498982400.0  |  Kofu  |  Sagan Tosu  |  66.66666666666666  
+win_pattern
+1498982400.0  |  Kofu  |  >Sagan Tosu<  |  66.66666666666666

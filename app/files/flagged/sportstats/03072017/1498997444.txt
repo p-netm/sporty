@@ -1,0 +1,22 @@
+
+
+ OVER 25
+1499036400.0  |  Kansas City W  |  Houston Dash W  |  50.0  ||  6 
+
+ UNDER 25
+1499036400.0  |  Kansas City W  |  Houston Dash W  |  50.0  ||  6 
+
+home_pattern
+1499036400.0  |  Kansas City W  |  Houston Dash W  |  16.67  ||  6 
+
+draw_pattern
+1499036400.0  |  Kansas City W  |  Houston Dash W  |  16.67  ||  6 
+
+away_pattern
+1499036400.0  |  Kansas City W  |  Houston Dash W  |  66.67  ||  6 
+
+win_pattern
+1499036400.0  |  >Kansas City W<  |  Houston Dash W  |  16.67  ||  6 
+
+win_pattern
+1499036400.0  |  Kansas City W  |  >Houston Dash W<  |  66.67  ||  6

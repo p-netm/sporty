@@ -1,0 +1,7 @@
+
+ OVER 25
+1498989600.0  |  Jypk W  |  TPS W  |  100.0  
+home_pattern
+1498989600.0  |  Jypk W  |  TPS W  |  100.0   
+win_pattern
+1498989600.0  |  >Jypk W<  |  TPS W  |  100.0 

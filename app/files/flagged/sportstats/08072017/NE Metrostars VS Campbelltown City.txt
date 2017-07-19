@@ -1,0 +1,7 @@
+  
+
+home_pattern
+1499488200.0  |  NE Metrostars  |  Campbelltown City  |  100.0  ||  3   
+
+win_pattern
+1499488200.0  |  >NE Metrostars<  |  Campbelltown City  |  100.0  ||  3 

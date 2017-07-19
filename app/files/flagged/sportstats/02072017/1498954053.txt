@@ -1,0 +1,13 @@
+
+ OVER 25
+1498986000.0  |  Seoul  |  Jeonbuk  |  66.66666666666666 
+ UNDER 25
+1498986000.0  |  Seoul  |  Jeonbuk  |  33.33333333333334 
+home_pattern
+1498986000.0  |  Seoul  |  Jeonbuk  |  50.0  
+away_pattern
+1498986000.0  |  Seoul  |  Jeonbuk  |  50.0 
+win_pattern
+1498986000.0  |  >Seoul<  |  Jeonbuk  |  50.0 
+win_pattern
+1498986000.0  |  Seoul  |  >Jeonbuk<  |  50.0

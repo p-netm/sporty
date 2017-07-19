@@ -1,0 +1,16 @@
+
+
+ OVER 25
+1499077800.0  |  PS TNI  |  Arema FC  |  100.0  ||  3  
+
+home_pattern
+1499077800.0  |  PS TNI  |  Arema FC  |  66.67  ||  3  
+
+away_pattern
+1499077800.0  |  PS TNI  |  Arema FC  |  33.33  ||  3 
+
+win_pattern
+1499077800.0  |  >PS TNI<  |  Arema FC  |  66.67  ||  3 
+
+win_pattern
+1499077800.0  |  PS TNI  |  >Arema FC<  |  33.33  ||  3

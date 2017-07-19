@@ -1,0 +1,10 @@
+ 
+
+ UNDER 25
+1499361300.0  |  Egestorf-Langreder (Ger)  |  TSV Havelse (Ger)  |  100.0  ||  2 
+
+home_pattern
+1499361300.0  |  Egestorf-Langreder (Ger)  |  TSV Havelse (Ger)  |  100.0  ||  2   
+
+win_pattern
+1499361300.0  |  >Egestorf-Langreder (Ger)<  |  TSV Havelse (Ger)  |  100.0  ||  2 

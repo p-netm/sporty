@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499353200.0  |  Germany U19  |  Bulgaria U19  |  100.0  ||  1    
+
+away_pattern
+1499353200.0  |  Germany U19  |  Bulgaria U19  |  100.0  ||  1  
+
+win_pattern
+1499353200.0  |  Germany U19  |  >Bulgaria U19<  |  100.0  ||  1

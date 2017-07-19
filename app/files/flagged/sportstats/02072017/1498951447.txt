@@ -1,0 +1,13 @@
+ 
+ UNDER 25
+1498946400.0  |  Jacksonville A.  |  Edmonton  |  100.0 
+home_pattern
+1498946400.0  |  Jacksonville A.  |  Edmonton  |  33.33333333333333 
+draw_pattern
+1498946400.0  |  Jacksonville A.  |  Edmonton  |  33.33333333333333 
+away_pattern
+1498946400.0  |  Jacksonville A.  |  Edmonton  |  33.33333333333333 
+win_pattern
+1498946400.0  |  >Jacksonville A.<  |  Edmonton  |  33.33333333333333 
+win_pattern
+1498946400.0  |  Jacksonville A.  |  >Edmonton<  |  33.33333333333333

@@ -1,0 +1,15 @@
+
+ OVER 25
+1498968000.0  |  Canberra FC  |  Belconnen United  |  66.66666666666666 
+ UNDER 25
+1498968000.0  |  Canberra FC  |  Belconnen United  |  33.33333333333334 
+home_pattern
+1498968000.0  |  Canberra FC  |  Belconnen United  |  16.666666666666664 
+draw_pattern
+1498968000.0  |  Canberra FC  |  Belconnen United  |  16.666666666666664 
+away_pattern
+1498968000.0  |  Canberra FC  |  Belconnen United  |  66.66666666666666 
+win_pattern
+1498968000.0  |  >Canberra FC<  |  Belconnen United  |  16.666666666666664 
+win_pattern
+1498968000.0  |  Canberra FC  |  >Belconnen United<  |  66.66666666666666

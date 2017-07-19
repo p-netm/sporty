@@ -1,0 +1,15 @@
+
+ OVER 25
+1498989600.0  |  Sisaket  |  BEC Tero Sasana  |  33.33333333333333 
+ UNDER 25
+1498989600.0  |  Sisaket  |  BEC Tero Sasana  |  66.66666666666667 
+home_pattern
+1498989600.0  |  Sisaket  |  BEC Tero Sasana  |  66.66666666666666 
+draw_pattern
+1498989600.0  |  Sisaket  |  BEC Tero Sasana  |  16.666666666666664 
+away_pattern
+1498989600.0  |  Sisaket  |  BEC Tero Sasana  |  16.666666666666664 
+win_pattern
+1498989600.0  |  >Sisaket<  |  BEC Tero Sasana  |  66.66666666666666 
+win_pattern
+1498989600.0  |  Sisaket  |  >BEC Tero Sasana<  |  16.666666666666664

@@ -1,0 +1,10 @@
+
+
+ OVER 25
+1499355000.0  |  SC Weiche-08 (Ger)  |  Hannover (Ger)  |  100.0  ||  1    
+
+away_pattern
+1499355000.0  |  SC Weiche-08 (Ger)  |  Hannover (Ger)  |  100.0  ||  1  
+
+win_pattern
+1499355000.0  |  SC Weiche-08 (Ger)  |  >Hannover (Ger)<  |  100.0  ||  1
