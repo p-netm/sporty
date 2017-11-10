@@ -1,18 +1,10 @@
-from sqlalchemy import Column, Integer, TIMESTAMP, String, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-import os
+"""Definition of all the class models that wil be mapped onto a daabase
+unlike for the eanmble ts, te eanmble sp will be a bit different due the increased level of operations and 
+data manipulations involved in getting to a reasonable fixture prediction analysis
+"""
+from . import db
 
-database_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'files', 'database', 'eanmble.db'))
-engine = create_engine('sqlite:///' + database_dir)
-session = Session(bind=engine)
-
-
-BASE = declarative_base()
-
-
-class Team(BASE):
+class Team(db.Model):
     """Represents the data that will be saved about a specific team
 
     a representation of the aspects that are most important in this preliminary
@@ -20,21 +12,21 @@ class Team(BASE):
     """
     __tablename__ = 'Teams'
 
-    id = Column(Integer, primary_key=True)
-    time = Column(Integer)
-    team_name = Column(String)
-    country = Column(String)
-    league = Column(String)
-    goals_conceded = Column(Integer)
-    goals_scored = Column(Integer)
-    logo = Column(String)
-    flagged = Column(Integer, default=0)
+    id = db.Column(db.Integer(), primary_key=True)
+    date_time = db.Column(db.DateTime())
+    team_name = db.Column(db.String())
+    country = db.Column(db.String())
+    league = db.Column(db.String())
+    goals_conceded = db.Column(db.Integer())
+    goals_scored = db.Column(db.Integer())
+    logo = db.Column(db.String())
+    flagged = db.Column(db.Integer(), default=0)
     # types of checkers that we will be using: over, under, win, loss, draw,
-    over = Column(Boolean)
-    under = Column(Boolean)
-    win = Column(Boolean)
-    draw = Column(Boolean)
-    loss = Column(Boolean)
+    over = db.Column(db.Boolean())
+    under = db.Column(db.Boolean())
+    win = db.Column(db.Boolean())
+    draw = db.Column(db.Boolean())
+    loss = db.Column(db.Boolean())
 
 
     def __init__(self, team_name, time, country_name, league_name, goals_scored, goals_conceded):
@@ -60,5 +52,5 @@ class Team(BASE):
 
     def __repr__(self):
         """formats a string into an arbitrary string presentation"""
-        return '<{}{}{}{}{}{}{}>'.format(self.id, self.team_name, self.time, self.country,
+        return 'Team <{}{}{}{}{}{}{}>'.format(self.id, self.team_name, self.time, self.country,
                                 self.league, self.goals_scored, self.goals_conceded)
