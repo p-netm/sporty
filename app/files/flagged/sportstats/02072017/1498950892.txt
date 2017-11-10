@@ -1,9 +1,0 @@
- 
- UNDER 25
-1498946400.0  |  Gimnasia Mendoza  |  Cipolletti  |  100.0 
-home_pattern
-1498946400.0  |  Gimnasia Mendoza  |  Cipolletti  |  50.0 
-draw_pattern
-1498946400.0  |  Gimnasia Mendoza  |  Cipolletti  |  50.0  
-win_pattern
-1498946400.0  |  >Gimnasia Mendoza<  |  Cipolletti  |  50.0 

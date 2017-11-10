@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1500210000.0  |  Jelgava  |  RFS  |  83.33  ||  6   
-
-win_pattern
-1500210000.0  |  >Jelgava<  |  RFS  |  83.33  ||  6 

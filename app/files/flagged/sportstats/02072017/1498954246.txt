@@ -1,9 +1,0 @@
-
- OVER 25
-1498986000.0  |  Can Tho  |  Hai Phong  |  80.0 
- UNDER 25
-1498986000.0  |  Can Tho  |  Hai Phong  |  20.0 
-home_pattern
-1498986000.0  |  Can Tho  |  Hai Phong  |  100.0   
-win_pattern
-1498986000.0  |  >Can Tho<  |  Hai Phong  |  100.0 

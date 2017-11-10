@@ -1,7 +1,0 @@
-
- OVER 25
-1498978800.0  |  JPV Marikina  |  Davao Aguilas  |  100.0    
-away_pattern
-1498978800.0  |  JPV Marikina  |  Davao Aguilas  |  100.0  
-win_pattern
-1498978800.0  |  JPV Marikina  |  >Davao Aguilas<  |  100.0

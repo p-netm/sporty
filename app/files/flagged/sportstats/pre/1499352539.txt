@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499297400.0  |  Houston Dynamo  |  Montreal Impact  |  100.0  ||  6   
-
-win_pattern
-1499297400.0  |  >Houston Dynamo<  |  Montreal Impact  |  100.0  ||  6 

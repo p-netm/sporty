@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499342400.0  |  Silute  |  Tauras Taurage  |  100.0  ||  4   
-
-win_pattern
-1499342400.0  |  >Silute<  |  Tauras Taurage  |  100.0  ||  4 

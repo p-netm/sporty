@@ -1,7 +1,0 @@
- 
- UNDER 25
-1499004000.0  |  CF Mounana (Gab)  |  Mazembe (Drc)  |  100.0 
-home_pattern
-1499004000.0  |  CF Mounana (Gab)  |  Mazembe (Drc)  |  100.0   
-win_pattern
-1499004000.0  |  >CF Mounana (Gab)<  |  Mazembe (Drc)  |  100.0 

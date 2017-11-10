@@ -1,7 +1,0 @@
- 
-
- UNDER 25
-1499081400.0  |  Elman  |  Jeenyo  |  100.0  ||  1  
-
-draw_pattern
-1499081400.0  |  Elman  |  Jeenyo  |  100.0  ||  1   

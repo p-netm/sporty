@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499796900.0  |  Thor Akureyri  |  Leiknir F.  |  100.0  ||  3   
-
-win_pattern
-1499796900.0  |  >Thor Akureyri<  |  Leiknir F.  |  100.0  ||  3 
