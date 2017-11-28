@@ -1,7 +1,0 @@
-
- OVER 25
-1498993200.0  |  Port MTI FC  |  Thai Honda FC  |  100.0  
-home_pattern
-1498993200.0  |  Port MTI FC  |  Thai Honda FC  |  100.0   
-win_pattern
-1498993200.0  |  >Port MTI FC<  |  Thai Honda FC  |  100.0 

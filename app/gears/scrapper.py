@@ -1,35 +1,12 @@
 import requests
 from colorama import init
-from colorama import Fore, Back, Style
+from .print_ import danger, success, warning, info
 import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 import re
 import sys
 import time as Time
-
-
-init()
-
-
-def success(string):
-    print(Fore.GREEN + string)
-    print(Style.RESET_ALL)
-
-
-def warning(string):
-    print(Fore.YELLOW + string)
-    print(Style.RESET_ALL)
-
-
-def info(string):
-    print(Fore.BLUE + string)
-    print(Style.RESET_ALL)
-
-
-def danger(string):
-    print(Fore.RED + string)
-    print(Style.RESET_ALL)
 
 
 def stringify(a):
@@ -77,7 +54,7 @@ def scrap_for_mutual_matches(url):
     """
     success('Initialising scrapper')
     initial_dir = os.getcwd()
-    flag_top_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'files', 'flagged'))
+    flag_top_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'files', 'flagged'))
     if os.path.exists(os.path.join(flag_top_dir, 'sportstats')):
         pass
     else:
@@ -104,13 +81,13 @@ def scrap_for_mutual_matches(url):
     # take in soup , parse soup and retrieve the date of the match then find the folder with the date as folder name and
     # extract the default file and read the index. if the folder is non existent let it it be it will be created in the
     # following section.
-    match = get_specific_match_details(all_hrefs[0])
+    match = get_specific_match_details(all_hrefs[1])
     match_time = match['time']
     match_time = datetime.fromtimestamp(match_time)
     date_of_play = '{}{}{}'.format(stringify(match_time.day),
                                   stringify(match_time.month), stringify(match_time.year))
 
-    folder_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
+    folder_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                                     'files', 'flagged', 'sportstats', date_of_play))
     default_file = os.path.join(folder_dir, 'default.txt')
 
@@ -118,7 +95,7 @@ def scrap_for_mutual_matches(url):
         index = 0
     else:
         default_handler = open(default_file, 'r')
-        contents = default_file.read(1).strip()
+        contents = default_handler.read().strip()
         index = int(contents)
 
 
@@ -138,7 +115,7 @@ def scrap_for_mutual_matches(url):
             match_time = datetime.fromtimestamp(match_time)
             folder_name = '{}{}{}'.format(stringify(match_time.day),
                                           stringify(match_time.month), stringify(match_time.year))
-            folder_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
+            folder_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                                     'files', 'flagged', 'sportstats'))
             default_file = os.path.join(folder_dir, folder_name, 'default.txt')
             initial_dir = os.getcwd()
@@ -158,7 +135,7 @@ def scrap_for_mutual_matches(url):
             away_team_name = match['away_team']
             file_name = home_team_name + ' vs ' + away_team_name
 
-            flag_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
+            flag_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                                     'files', 'flagged', 'sportstats', folder_name, parent_match['home_team'] + ' VS '
                                                     + parent_match['away_team'] + '.txt'))
 
@@ -172,7 +149,7 @@ def scrap_for_mutual_matches(url):
         except KeyboardInterrupt as ctr_C:
             sys.exit(2)
         except BaseException as any_error:
-            danger('Base Exception thrown ', any_error)
+            danger('Base Exception thrown {}'.format(any_error))
 
 
 def splitter(scores):
@@ -376,7 +353,6 @@ def date_from_string(string):
         _minute = int(tym[1])
     else:
         raise Exception('Unparsable date time format, please check that the website has not changed its time format.')
-
     # we now create the  final object that we send back
     date_of_play = datetime(_year, _month, _day, _hour, _minute)
     return date_of_play
@@ -474,7 +450,7 @@ def score_validator(first_score, second_score, full_score):
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
     output: a dictionary of a single mutual_matches key with a list of dictionaries"""
-    success('retrieving a matches mutual details', url)
+    success('retrieving a matches mutual details {}'.format(url))
 
     if not isinstance(url, str):
         raise Exception('Url should be string format, to be parsed')

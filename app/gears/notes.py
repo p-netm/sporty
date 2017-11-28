@@ -11,6 +11,9 @@
  7). tipsters with the best efficiencies - > i meant incorporating typersi into your search
  8). accounting for pattern streak"""
 
+"""the application should alwasy automatically check that the files folder and its immediate subfolders
+ is present in the system during setup"""
+
 
 """ On the second point am trying to tose a round a few ideas on how this might be accomplished without incurring
 extra extensive functionalities like say databases. the program shiukd be able to know which link ita analysed last and proceed frm
@@ -33,3 +36,8 @@ that i think i currently face is that these operations will be invoked when cert
 yet worked out the ins of the said process. Also, the second hurdle in my way is that i need the app to be hosted on a
 hosting server and an implementation of the staking percentage. Now keeping in mind that this process should be fully
 finished by the end of this week."""
+
+"""
+http://i.sportstats.com/4Mavr8iQ-txO0Y2SI.png
+r'http:[//]i.sportstats.com[/]/s+.png'
+"""

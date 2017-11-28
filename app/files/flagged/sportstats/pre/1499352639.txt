@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499299200.0  |  Real Monarchs  |  Oklahoma City Energy  |  100.0  ||  4   
-
-win_pattern
-1499299200.0  |  >Real Monarchs<  |  Oklahoma City Energy  |  100.0  ||  4 

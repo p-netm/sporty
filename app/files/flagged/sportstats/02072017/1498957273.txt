@@ -1,9 +1,0 @@
- 
- UNDER 25
-1499000400.0  |  ASA  |  Sagrada  |  100.0  
-draw_pattern
-1499000400.0  |  ASA  |  Sagrada  |  50.0 
-away_pattern
-1499000400.0  |  ASA  |  Sagrada  |  50.0  
-win_pattern
-1499000400.0  |  ASA  |  >Sagrada<  |  50.0

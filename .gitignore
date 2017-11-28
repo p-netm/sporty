@@ -4,3 +4,5 @@
 +.pyc
 app/__pycache__/
 app/__pycache__/scrapper.cpython-34.pyc
+/app/files/flagged/
+/app/gears/notes.py

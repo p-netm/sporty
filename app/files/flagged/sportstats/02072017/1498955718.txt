@@ -1,7 +1,0 @@
- 
- UNDER 25
-1498996800.0  |  Mbabane Swall. (Swa)  |  Sfaxien (Tun)  |  100.0 
-home_pattern
-1498996800.0  |  Mbabane Swall. (Swa)  |  Sfaxien (Tun)  |  100.0   
-win_pattern
-1498996800.0  |  >Mbabane Swall. (Swa)<  |  Sfaxien (Tun)  |  100.0 

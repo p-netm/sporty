@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499518800.0  |  Waalwijk (Ned)  |  PSV (Ned)  |  100.0  ||  6   
-
-win_pattern
-1499518800.0  |  >Waalwijk (Ned)<  |  PSV (Ned)  |  100.0  ||  6 

@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499499000.0  |  Litomericko (Cze)  |  Olympia Praha (Cze)  |  100.0  ||  2   
-
-win_pattern
-1499499000.0  |  >Litomericko (Cze)<  |  Olympia Praha (Cze)  |  100.0  ||  2 

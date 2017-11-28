@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499497200.0  |  Persela Lamongan  |  Pusamania Borneo  |  100.0  ||  3   
-
-win_pattern
-1499497200.0  |  >Persela Lamongan<  |  Pusamania Borneo  |  100.0  ||  3 

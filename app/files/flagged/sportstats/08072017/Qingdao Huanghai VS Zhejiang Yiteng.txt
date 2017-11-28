@@ -1,7 +1,0 @@
-  
-
-home_pattern
-1499509800.0  |  Qingdao Huanghai  |  Zhejiang Yiteng  |  100.0  ||  5   
-
-win_pattern
-1499509800.0  |  >Qingdao Huanghai<  |  Zhejiang Yiteng  |  100.0  ||  5 
