@@ -1,10 +1,9 @@
 import requests
-import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 import re
-import sys
 import time as Time
+from urllib.parse import urlparse, urljoin
 
 
 def stringify(a):
@@ -13,71 +12,33 @@ def stringify(a):
     return str(a)
 
 
-def scrap_for_mutual_matches(url):
+def scrap_all_links(url="""http://www.sportstats.com/soccer/matches/"""):
     """
-    {
-        "time": 12321321331,
-        "home_team":"team_name",
-        "away_team": "team_name",
-        "result": "2-5",
-        "first_half_score": "2-2",
-        "second_half_score": "0-5",
-        "mutual": [
-            {
-                "time": 12321321331,
-                "home_team":"team_name",
-                "away_team": "team_name",
-                "result": "2 - 5",
-                "first_half_score": "2-2",
-                "second_half_score": "0-5"
-            },
-            {
-                "time": 12321321331,
-                "home_team":"team_name",
-                "away_team": "team_name",
-                "result": "2 - 5",
-                "first_half_score": "2-2",
-                "second_half_score": "0-5"
-            },
-            {
-                "time": 12321321331,
-                "home_team":"team_name",
-                "away_team": "team_name",
-                "result": "2 - 5",
-                "first_half_score": "2-2",
-                "second_half_score": "0-5"
-            }
-        ]
-    }
+    :parameter: the specific url that contains the data of interest
+        :defaults to the current day soccer url
+    :returns: A list of all the links that href to a specific matches' details
     """
-
-
     full_webpage = requests.get(url)
     webpage_text = full_webpage.text
     soup = BeautifulSoup(webpage_text, 'html.parser')
     main_div = soup.find_all(id='pos_62')[0]
     # main_div contains a div with the table that holds the match records
 
-    tbody_list = main_div.find_all('tbody')
-    td_list = list()  # will hold the td tags that hold the href with the #odds
+    tbody_list = main_div.find_all('tbody') # tbody tags: sample rendering: Avai0 - 1 Hercilio Luz1.334.307.76
+    td_list = [] # will hold the td tags that hold the href with the #odds
     for tag in tbody_list:
         td_list.extend(tag.find_all('a', class_='tabOdds'))
 
-    all_hrefs = list()
+    all_hrefs = []
     for link in td_list:
         all_hrefs.append(link.get('href'))
-
-    
-        parent_match = get_specific_match_details(link)
-        mutual_match = retrieve_mutual_matches_data(link)
-        parent_match.update(mutual_match)
-        match = parent_match
-        string = start_conveyer(match)
+        
+    refatored_hrefs = [urljoin('''http://www.sportstats.com''', urlparse(a).path) for a in all_hrefs]
+    return refactored_hrefs
 
 
 def splitter(scores):
     """ returns the scores in the desired integer format"""
-    info('splitting scores')
     scores = scores.split('-')
     home_goals = int(scores[0])
     away_goals = int(scores[1])
@@ -85,8 +46,12 @@ def splitter(scores):
 
 
 def get_specific_match_details(url):
-    success('getting specific match details')
-    url = 'http://www.sportstats.com' + url
+    """:parameter: a url that hrefs to a specific fixtures data
+    :return: a dictionary with data pertaining to the ollowing keys:
+    country, league, home_team, away_team, home_logo-url, away_logo_url,
+    first_half_home_goals, first_half_away_goals, full_time_home-goals, 
+    full_time_away_goals, date, time
+    """
     full_page = requests.get(url)
     match_dict = dict()
     insoup = BeautifulSoup(full_page.text, 'html.parser')
@@ -119,9 +84,9 @@ def get_specific_match_details(url):
         match_dict.update(result)
 
         div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
-        experimental_string = div_date_time_string
-        date_of_play = date_from_string(experimental_string)
-        tarehe = date_of_play
+#         experimental_string = div_date_time_string
+#         date_of_play = date_from_string(experimental_string)
+#         tarehe = date_of_play
         match_dict['time'] = tarehe.timestamp()
 
     return match_dict
@@ -129,7 +94,6 @@ def get_specific_match_details(url):
 
 def date_from_string(string):
     # example : Today, 26 Jun 2017, 00:00++++
-    info('extracting timestamp from string')
     date_pattern = r'(\d+ \S+ \d{4})'
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
@@ -162,7 +126,6 @@ def date_from_string(string):
 
 def retrieve_scores(insoup):
     # there are three cases that this function should deal with
-    info('Retrieveing Scores')
     main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
     div = main_divs_info[0]
     div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
@@ -191,7 +154,6 @@ def parse_scores_for_match(insoup):
     """creates a proper representation of a goals scored before half tym and at full tym
     returns a dictionary containing the full_time, first_half and second_half scores."""
     # input is a div tag that holds the results
-    info('Refactoring scores')
     event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
     event_header_score = event_header_wrapper.find_all('div', class_='event-header-score')[0]
     full_time_score = event_header_score.span.get_text()
@@ -234,7 +196,6 @@ def parse_scores_for_match(insoup):
 
 
 def score_validator(first_score, second_score, full_score):
-    info('Validating scores')
     if not isinstance(first_score, str) or not isinstance(second_score, str) or not isinstance(full_score,str):
         raise TypeError('One of the argument scores is in an unrecognizable format')
     else:
@@ -252,7 +213,6 @@ def score_validator(first_score, second_score, full_score):
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
     output: a dictionary of a single mutual_matches key with a list of dictionaries"""
-    success('retrieving a matches mutual details', url)
 
     if not isinstance(url, str):
         raise Exception('Url should be string format, to be parsed')
