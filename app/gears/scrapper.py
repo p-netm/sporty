@@ -1,35 +1,10 @@
 import requests
-from colorama import init
-from colorama import Fore, Back, Style
 import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 import re
 import sys
 import time as Time
-
-
-init()
-
-
-def success(string):
-    print(Fore.GREEN + string)
-    print(Style.RESET_ALL)
-
-
-def warning(string):
-    print(Fore.YELLOW + string)
-    print(Style.RESET_ALL)
-
-
-def info(string):
-    print(Fore.BLUE + string)
-    print(Style.RESET_ALL)
-
-
-def danger(string):
-    print(Fore.RED + string)
-    print(Style.RESET_ALL)
 
 
 def stringify(a):
@@ -75,15 +50,6 @@ def scrap_for_mutual_matches(url):
         ]
     }
     """
-    success('Initialising scrapper')
-    initial_dir = os.getcwd()
-    flag_top_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'files', 'flagged'))
-    if os.path.exists(os.path.join(flag_top_dir, 'sportstats')):
-        pass
-    else:
-        os.chdir(flag_top_dir)
-        os.mkdir('sportstats')
-        os.chdir(initial_dir)
 
 
     full_webpage = requests.get(url)
@@ -101,78 +67,12 @@ def scrap_for_mutual_matches(url):
     for link in td_list:
         all_hrefs.append(link.get('href'))
 
-    # take in soup , parse soup and retrieve the date of the match then find the folder with the date as folder name and
-    # extract the default file and read the index. if the folder is non existent let it it be it will be created in the
-    # following section.
-    match = get_specific_match_details(all_hrefs[0])
-    match_time = match['time']
-    match_time = datetime.fromtimestamp(match_time)
-    date_of_play = '{}{}{}'.format(stringify(match_time.day),
-                                  stringify(match_time.month), stringify(match_time.year))
-
-    folder_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                    'files', 'flagged', 'sportstats', date_of_play))
-    default_file = os.path.join(folder_dir, 'default.txt')
-
-    if not os.path.exists(default_file):
-        index = 0
-    else:
-        default_handler = open(default_file, 'r')
-        contents = default_file.read(1).strip()
-        index = int(contents)
-
-
-    for index in range(index, len(all_hrefs)):
-        link = all_hrefs[index]
-        try:
-            parent_match = get_specific_match_details(link)
-            mutual_match = retrieve_mutual_matches_data(link)
-            parent_match.update(mutual_match)
-            match = parent_match
-            string = start_conveyer(match)
-
-            # generate a folder for this match according to the parent's match time
-
-
-            match_time = parent_match['time']
-            match_time = datetime.fromtimestamp(match_time)
-            folder_name = '{}{}{}'.format(stringify(match_time.day),
-                                          stringify(match_time.month), stringify(match_time.year))
-            folder_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                    'files', 'flagged', 'sportstats'))
-            default_file = os.path.join(folder_dir, folder_name, 'default.txt')
-            initial_dir = os.getcwd()
-            os.chdir(folder_dir)
-
-            try:
-                os.mkdir(folder_name)
-                default_file_handler = open(default_file, 'w')
-            except OSError:
-                default_file_handler = open(default_file, 'w+')
-            default_file_handler.write(str(all_hrefs.index(link)))
-            default_file_handler.close()
-            os.chdir(initial_dir)
-
-            # generate the name of file here
-            home_team_name = match['home_team']
-            away_team_name = match['away_team']
-            file_name = home_team_name + ' vs ' + away_team_name
-
-            flag_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                    'files', 'flagged', 'sportstats', folder_name, parent_match['home_team'] + ' VS '
-                                                    + parent_match['away_team'] + '.txt'))
-
-            if string is not None:
-                file_handler = open(flag_dir, 'w')
-                file_handler.write(string)
-                file_handler.close()
-            else:
-                danger('****one record passed*****')
-                pass
-        except KeyboardInterrupt as ctr_C:
-            sys.exit(2)
-        except BaseException as any_error:
-            danger('Base Exception thrown ', any_error)
+    
+        parent_match = get_specific_match_details(link)
+        mutual_match = retrieve_mutual_matches_data(link)
+        parent_match.update(mutual_match)
+        match = parent_match
+        string = start_conveyer(match)
 
 
 def splitter(scores):
@@ -182,128 +82,6 @@ def splitter(scores):
     home_goals = int(scores[0])
     away_goals = int(scores[1])
     return {'home_goals': home_goals, 'away_goals': away_goals}
-
-
-def check_over(scores_diction):
-    """ input scores, output either 1 or 0"""
-    # if result is equal or greater than 3; then increment over counter else increment under counter
-    info('Checking Overs')
-    if scores_diction['home_goals'] + scores_diction['away_goals'] >= 3:
-        return 1
-    elif scores_diction['home_goals'] + scores_diction['away_goals'] <= 2:
-        return 0
-
-
-def one_x_2(scores):
-
-    # if home goals scored are more than the
-    # away goals increment home_counter else, draw or away_counter
-    info('checking 1x2')
-    if scores['home_goals'] > scores['away_goals']:
-        return 1
-    elif scores['home_goals'] < scores['away_goals']:
-        return 0
-    else:
-        return 'x'
-
-
-def relative_win(scores, home_team, away_team):
-    """if one_teams goals are always above the others increment a counter too..."""
-    info('running relative win')
-    home_goals = scores['home_goals']
-    away_goals = scores['away_goals']
-    if home_goals > away_goals:
-        return home_team
-    elif home_goals < away_goals:
-        return away_team
-
-
-def start_conveyer(match_dict):
-    # we first deal with over and under 25 patterns from mutual matches only, we
-    # will take the simplest approach
-    success('starting Conveyer')
-    our_list = match_dict['mutual']
-    if our_list is None:
-        return None
-    over_counter = 0
-    home_win_counter = 0
-    draw_counter = 0
-    away_win_counter = 0
-    home_team_counter = 0
-    away_team_counter = 0
-    overall = 0
-
-    for diction in our_list:
-        home_team_name = diction['home_team']
-        away_team_name = diction['away_team']
-        full_time_score = diction['full_time_score']
-        refactored_scores = splitter(full_time_score)
-
-        if full_time_score is not None:
-            over_counter += check_over(refactored_scores)
-            if one_x_2(refactored_scores) == 1:
-                home_win_counter += 1
-            elif one_x_2(refactored_scores) == 'x':
-                draw_counter += 1
-            elif one_x_2(refactored_scores) == 0:
-                away_win_counter +=1
-            else:
-                raise Exception('Unrecognized returned Value for 1 x 2')
-
-            if relative_win(refactored_scores, home_team_name, away_team_name) == home_team_name:
-                home_team_counter += 1
-            elif relative_win(refactored_scores, home_team_name, away_team_name) == away_team_name:
-                away_team_counter += 1
-            overall += 1
-
-    over_25_percentage = round(over_counter / overall * 100, 2)
-    under_25_percentage = round(100 - over_25_percentage, 2)
-    home_win_percentage = round(home_win_counter / overall * 100, 2)
-    draw_percentage = round(draw_counter / overall * 100, 2)
-    away_win_percentage = round(away_win_counter / overall * 100, 2)
-    home_team_percentage = round(home_team_counter / overall * 100, 2)
-    away_team_percentage = round(away_team_counter / overall * 100, 2)
-
-    # now the question remains how do we report the findings, below is a rudimentary way of how
-    # i will be doing it for now, i will improve on this model later
-    over_string = under_string = string1 = string2 = string3 = string4 = string5 = ''
-    full_string = None
-
-    if overall > 1:
-        if over_25_percentage > 80:
-            over_string += "\n\n OVER 25\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], over_25_percentage, overall)
-        if under_25_percentage > 80:
-            under_string += "\n\n UNDER 25\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], under_25_percentage, overall)
-        if home_win_percentage > 80:
-            string1 += "\n\nhome_pattern\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], home_win_percentage, overall)
-        if draw_percentage > 80:
-            string2 += "\n\ndraw_pattern\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], draw_percentage, overall)
-        if away_win_percentage > 80:
-            string3 += "\n\naway_pattern\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], away_win_percentage, overall)
-        if home_team_percentage > 80:
-            string4 += "\n\nwin_pattern\n" + "{}  |  >{}<  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], home_team_percentage, overall)
-        if away_team_percentage > 80:
-            string5 += "\n\nwin_pattern\n" + "{}  |  {}  |  >{}<  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], away_team_percentage, overall)
-    checker = False
-    string_list = [over_string, under_string, string1, string2, string3, string4, string5]
-
-    for string in string_list:
-        if len(string) > 0:
-            checker = True
-        else:
-            pass
-
-    if checker:
-        full_string = "%s %s %s %s %s %s %s" % (over_string, under_string, string1, string2,
-                                                          string3, string4, string5)
-    return full_string
 
 
 def get_specific_match_details(url):
@@ -507,32 +285,3 @@ def retrieve_mutual_matches_data(url):
     mutual_diction = {'mutual': all_mutual_matches}
 
     return mutual_diction
-
-def ignite_after(date_string):
-    # sleep until the time stated in the above string is reached
-    # get fed in details => 13/07/2013 00:57
-    dt = datetime.strptime(date_string, "%d/%m/%y %H:%M")
-    # infinitely sleep through intervals of 5 seconds until the time is equal to that given in the string, then
-    # call another function that will infinitely sleep for 2 hours and another that will do the same for a full day
-    while True:
-        Time.sleep(5)
-        now = datetime.now()
-        # first of all you must check that the time given is in the future
-        if now.timestamp() > dt.timestamp():
-            raise Exception('Start time is in the past')
-        if now.timestamp() in range(dt.timestamp(), dt.timestamp() + 10):
-            # should the above evaluate to true then that would mean its the day that we want
-            # call the daily function first here then the hourly
-            scheduled()
-
-
-def scheduled():
-    """daily checkers: database upgrade, flag checks
-     hourly checkers database modification-> scores input"""
-    while True:
-        current = datetime.now()
-        daily_step = 24 * 60 * 60
-        hourly_step = 2 * 60 * 60
-        Time.sleep()  #**********
-
-# i need this application to work for all functions  once and be abble to retrieve and perform all the checks
