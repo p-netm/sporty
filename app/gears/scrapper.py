@@ -6,13 +6,23 @@ import time as Time
 from urllib.parse import urlparse, urljoin
 
 
-def stringify(a):
-    if len(str(a)) == 1:
-        return '0' + str(a)
-    return str(a)
+def _run_(url="""http://www.sportstats.com/soccer/matches/"""):
+    """The project manager, his main job will to motivate the other functions and  then consolidate their
+    work into the last meaningful required product.
+    :parameters: wil have an optional url of a certain soccer page from which to pull data from
+    """
+    all_main_links = scrap_all_links(url)
+    all_dictions_lists = []
+    for each_link in all_main_links:
+        full_page = requests.get(url)
+        insoup = BeautifulSoup(full_page.text, 'html.parser')
+        diction = get_specific_match_details(insoup)
+        diction.update(retrieve_mutual_matches_data(insoup))
+        all_dictions_lists.append(diction)
+    return {"full_data": all_dictions_lists}
 
 
-def scrap_all_links(url="""http://www.sportstats.com/soccer/matches/"""):
+def scrap_all_links(url):
     """
     :parameter: the specific url that contains the data of interest
         :defaults to the current day soccer url
@@ -37,24 +47,14 @@ def scrap_all_links(url="""http://www.sportstats.com/soccer/matches/"""):
     return refactored_hrefs
 
 
-def splitter(scores):
-    """ returns the scores in the desired integer format"""
-    scores = scores.split('-')
-    home_goals = int(scores[0])
-    away_goals = int(scores[1])
-    return {'home_goals': home_goals, 'away_goals': away_goals}
-
-
-def get_specific_match_details(url):
-    """:parameter: a url that hrefs to a specific fixtures data
+def get_specific_match_details(insoup):
+    """:parameter: a beautiful soup object of the specific matches' details page
     :return: a dictionary with data pertaining to the ollowing keys:
     country, league, home_team, away_team, home_logo-url, away_logo_url,
     first_half_home_goals, first_half_away_goals, full_time_home-goals, 
     full_time_away_goals, date, time
     """
-    full_page = requests.get(url)
     match_dict = dict()
-    insoup = BeautifulSoup(full_page.text, 'html.parser')
     country_league = insoup.find_all(id='center')
     country_league = country_league[0].find_all('div', class_='bread')
     country_league = country_league[0].find_all('a')
@@ -65,8 +65,8 @@ def get_specific_match_details(url):
     match_dict['league'] = league
 
     teams = insoup.find('h1', class_='hidden').get_text()
-    home_team = teams.split(' - ')[0]
-    away_team = teams.split(' - ')[1]
+    home_team = teams.split('-')[0].strip()
+    away_team = teams.split('-')[1].strip()
 
     match_dict['home_team'] = home_team
     match_dict['away_team'] = away_team
@@ -84,145 +84,90 @@ def get_specific_match_details(url):
         match_dict.update(result)
 
         div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
-#         experimental_string = div_date_time_string
-#         date_of_play = date_from_string(experimental_string)
-#         tarehe = date_of_play
-        match_dict['time'] = tarehe.timestamp()
+        experimental_string = div_date_time_string
+        match_dict['date'], match_dict['time'] = date_from_string(experimental_string)  # unpack returned values
 
     return match_dict
 
 
 def date_from_string(string):
+    """Takes a string; then uses requla expresiions to parse the correct needed parts of the string.
+    After that we use the str formatting methods to recreate proper date and time objects from the 
+    matched strings
+    :parameter: strings
+    :returns: a tuple containing two objects with the date object as the first index and time object as 
+    the later
+    """
     # example : Today, 26 Jun 2017, 00:00++++
     date_pattern = r'(\d+ \S+ \d{4})'
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
-    siku = re.findall(date_pattern, string)
-    if len(siku) > 0:
-        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-              'August', 'September', 'October', 'November', 'December']
-        siku = siku[0].split(' ')
-        _day = int(siku[0])
-        _month = str(siku[1])
-        _year = int(siku[2])
-        for month in months:
-            if str(_month) in month:
-                _month = int(months.index(month)) + 1
+    _day = re.findall(date_pattern, string)
+    if len(_day) > 0:
+        stringed_date = _day[0]
+        day_of_play = datetime.datetime.strptime(stringed_date, '%d %b %Y')
     else:
-        raise Exception('Unparsable date day format, please recheck that the website has not changed its date format.')
+        raise PatternMatchError('Unparsable date day format, please recheck that the website has not changed its date format.')
 
-    saa = re.findall(time_pattern, string)
-    if len(saa) > 0:
-        tym = saa[0].split(':')
-        _hour = int(tym[0])
-        _minute = int(tym[1])
+    _time = re.findall(time_pattern, string)
+    if len(_time) > 0:
+        stringed_time = saa[0]
+        time_of_play = datetime.datetime.strptime(stringed_time, '%H:%M')
     else:
-        raise Exception('Unparsable date time format, please check that the website has not changed its time format.')
-
-    # we now create the  final object that we send back
-    date_of_play = datetime(_year, _month, _day, _hour, _minute)
-    return date_of_play
+        raise PatternMatchError('Unparsable date time format, please check that the website has not changed its time format.')
+        
+    return day_of_play, time_of_play
 
 
-def retrieve_scores(insoup):
+def retrieve_scores(div):
+    """:parameter: is a beautiful soup section of the website
+    :returns: the hometeams half and full goals as well as those  of the awayteam's"""
     # there are three cases that this function should deal with
-    main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
-    div = main_divs_info[0]
-    div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
-    experimental_string = div_date_time_string
-    date_of_play = date_from_string(experimental_string).timestamp()
-
-    if Time.time() < date_of_play:
-        # means future match and those no scores
-        return None
-    if date_of_play > (Time.time() - (2 * 60 *60)) and date_of_play < Time.time():
-        # means the game is currently in play
-        return None
-    # here we standardise the format regardless of the page display, follow the pattern [(]\d-\d , \d-\d[)]
-    event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
-    full_score_info_div = event_header_wrapper.find_all('div', class_='full')[1]
+    full_score_info_div = div.find_all('div', class_='full')[1]
     # now we format
     full_score_info = full_score_info_div.p.get_text()
     full_score_info = re.findall(r'\S-\S', full_score_info)
-    full_score_info = "(" + " , ".join(full_score_info) + ")"
-    if len(full_score_info) <= 2:
-        return  None
-    return full_score_info
+    first_half_scores = full_score_info[0]
+    second_half_scores = full_score_info[1]
+    score_pattern = r'\d+'
+    home_team_first_half_goals, away_team_first_half_goals = re.findall(score_pattern, first_half_scores)[0], re.findall(score_pattern, first_half_scores)[0]
+    home_team_second_half_goals, away_team_second_half_goals = re.findall(score_pattern, second_half_scores)[0], re.findall(score_pattern, second_half_scores)[1]
+    return home_team_first_half_goals, away_team_first_half_goals, home_team_second_half_goals, away_team_second_half_goals
 
 
-def parse_scores_for_match(insoup):
+def parse_scores_for_match(div):
     """creates a proper representation of a goals scored before half tym and at full tym
-    returns a dictionary containing the full_time, first_half and second_half scores."""
+    returns a dictionary containing the full_time, first_half and second_half scores.
+    :parameter: is a beautiful soup section of the website"""
     # input is a div tag that holds the results
-    event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
-    event_header_score = event_header_wrapper.find_all('div', class_='event-header-score')[0]
+    event_header_score = div.find_all('div', class_='event-header-score')[0]
     full_time_score = event_header_score.span.get_text()
-    full_time_score = full_time_score.split(' - ')
-    full_time_score = '-'.join(full_time_score)
+    # if we have a valid full time score then we can be sure that we have the scores otherwise nope.
+    pattern = r'\d+'
+    result = re.findall(pattern, full_time_score)
+    if len(result) == 2:
+        # we have valid scores ladies and gemtlemen, proceed
+        home_goals = result[0]
+        away_goals = result[1]
 
-    # now for the half time and full time results
-    full_score_info = retrieve_scores(insoup)
-
-    # validation of score data
-
-    pattern = r'[(]\d-\d , \d-\d[)]'
-    if full_score_info is not None:
-        if len(re.findall(pattern, full_score_info)) == 1:
-            scores = re.findall(pattern, full_score_info)[0]
-            first_half_scores_pattern = r'[(](\d-\d) , \d-\d[)]'
-            first_half_scores = re.findall(first_half_scores_pattern, scores)[0]
-            second_half_scores_pattern = r'[(]\d-\d , (\d-\d)[)]'
-            second_half_scores = re.findall(second_half_scores_pattern, scores)[0]
-        else:
-            raise Exception('The score format for half time , full time seems to have changed')
-
+        # now for the half time and full time results
+        home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = retrieve_scores(div)
     else:
-        return {'full_time_score': None, 'first_half_score': None,
-                'second_half_score': None}
-    # how about a little validation. we do so by checking that the scores equal to full-time scores
-    # validate only when full_tim_score is length is 1
-
-    if len(full_time_score) == 3:
-        score_validated = score_validator(first_half_scores, second_half_scores, full_time_score)
-    else:
-        return {'full_time_score': full_time_score, 'first_half_score': first_half_scores,
-                'second_half_score': second_half_scores}
-    if score_validated:
-        # return the data in a parsable format
-        return {'full_time_score': full_time_score, 'first_half_score': first_half_scores,
-                'second_half_score': second_half_scores}
-    else:
-        raise Exception('Problem validating the Scores.')
+        home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = None, None, None, None
+    
+    return{
+        'home_first_half_goals': home_first_half_goals,
+        'away_first_half_goals': away_first_half_goals,
+        'home_second_half_goals': home_second_half_goals,
+        'away_second_half_goals': away_second_half_goals
+    }
 
 
-def score_validator(first_score, second_score, full_score):
-    if not isinstance(first_score, str) or not isinstance(second_score, str) or not isinstance(full_score,str):
-        raise TypeError('One of the argument scores is in an unrecognizable format')
-    else:
-        if len(first_score) != 3 and len(second_score) != 3 and len(full_score) != 3:
-            raise Exception('There was a problem ')
-    full = (full_score.split('-'))
-    first = (first_score.split('-'))
-    second = (second_score.split('-'))
-    if int(first[0]) + int(second[0]) == int(full[0]) and int(first[1]) + int(second[1]) == int(full[1]):
-        return True
-    else:
-        return False
-
-
-def retrieve_mutual_matches_data(url):
-    """input the link as the get specific content function does
-    output: a dictionary of a single mutual_matches key with a list of dictionaries"""
-
-    if not isinstance(url, str):
-        raise Exception('Url should be string format, to be parsed')
-    else:
-        if 'http://www.sportstats.com' in url:
-            url = url
-        else:
-            url = 'http://www.sportstats.com' + url
-    full_page = requests.get(url)
-    soup = BeautifulSoup(full_page.text, 'html.parser')
+def retrieve_mutual_matches_data(soup):
+    """
+    :parameter: a beatiful soup object of the specific matches' details page
+    :returns: a dictionary of a single mutual_matches key with a list of dictionaries
+    """
     sub_content = soup.find_all(id='subContent_0')[0]
     mutual_block = sub_content.find_all(id='pos_21')[0]
     maintainable_content = mutual_block.find_all(id='LS_maintableContent')[0]
