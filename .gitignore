@@ -5,3 +5,4 @@ venv/
 app/__pycache__/
 app/__pycache__/scrapper.cpython-34.pyc
 testit.py
+pretest.py
