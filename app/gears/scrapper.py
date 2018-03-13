@@ -28,8 +28,13 @@ def scrap_all_links(url):
         :defaults to the current day soccer url
     :returns: A list of all the links that href to a specific matches' details
     """
-    full_webpage = requests.get(url)
-    webpage_text = full_webpage.text
+    if os.environ.get('CONFIGURATION') == "testing":
+        # we are loading file from disk,
+        with open(url) as handler:
+            webpage_text = handler.read()
+    else:
+        full_webpage = requests.get(url)
+        webpage_text = full_webpage.text
     soup = BeautifulSoup(webpage_text, 'html.parser')
     main_div = soup.find_all(id='pos_62')[0]
     # main_div contains a div with the table that holds the match records
@@ -91,7 +96,7 @@ def get_specific_match_details(insoup):
 
 
 def date_from_string(string):
-    """Takes a string; then uses requla expresiions to parse the correct needed parts of the string.
+    """Takes a string; then uses reqular expresiions to parse the correct needed parts of the string.
     After that we use the str formatting methods to recreate proper date and time objects from the 
     matched strings
     :parameter: strings

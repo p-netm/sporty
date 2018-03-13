@@ -15,7 +15,6 @@ class Team(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     date_time = db.Column(db.DateTime())
     team_name = db.Column(db.String())
-    country = db.Column(db.String())
     league = db.Column(db.String())
     goals_conceded = db.Column(db.Integer())
     goals_scored = db.Column(db.Integer())
@@ -54,3 +53,11 @@ class Team(db.Model):
         """formats a string into an arbitrary string presentation"""
         return 'Team <{}{}{}{}{}{}{}>'.format(self.id, self.team_name, self.time, self.country,
                                 self.league, self.goals_scored, self.goals_conceded)
+    
+    
+class Country(db.Model):
+    """
+    One country holds or rather has several leagues
+    a one to many relationship to that of the league models
+    """
+    
