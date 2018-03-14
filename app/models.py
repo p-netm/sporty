@@ -10,44 +10,24 @@ class Team(db.Model):
     a representation of the aspects that are most important in this preliminary
     survey, this aspects will be added to the data csv file
     """
-    __tablename__ = 'Teams'
 
-    id = db.Column(db.Integer(), primary_key=True)
-    date_time = db.Column(db.DateTime())
+    team_id = db.Column(, primary_key=True)
     team_name = db.Column(db.String())
-    league = db.Column(db.String())
-    goals_conceded = db.Column(db.Integer())
-    goals_scored = db.Column(db.Integer())
+    league_id = db.Column()
     logo = db.Column(db.String())
-    flagged = db.Column(db.Integer(), default=0)
-    # types of checkers that we will be using: over, under, win, loss, draw,
-    over = db.Column(db.Boolean())
-    under = db.Column(db.Boolean())
-    win = db.Column(db.Boolean())
-    draw = db.Column(db.Boolean())
-    loss = db.Column(db.Boolean())
-
-
-    def __init__(self, team_name, time, country_name, league_name, goals_scored, goals_conceded):
-
-        if type(country_name) is not str:
-            raise TypeError('The Country_Name')
-        self.country = country_name
-
-        if not isinstance(team_name, str):
-            raise TypeError('The Team_name is not a String')
-        self.team_name = team_name
-
-        if not isinstance(league_name, str):
-            raise TypeError('unrecognized format for league name')
-        self.league = league_name
-
-        if not isinstance(goals_conceded, int) or not isinstance(goals_scored, int):
-            raise TypeError('Unrecognized format for both goals scored and goals conceded')
-        self.goals_conceded = goals_conceded
-        self.goals_scored = goals_scored
-
-        self.time = time
+    # the below flag attributes are for top-teams section
+    over = db.Column(db.Boolean(), nullable=False, default=False)
+    gg = db.Column(db.Boolean(), nullable=False, default=False)
+    ng = db.Column(db.Boolean(), nullable=False, default=False)
+    under = db.Column(db.Boolean(, nullable=False, default=False))
+    win = db.Column(db.Boolean(), nullable=False, default=False)
+    draw = db.Column(db.Boolean(), nullable=False, default=False)
+    loss = db.Column(db.Boolean(), nullable=False, default=False)
+    
+        
+    def create_team():
+        """Abstract the validation and verification of data used to initialize a Team object"""
+        pass
 
     def __repr__(self):
         """formats a string into an arbitrary string presentation"""
@@ -60,4 +40,47 @@ class Country(db.Model):
     One country holds or rather has several leagues
     a one to many relationship to that of the league models
     """
+    country_id = db.Column(, primary_key=True)
+    country_name = db.column(db.String())
+    flag_icon = db.Column(db.String, nullable=True)
+    
+
+class League(db.Model):
+    """
+    relation: one country holds several leagues
+    one league holds several teams
+    """
+    league_id = db.Column(, primary_key=True)
+    league_id = db.Column(db.String())
+    country_id = db.Column(, nullable=False)
+    
+    
+class Match(db.Model):
+    """:realtion: one match will involves two teams"""
+    match_id = db.Column(, primary_key=True)
+    team_one = db.column(, nullable=False)
+    team_two = db.column(, nullable=False)
+    date = db.Column(db.Date(), nullable=False)
+    time = db.Column(db.Time(), nullable=False)
+    team_one_first_half_goals = db.Column(db.Integer, nullable=True)
+    team_two_first_half_goals =db.Column(db.Integer, nullable=True)
+    team_one_second_half_goals = db.Column(db.Integer, nullable=True)
+    team_two_second_half_goals = db.Column(db.Integer, nullable=True)
+    team_one_match_goals = db.Column(db.Integer, nullable=True)
+    team_two_match_goals = db.Column(db.Integer, nullable=True)
+    
+class Flagged(db.Model):
+    """:relation just as that of a match, involves two matches"""
+    flag_id = db.Column(, primary_key=True)
+    team_one = db.column(, nullable=False)
+    team_two = db.column(, nullable=False)
+    date = db.Column(db.Date(), nullable=False)
+    time = db.Column(db.Time(), nullable=False)
+    over = db.Column(db.Boolean(), nullable=False, default=False)
+    gg = db.Column(db.Boolean(), nullable=False, default=False)
+    ng = db.Column(db.Boolean(), nullable=False, default=False)
+    under = db.Column(db.Boolean(, nullable=False, default=False))
+    _1 = db.Column(db.Boolean(), nullable=False, default=False)
+    _x = db.Column(db.Boolean(), nullable=False, default=False)
+    _2 = db.Column(db.Boolean(), nullable=False, default=False)
     
