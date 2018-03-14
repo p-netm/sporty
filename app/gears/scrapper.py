@@ -4,6 +4,7 @@ from datetime import datetime
 import re
 import time as Time
 from urllib.parse import urlparse, urljoin
+from errors import *
 
 
 def _run_(url="""http://www.sportstats.com/soccer/matches/"""):
@@ -161,6 +162,8 @@ def parse_scores_for_match(div):
         home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = None, None, None, None
     
     return{
+        'home_match_goals': home_goals,
+        'away_match_goals': away_goals,
         'home_first_half_goals': home_first_half_goals,
         'away_first_half_goals': away_first_half_goals,
         'home_second_half_goals': home_second_half_goals,
