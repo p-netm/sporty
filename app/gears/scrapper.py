@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+import datetime
 import re
 import time as Time
 from urllib.parse import urlparse, urljoin
@@ -117,7 +117,7 @@ def date_from_string(string):
 
     _time = re.findall(time_pattern, string)
     if len(_time) > 0:
-        stringed_time = saa[0]
+        stringed_time = _time[0]
         time_of_play = datetime.datetime.strptime(stringed_time, '%H:%M')
     else:
         raise PatternMatchError('Unparsable date time format, please check that the website has not changed its time format.')

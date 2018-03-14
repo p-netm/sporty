@@ -4,8 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from config import config
 
 
-mail = Mail()
-moment = Moment()
 db = SQLAlchemy()
 
 def create_app(configuration):

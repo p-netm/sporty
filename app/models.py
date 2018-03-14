@@ -35,7 +35,7 @@ class Country(db.Model):
     a one to many relationship to that of the league models
     """
     country_id = db.Column(db.Integer, primary_key=True)
-    country_name = db.column(db.String())
+    country_name = db.column(db.String(), unique=True)
     flag_icon = db.Column(db.String, nullable=True)
     leagues = db.relationship('League', backref='country', lazy=True)
     

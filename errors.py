@@ -1,6 +1,6 @@
 """Define custom Errors, its really just that basic"""
 
-TagError(Exception):
+class TagError(Exception):
 	"""
 	This is raised when the system fails to locate a required vital 
 	html tag
@@ -9,7 +9,7 @@ TagError(Exception):
 
 # validationError  as validation error
 
-PatternMatchError(Exception):
+class PatternMatchError(Exception):
 	"""
 	happens when a regular expression fails to match a string that
 	the system expects should match"""
