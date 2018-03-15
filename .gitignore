@@ -1,8 +1,13 @@
-
+venv/
 /.cache/
 /__pycache__/
 +.pyc
 app/__pycache__/
 app/__pycache__/scrapper.cpython-34.pyc
+<<<<<<< HEAD
 /app/files/flagged/
 /app/gears/notes.py
+=======
+testit.py
+pretest.py
+>>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
