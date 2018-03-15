@@ -61,19 +61,19 @@ class Team(db.Model):
         return '<{}{}{}{}{}{}{}>'.format(self.id, self.team_name, self.time, self.country,
                                 self.league, self.goals_scored, self.goals_conceded)
 
-    class Continent(db.Model):
-        __tablename__ = 'Continents'
-
-        continent_name = db.Column(db.String(45), primary_key=True)
-        color_code = db.Column(db.String(10), unique=True)
-        size = db.Column(db.Integer)
-        population = db.Column(db.Integer)
-
-        def __init__(self, continent_name, color_code, size, population):
-            self.continent_name = continent_name
-            self.color_code = color_code
-            self.size = size
-            self.population = population
+    # class Continent(db.Model):
+    #     __tablename__ = 'Continents'
+    #
+    #     continent_name = db.Column(db.String(45), primary_key=True)
+    #     color_code = db.Column(db.String(10), unique=True)
+    #     size = db.Column(db.Integer)
+    #     population = db.Column(db.Integer)
+    #
+    #     def __init__(self, continent_name, color_code, size, population):
+    #         self.continent_name = continent_name
+    #         self.color_code = color_code
+    #         self.size = size
+    #         self.population = population
 
 
     class Country(db.Model):
@@ -84,13 +84,13 @@ class Team(db.Model):
         color_code = db.Column(db.String(10))
         size = db.Column(db.Integer)
         population = db.Column(db.Integer)
-        currency = db.Column(db.String(30))
-        coat_of_arms = db.Column(db.String())
+        # currency = db.Column(db.String(30))
+        # coat_of_arms = db.Column(db.String())
         flag_picture = db.Column(db.String(100))
-        gdp = db.Column(db.DECIMAL(10,2))
-        continent_name  = db.Column(db.String(45), db.ForeignKey('Continents.continent_name'))
-
-        continent = db.relationship('Continent', back_populates='Countries')
+        # gdp = db.Column(db.DECIMAL(10,2))
+        # continent_name  = db.Column(db.String(45), db.ForeignKey('Continents.continent_name'))
+        #
+        # continent = db.relationship('Continent', back_populates='Countries')
 
         def __init__(self, country_code, country_name, continent_name):
             self.country_code = country_code
@@ -98,12 +98,12 @@ class Team(db.Model):
             self.continent_name = continent_name
 
 
-    class Team(db.Model):
-        __tablename__ = 'Teams'
-
-
-        # league_id = db.Column(db.String(10))
-        # manager_name = db.Column(db.String(45))
+    # class Team(db.Model):
+    #     __tablename__ = 'Teams'
+    #
+    #
+    #     # league_id = db.Column(db.String(10))
+    #     # manager_name = db.Column(db.String(45))
 
 
     class Match(db.Model):
@@ -114,46 +114,42 @@ class Team(db.Model):
         time = db.Column(db.TIME, nullable=False)
         team1 = db.Column(db.Integer, db.ForeignKey('Teams.team_id'))
         team2 = db.Column(db.Integer, db.ForeignKey('Teams.team_id'))
-        refa = db.Column(db.String(100))
-        season = db.Column(db.String(10))
+        # refa = db.Column(db.String(100))
+        # season = db.Column(db.String(10))
         # averaged_match_odds = db.Column(DECIMAL, db.ForeignKey(''))
         results_id = db.Column(db.String(10), db.ForeignKey('Results.result_id'))
-        stadium_name = db.Column(db.String(150), db.ForeignKey('Stadiums.stadium_name'), nullable=True)
+        # stadium_name = db.Column(db.String(150), db.ForeignKey('Stadiums.stadium_name'), nullable=True)
+
+    class League(db.Model):
+        __tablename__ = 'leagues'
+
+        league_id = db.Column(db.String(20), primary_key=True)
 
 
-    class Result(db.Model):
-        __tablename__ = "Results"
+    # class Result(db.Model):
+    #     __tablename__ = "Results"
+    #
+    #     result_id = db.Column(db.String(10), primary_key=True)
+    #     full_time_home_goals = db.Column(db.Integer)
+    #     full_time_away_goals = db.Column(db.Integer)
+    #     half_time_home_goals = db.Column(db.Integer)
+    #     half_time_away_goals = db.Column(db.Integer)
 
-        result_id = db.Column(db.String(10), primary_key=True)
-        full_time_home_goals = db.Column(db.Integer)
-        full_time_away_goals = db.Column(db.Integer)
-        half_time_home_goals = db.Column(db.Integer)
-        half_time_away_goals = db.Column(db.Integer)
+    # class Stadium(db.Model):
+    #     __tablename__ = 'Stadiums'
+    #
+    #     stadium_name = db.Column(db.String(100), primary_key=True)
+    #     stadium_code = db.Column(db.Integer)
+    #     capacity = db.Column(db.String())
+    #     country_code = db.Column(db.String(10), db.ForeignKey('Countries.country_code'))
+    #     team_id = db.Column(db.Integer, db.ForeignKey('Teams.team_id'))
 
-    class Stadium(db.Model):
-        __tablename__ = 'Stadiums'
+        # country = db.relationship('Country', back_populates='Stadiums')
 
-        stadium_name = db.Column(db.String(100), primary_key=True)
-        stadium_code = db.Column(db.Integer)
-        capacity = db.Column(db.String())
-        country_code = db.Column(db.String(10), db.ForeignKey('Countries.country_code'))
-        team_id = db.Column(db.Integer, db.ForeignKey('Teams.team_id'))
-
-        country = db.relationship('Country', back_populates='Stadiums')
-
-    class Prediction(db.Model):
-        __tablename__ = 'Predictions'
-
-        prediction_id = db.Column(db.Integer, primary_key=True)
-        probability = db.Column(db.Integer)
-        match_id = db.Column(db.String(20), db.ForeignKey('Matches.match_id'))
-        bet_id = db.Column(db.String(10), db.ForeignKey('Bets.bet_id'))
-
-
-    class Bet(db.Model):
-        __tablename__ = 'Bets'
-
-        bet_id = db.Column(db.String(20), primary_key=True)
-        bet_name = db.Column(db.String(200))
-        bet_description = db.Column(db.String(500))
-        average_odds = db.Column(db.DECIMAL(4,2))
+    # class Prediction(db.Model):
+    #     __tablename__ = 'Predictions'
+    #
+    #     prediction_id = db.Column(db.Integer, primary_key=True)
+    #     probability = db.Column(db.Integer)
+    #     match_id = db.Column(db.String(20), db.ForeignKey('Matches.match_id'))
+    #     bet_id = db.Column(db.String(10), db.ForeignKey('Bets.bet_id'))

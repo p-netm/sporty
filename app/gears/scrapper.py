@@ -1,6 +1,4 @@
 import requests
-from colorama import init
-from .print_ import danger, success, warning, info
 import os
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -24,6 +22,42 @@ def scrap_for_mutual_matches(url):
         "result": "2-5",
         "first_half_score": "2-2",
         "second_half_score": "0-5",
+        "past_home": [
+            {
+                "time": 12321321331,
+                "home_team":"team_name",
+                "away_team": "team_name",
+                "result": "2 - 5",
+                "first_half_score": "2-2",
+                "second_half_score": "0-5"
+            },
+            {
+                "time": 12321321331,
+                "home_team":"team_name",
+                "away_team": "team_name",
+                "result": "2 - 5",
+                "first_half_score": "2-2",
+                "second_half_score": "0-5"
+            }
+            ]
+        "past_away":[
+            {
+                "time": 12321321331,
+                "home_team":"team_name",
+                "away_team": "team_name",
+                "result": "2 - 5",
+                "first_half_score": "2-2",
+                "second_half_score": "0-5"
+            },
+            {
+                "time": 12321321331,
+                "home_team":"team_name",
+                "away_team": "team_name",
+                "result": "2 - 5",
+                "first_half_score": "2-2",
+                "second_half_score": "0-5"
+            }
+            ]
         "mutual": [
             {
                 "time": 12321321331,
@@ -52,23 +86,11 @@ def scrap_for_mutual_matches(url):
         ]
     }
     """
-    success('Initialising scrapper')
-    initial_dir = os.getcwd()
-    flag_top_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'files', 'flagged'))
-    if os.path.exists(os.path.join(flag_top_dir, 'sportstats')):
-        pass
-    else:
-        os.chdir(flag_top_dir)
-        os.mkdir('sportstats')
-        os.chdir(initial_dir)
 
-
-    full_webpage = requests.get(url)
-    webpage_text = full_webpage.text
+    webpage_text = requests.get(url).text
     soup = BeautifulSoup(webpage_text, 'html.parser')
     main_div = soup.find_all(id='pos_62')[0]
     # main_div contains a div with the table that holds the match records
-
     tbody_list = main_div.find_all('tbody')
     td_list = list()  # will hold the td tags that hold the href with the #odds
     for tag in tbody_list:
@@ -78,83 +100,13 @@ def scrap_for_mutual_matches(url):
     for link in td_list:
         all_hrefs.append(link.get('href'))
 
-    # take in soup , parse soup and retrieve the date of the match then find the folder with the date as folder name and
-    # extract the default file and read the index. if the folder is non existent let it it be it will be created in the
-    # following section.
-    match = get_specific_match_details(all_hrefs[1])
-    match_time = match['time']
-    match_time = datetime.fromtimestamp(match_time)
-    date_of_play = '{}{}{}'.format(stringify(match_time.day),
-                                  stringify(match_time.month), stringify(match_time.year))
-
-    folder_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                                    'files', 'flagged', 'sportstats', date_of_play))
-    default_file = os.path.join(folder_dir, 'default.txt')
-
-    if not os.path.exists(default_file):
-        index = 0
-    else:
-        default_handler = open(default_file, 'r')
-        contents = default_handler.read().strip()
-        index = int(contents)
-
-
-    for index in range(index, len(all_hrefs)):
+    for index in range(len(all_hrefs)):
         link = all_hrefs[index]
-        try:
-            parent_match = get_specific_match_details(link)
-            mutual_match = retrieve_mutual_matches_data(link)
-            parent_match.update(mutual_match)
-            match = parent_match
-            string = start_conveyer(match)
-
-            # generate a folder for this match according to the parent's match time
-
-
-            match_time = parent_match['time']
-            match_time = datetime.fromtimestamp(match_time)
-            folder_name = '{}{}{}'.format(stringify(match_time.day),
-                                          stringify(match_time.month), stringify(match_time.year))
-            folder_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                                    'files', 'flagged', 'sportstats'))
-            default_file = os.path.join(folder_dir, folder_name, 'default.txt')
-            initial_dir = os.getcwd()
-            os.chdir(folder_dir)
-
-            try:
-                os.mkdir(folder_name)
-                default_file_handler = open(default_file, 'w')
-            except OSError:
-                default_file_handler = open(default_file, 'w+')
-            default_file_handler.write(str(all_hrefs.index(link)))
-            default_file_handler.close()
-            os.chdir(initial_dir)
-
-            # generate the name of file here
-            home_team_name = match['home_team']
-            away_team_name = match['away_team']
-            file_name = home_team_name + ' vs ' + away_team_name
-
-            flag_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                                    'files', 'flagged', 'sportstats', folder_name, parent_match['home_team'] + ' VS '
-                                                    + parent_match['away_team'] + '.txt'))
-
-            if string is not None:
-                file_handler = open(flag_dir, 'w')
-                file_handler.write(string)
-                file_handler.close()
-            else:
-                danger('****one record passed*****')
-                pass
-        except KeyboardInterrupt as ctr_C:
-            sys.exit(2)
-        except BaseException as any_error:
-            danger('Base Exception thrown {}'.format(any_error))
+        # run the scrapper functions here for mutual matches and past matches here
 
 
 def splitter(scores):
     """ returns the scores in the desired integer format"""
-    info('splitting scores')
     scores = scores.split('-')
     home_goals = int(scores[0])
     away_goals = int(scores[1])
@@ -164,7 +116,6 @@ def splitter(scores):
 def check_over(scores_diction):
     """ input scores, output either 1 or 0"""
     # if result is equal or greater than 3; then increment over counter else increment under counter
-    info('Checking Overs')
     if scores_diction['home_goals'] + scores_diction['away_goals'] >= 3:
         return 1
     elif scores_diction['home_goals'] + scores_diction['away_goals'] <= 2:
@@ -175,7 +126,6 @@ def one_x_2(scores):
 
     # if home goals scored are more than the
     # away goals increment home_counter else, draw or away_counter
-    info('checking 1x2')
     if scores['home_goals'] > scores['away_goals']:
         return 1
     elif scores['home_goals'] < scores['away_goals']:
@@ -186,7 +136,6 @@ def one_x_2(scores):
 
 def relative_win(scores, home_team, away_team):
     """if one_teams goals are always above the others increment a counter too..."""
-    info('running relative win')
     home_goals = scores['home_goals']
     away_goals = scores['away_goals']
     if home_goals > away_goals:
@@ -198,7 +147,6 @@ def relative_win(scores, home_team, away_team):
 def start_conveyer(match_dict):
     # we first deal with over and under 25 patterns from mutual matches only, we
     # will take the simplest approach
-    success('starting Conveyer')
     our_list = match_dict['mutual']
     if our_list is None:
         return None
@@ -246,45 +194,10 @@ def start_conveyer(match_dict):
     over_string = under_string = string1 = string2 = string3 = string4 = string5 = ''
     full_string = None
 
-    if overall > 1:
-        if over_25_percentage > 80:
-            over_string += "\n\n OVER 25\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], over_25_percentage, overall)
-        if under_25_percentage > 80:
-            under_string += "\n\n UNDER 25\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], under_25_percentage, overall)
-        if home_win_percentage > 80:
-            string1 += "\n\nhome_pattern\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], home_win_percentage, overall)
-        if draw_percentage > 80:
-            string2 += "\n\ndraw_pattern\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], draw_percentage, overall)
-        if away_win_percentage > 80:
-            string3 += "\n\naway_pattern\n" + "{}  |  {}  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], away_win_percentage, overall)
-        if home_team_percentage > 80:
-            string4 += "\n\nwin_pattern\n" + "{}  |  >{}<  |  {}  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], home_team_percentage, overall)
-        if away_team_percentage > 80:
-            string5 += "\n\nwin_pattern\n" + "{}  |  {}  |  >{}<  |  {}  ||  {}".format(match_dict['time'], match_dict['home_team'],
-                                              match_dict['away_team'], away_team_percentage, overall)
     checker = False
-    string_list = [over_string, under_string, string1, string2, string3, string4, string5]
-
-    for string in string_list:
-        if len(string) > 0:
-            checker = True
-        else:
-            pass
-
-    if checker:
-        full_string = "%s %s %s %s %s %s %s" % (over_string, under_string, string1, string2,
-                                                          string3, string4, string5)
-    return full_string
 
 
 def get_specific_match_details(url):
-    success('getting specific match details')
     url = 'http://www.sportstats.com' + url
     full_page = requests.get(url)
     match_dict = dict()
@@ -328,7 +241,6 @@ def get_specific_match_details(url):
 
 def date_from_string(string):
     # example : Today, 26 Jun 2017, 00:00++++
-    info('extracting timestamp from string')
     date_pattern = r'(\d+ \S+ \d{4})'
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
@@ -360,7 +272,6 @@ def date_from_string(string):
 
 def retrieve_scores(insoup):
     # there are three cases that this function should deal with
-    info('Retrieveing Scores')
     main_divs_info = insoup.find_all('div', class_='event-header-wrapper')
     div = main_divs_info[0]
     div_date_time_string = div.find_all('span', class_='datet')[0].get_text()
@@ -389,7 +300,6 @@ def parse_scores_for_match(insoup):
     """creates a proper representation of a goals scored before half tym and at full tym
     returns a dictionary containing the full_time, first_half and second_half scores."""
     # input is a div tag that holds the results
-    info('Refactoring scores')
     event_header_wrapper = insoup.find_all('div', class_='event-header-wrapper')[0]
     event_header_score = event_header_wrapper.find_all('div', class_='event-header-score')[0]
     full_time_score = event_header_score.span.get_text()
@@ -432,7 +342,6 @@ def parse_scores_for_match(insoup):
 
 
 def score_validator(first_score, second_score, full_score):
-    info('Validating scores')
     if not isinstance(first_score, str) or not isinstance(second_score, str) or not isinstance(full_score,str):
         raise TypeError('One of the argument scores is in an unrecognizable format')
     else:
@@ -450,7 +359,6 @@ def score_validator(first_score, second_score, full_score):
 def retrieve_mutual_matches_data(url):
     """input the link as the get specific content function does
     output: a dictionary of a single mutual_matches key with a list of dictionaries"""
-    success('retrieving a matches mutual details {}'.format(url))
 
     if not isinstance(url, str):
         raise Exception('Url should be string format, to be parsed')
