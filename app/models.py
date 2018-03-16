@@ -4,6 +4,7 @@ data manipulations involved in getting to a reasonable fixture prediction analys
 """
 from . import db
 
+
 class Team(db.Model):
     """Represents the data that will be saved about a specific team
 
@@ -19,7 +20,7 @@ class Team(db.Model):
     over = db.Column(db.Boolean(), nullable=False, default=False)
     gg = db.Column(db.Boolean(), nullable=False, default=False)
     ng = db.Column(db.Boolean(), nullable=False, default=False)
-    under = db.Column(db.Boolean(, nullable=False, default=False))
+    under = db.Column(db.Boolean(), nullable=False, default=False)
     win = db.Column(db.Boolean(), nullable=False, default=False)
     draw = db.Column(db.Boolean(), nullable=False, default=False)
     loss = db.Column(db.Boolean(), nullable=False, default=False)
@@ -51,7 +52,7 @@ class League(db.Model):
     """
     league_id = db.Column(db.Integer, primary_key=True)
     league_name = db.Column(db.String())
-    country_id = db.Column(db.Integer, db.ForeignKey('country.country_id')nullable=False)
+    country_id = db.Column(db.Integer, db.ForeignKey('country.country_id'), nullable=False)
     teams = db.Relationship('Team', backref='league', lazy=True)
     
     def __repr__(self):
@@ -87,7 +88,7 @@ class Flagged(db.Model):
     over = db.Column(db.Boolean(), nullable=False, default=False)
     gg = db.Column(db.Boolean(), nullable=False, default=False)
     ng = db.Column(db.Boolean(), nullable=False, default=False)
-    under = db.Column(db.Boolean(, nullable=False, default=False))
+    under = db.Column(db.Boolean(), nullable=False, default=False)
     _1 = db.Column(db.Boolean(), nullable=False, default=False)
     _x = db.Column(db.Boolean(), nullable=False, default=False)
     _2 = db.Column(db.Boolean(), nullable=False, default=False)
