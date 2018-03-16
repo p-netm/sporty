@@ -191,7 +191,8 @@ def retrieve_mutual_matches_data(soup):
 
     all_mutual_matches = list()
     for href in all_hrefs:
-        mutual_match_instance = get_specific_match_details(href)
+        semi_soup = BeautifulSoup(requests.get(url).text, 'html.parser')
+        mutual_match_instance = get_specific_match_details(soup)
         all_mutual_matches.append(mutual_match_instance)
     # create a dictionary to be returned
 
