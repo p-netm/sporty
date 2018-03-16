@@ -1,5 +1,6 @@
 """Define custom Errors, its really just that basic"""
 
+
 class TagError(Exception):
 	"""
 	This is raised when the system fails to locate a required vital 
@@ -8,6 +9,7 @@ class TagError(Exception):
 	pass
 
 # validationError  as validation error
+
 
 class PatternMatchError(Exception):
 	"""
