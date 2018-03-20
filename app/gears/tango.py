@@ -152,4 +152,33 @@ def save_flagged(diction, *vars):
 def evaluator():
 	"""evaluates and decides what teams gets flagged in which classification is it placed"""
 	pass
+
+def retriever():
+	""""""
 	
+def get_team_recent_x(country_name, league_name, team_name, x=5):
+	"""extract the past upto x matches that the team has recently participated in"""
+	# the matches should have been played within the past 6 years
+	country = Country.query.filter_by(country_name = country_name).first()
+	wanted_league, wanted_team = None
+	for league in country.leagues:
+		if league.league_name == league_name:
+			wanted_league = league
+			break
+	for team in wanted_league.teams:
+		if team.team_name == team_name
+			wanted_team = team
+			break
+	matches = Match.query.filter(Match.team_one == wanted_team.team_id or Match.team_two == wanted_team.team_id).all()
+	return matches
+
+def get_teams_mutual(home_team, away_team, league_name):
+	"""returns a dictionary of the recent 6 mutual matches that were played within the past 5 years"""
+	league = League.query.filter_by(league_name = league_name).first()
+	for team in league.teams:
+		if team.team_name == home_team:
+			home = team
+		if team.team_name == away_team:
+			away = team
+	matches = Match.query.filter(Match.team_one == home.team_id).filter(Match.team_two == away.team_id).all()
+	return matches
