@@ -7,7 +7,7 @@ from urllib.parse import urlparse, urljoin
 from errors import *
 
 
-def _run_(url="""http://www.sportstats.com/soccer/matches/"""):
+def _run_():
     """The project manager, his main job will to motivate the other functions and  then consolidate their
     work into the last meaningful required product.
     :parameters: wil have an optional url of a certain soccer page from which to pull data from
