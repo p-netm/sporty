@@ -7,11 +7,12 @@ class TangoTests(unittest.TestCase):
 
     def setUp(self):
         """setup the test database"""
-        pass
+        db.create_all()
+        
 
     def tearDown(self):
         """Teardown the test database"""
-        pass
+        db.drop_all()
 
     def test_saver_function_with_deformed_url(self):
         """if saver was offered a deformed url what does it do"""
@@ -28,27 +29,53 @@ class TangoTests(unittest.TestCase):
 
     def test_saver_worker_function(self):
         """see how well it responds to well formed data"""
-        pass
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdata)
+        self.assertTrue(len(Match.query.all()))
+        self.assertEqual(6, len(Match.query.all()))
 
-    def test_saver_worker_function_for_absent_data(self):
+    def test_saver_worker_function_for_absent_data_mutual(self):
         """remove some expected fields and see how well it handles the deformation"""
-        pass
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdatanomutual)
+        self.assertEqual(1, len(Match.query.all()))
+        
+    def test_saver_worker_function_for_absent_data_(self):
+        """deformed diction, occurence wil be rare"""
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdatadeformed) # say no date
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdatadeformed1) # say no country
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdatadeformed1) # say no league
+        self.assertFalse(len(Match.query.all()))
 
     def test_worker_function_for_repeat_countries(self):
         """can this function detect that we have already added a certain country to our records"""
-        pass
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdata)
+        self.assertTrue(len(Match.query.all()))
+        saver_worker(saverdatacountry)
+        self.assertGreater(len(Match.query.all()), 12)
+        self.assertEqual(1, len(Country.query.all()))
+        
 
     def test_worker_function_for_repeat_league(self):
         """in the same spirit, does worker omit already present league names"""
-        pass
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdata)
+        self.assertTrue(len(Match.query.all()))
+        saver_worker(saverdataleague)
+        self.assertEqual(len(Match.query.all()), 12)
+        self.assertEqual(1, len(League.query.all()))
 
     def test_worker_function_for_repeated_match(self):
         """what about the same match instances, as it will be so often for mutual matches"""
-        pass
-
-    def test_worker_function_for_flagged_matches(self):
-        """How polymorphic?.. can we also save data to different model with some simmilarities"""
-        pass
+        self.assertFalse(len(Match.query.all()))
+        saver_worker(saverdata)
+        self.assertTrue(len(Match.query.all()))
+        saver_worker(saverdata)
+        self.assertEqual(6, len(Match.query.all()))
 
     def test_save_country(self):
         """check to see that the system does save country data as it is supposed to"""
@@ -122,21 +149,28 @@ class TangoTests(unittest.TestCase):
     def test_save_flagged_match_function_optimally(self):
         """And here i find myself again"""
         self.assertFalse(len(Flagged.query.all()))
-        save_flagged(save, flagged=True, 'ov')
+        save_flagged(saveflagged, 'ov')
         self.assertTrue(len(Flagged.query.all()))
-        save_flagged(save, flagged=True)
+        save_flagged(saveflagged)
         self.assertEqual(len(Flagged.query.all()), 1)
-        save_flagged(save, flagged=True, 'gg')
+        save_flagged(saveflagged, 'gg')
         self.assertEqual(len(Flagged.query.all()), 2)
         
-    def test_save_flagged_matche_with_conflicting_markets(self):
+    def test_save_flagged_match_with_conflicting_markets(self):
         """some markets are mutually exclusive and saving one should override the former"""
+        self.assertFalse(len(Flagged.query.all()))
+        save_flagged(saveflagged, '1')
+        self.assertTrue(len(Flagged.query.all()))
+        save_flagged(saveflagged, '2')
+        self.assertEqual(len(Flagged.query.all()), 1)
+        self.assertEqual(1, len(Flagged.query.filter(Flagged._2).all()))
+        self.assertEqual(0, len(Flagged.query.filter(Flagged._1).all()))
           
 
     def test_save_flagged_match_function_for_duplicate_data(self):
         """and you know the drill right"""
         self.assertFalse(len(Flagged.query.all()))
-        save_flagged(saveflagged)
+        save_flagged(saveflagged, 'ng')
         self.assertTrue(len(Flagged.query.all()))
-        self.assertFalse(save_flagged(saveflagged))
+        save_flagged(saveflagged, 'ng')
         self.assertEqual(len(Flagged.query.all()), 1)
