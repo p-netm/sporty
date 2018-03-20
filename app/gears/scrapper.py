@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-import re
+import re, os
 import time as Time
 from urllib.parse import urlparse, urljoin
 from errors import *
@@ -31,11 +31,17 @@ def scrap_all_links(url):
     """
     if os.environ.get('CONFIGURATION') == "testing":
         # we are loading file from disk,
-        with open(url) as handler:
+        if not os.path.exists(url):
+            raise ValueError('The file path does not exists')
+        with open(url, 'r') as handler:
             webpage_text = handler.read()
+        if type(webpage_text) == bytes:
+            webpage_text = webpage_text.decode('utf-8')
     else:
         full_webpage = requests.get(url)
         webpage_text = full_webpage.text
+    print('\n' * 10)
+    print('webpage_text:  ', type(webpage_text))
     soup = BeautifulSoup(webpage_text, 'html.parser')
     main_div = soup.find_all(id='pos_62')[0]
     # main_div contains a div with the table that holds the match records
@@ -109,20 +115,16 @@ def date_from_string(string):
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
     _day = re.findall(date_pattern, string)
-    if len(_day) > 0:
-        stringed_date = _day[0]
-        day_of_play = datetime.datetime.strptime(stringed_date, '%d %b %Y')
+    _time = re.findall(time_pattern, string)
+    if len(_day) > 0 and len(_time) > 0:
+        stringed_datetime = _day[0] + ' ' + _time[0]
+        full_date = datetime.datetime.strptime(stringed_datetime, '%d %b %Y %H:%M')
+        date_of_play = datetime.date(full_date.year, full_date.month, full_date.day)
+        time_of_play = datetime.time(full_date.hour, full_date.minute)
     else:
         raise PatternMatchError('Unparsable date day format, please recheck that the website has not changed its date format.')
-
-    _time = re.findall(time_pattern, string)
-    if len(_time) > 0:
-        stringed_time = _time[0]
-        time_of_play = datetime.datetime.strptime(stringed_time, '%H:%M')
-    else:
-        raise PatternMatchError('Unparsable date time format, please check that the website has not changed its time format.')
         
-    return day_of_play, time_of_play
+    return date_of_play, time_of_play
 
 
 def retrieve_scores(div):
@@ -191,7 +193,8 @@ def retrieve_mutual_matches_data(soup):
 
     all_mutual_matches = list()
     for href in all_hrefs:
-        semi_soup = BeautifulSoup(requests.get(url).text, 'html.parser')
+        href = urljoin('http://www.sportstats.com', href)
+        semi_soup = BeautifulSoup(requests.get(href).text, 'html.parser')
         mutual_match_instance = get_specific_match_details(soup)
         all_mutual_matches.append(mutual_match_instance)
     # create a dictionary to be returned
