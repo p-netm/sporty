@@ -114,3 +114,4 @@ ENV/
 .mypy_cache/
 
 /notes.py
+.pytest_cache/
