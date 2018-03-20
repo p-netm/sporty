@@ -2,10 +2,8 @@
 		Solely test the scrapper functionality
 """
 import unittest
-import os, BeautifulSoup, datetime
-from app.gears.scrapper import scrap_all_urls, date_from_string, get_specific_match_details
-from validator import url
-from errors import *
+from app.gears.scrapper import *
+from validators import url
 
 def create_file_path(filename):
 	"""abstract the path creation to the golden files"""
@@ -39,19 +37,19 @@ class ScrapperTest(unittest.TestCase):
 		evaluate how well it handles errors.
 		"""
 		# here i check only for  the expected number of links
-		present_scrap = scrap_all_urls(create_file_path('present_soccer_home.html'))
+		present_scrap = scrap_all_links(create_file_path('present_soccer_home.html'))
 		self.assertIsInstance(present_scrap, list)
 		# each scrapped element is a full blown valid url without the #odds
 		self.assertTrue(url(present_scrap[0]))
 		self.assertTrue(url(present_scrap[2]))
 		# should not have the fragment #odds at the end of the url
 		# we also do not create a beatiful soup object here as we do in the other test fixtures
-		# because the scrap_all_urls function does that by itself.
+		# because the scrap_all_links function does that by itself.
 		sample_url = present_scrap[0]
 		self.assertEqual(sample_url.find('#odds'), -1)
 		self.assertEqual(len(present_scrap), 200)
-		self.assertEqual(len(scrap_all_urls(create_file_path('past_soccer_home.html'))), 1037)
-		self.assertEqual(len(scrap_all_urls(create_file_path('future_soccer_home.html'))), 200)
+		self.assertEqual(len(scrap_all_links(create_file_path('past_soccer_home.html'))), 1037)
+		self.assertEqual(len(scrap_all_links(create_file_path('future_soccer_home.html'))), 200)
 		
 	def test_date_from_string(self):
 		"""refer to method declaration"""
@@ -69,7 +67,7 @@ class ScrapperTest(unittest.TestCase):
 		self.assertIsInstance(date_from_string(sample_string)[0], datetime.date)
 		self.assertIsInstance(date_from_string(sample_string)[1], datetime.time)
 		
-	def assert_things(self, diction)
+	def assert_things(self, diction):
 		"""am not even sure that this works or even if this is legal"""
 		self.assertIn('league', diction.keys())
 		self.assertIn('country', diction.keys())
@@ -169,4 +167,4 @@ class ScrapperTest(unittest.TestCase):
 		nothing to scrap"""
 		gold_soup = BeautifulSoup(create_file_path('gold.html'), 'html.parser')
 		with self.assertRaises(TagError):
-			scrap_all_urls(gold_soup)
+			scrap_all_links(gold_soup)

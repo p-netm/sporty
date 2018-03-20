@@ -60,8 +60,7 @@ class TangoTests(unittest.TestCase):
         """save country: resave country"""
         save_country(save['country'])
         self.assertEqual(len(Country.query.all()), 1)
-        with assertRaises(IntegrityError):
-            save_country(save['country'])
+        assertFalse(save_country(save['country']))
         self.assertEqual(len(Country.query.all()), 1)
 
     def test_save_league_optimally(self):
@@ -81,8 +80,7 @@ class TangoTests(unittest.TestCase):
         """how does the league saver deal with duplicate league entries"""
         save_league(save['country'], save['league'])
         self.assertTrue(len(League.query.all()), 1)
-        with self.assertRaise(IntegrityError):
-            save_league(save['country'], save['league'])
+        self.assertFalse(save_league(save['country'], save['league']))
         self.assertTrue(len(League.query.all()), 1)
         country = Country.query.filter_by(country_name=save['country']).first()
         self.assertEqual(len(country.leagues), 1)
@@ -104,8 +102,7 @@ class TangoTests(unittest.TestCase):
         self.assertTrue(len(Team.query.all()), 0)
         save_team(save['country'], save['league'], save['team'])
         self.assertTrue(len(Team.query.all()), 1)
-        with self.assertRaises(IntegrityError):
-            save_team(save['country'], save['league'], save['team'])
+        self.assertFalse(save_team(save['country'], save['league'], save['team']))
         self.assertTrue(len(Team.query.all()), 1)
 
     def test_save_match_optimally(self):
@@ -114,27 +111,32 @@ class TangoTests(unittest.TestCase):
         save_match(save)
         self.assertTrue(len(Match.query.all()))
 
-    def test_save_match_with_duplcicate_values(self):
+    def test_save_match_with_duplicate_values(self):
         """am getting tired of writing obvious statements such as this"""
         self.assertFalse(len(Match.query.all()))
         save_match(save)
         self.assertTrue(len(Match.query.all()))
-        with self.assertRaises(IntegrityError):
-            save_match(save)
-
+        self.assertFalse(save_match(save))
         self.assertEqual(len(Match.query.all()), 1)
 
     def test_save_flagged_match_function_optimally(self):
         """And here i find myself again"""
         self.assertFalse(len(Flagged.query.all()))
-        save_flagged(saveflagged)
+        save_flagged(save, flagged=True, 'ov')
         self.assertTrue(len(Flagged.query.all()))
+        save_flagged(save, flagged=True)
+        self.assertEqual(len(Flagged.query.all()), 1)
+        save_flagged(save, flagged=True, 'gg')
+        self.assertEqual(len(Flagged.query.all()), 2)
+        
+    def test_save_flagged_matche_with_conflicting_markets(self):
+        """some markets are mutually exclusive and saving one should override the former"""
+          
 
     def test_save_flagged_match_function_for_duplicate_data(self):
         """and you know the drill right"""
         self.assertFalse(len(Flagged.query.all()))
         save_flagged(saveflagged)
         self.assertTrue(len(Flagged.query.all()))
-        with self.assertRaises(IntegrityError):
-            save_flagged(saveflagged)
+        self.assertFalse(save_flagged(saveflagged))
         self.assertEqual(len(Flagged.query.all()), 1)
