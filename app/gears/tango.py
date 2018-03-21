@@ -188,20 +188,20 @@ def get_team_recent_x(country_name, league_name, home_team=None, away_team=None,
 
     home_matches, away_matches = [], []
     if home_team:
-        home_matches = Match.query.filter(Match.team_one == home_team.team_id).all()
+        home_matches = Match.query.filter(Match.team_one == home_team.team_id).limit(x).all()
         if overall:
-            home_matches = Match.query.filter((Match.team_one == home_team.team_id) | (Match.team_two == home_team.team_id))
+            home_matches = Match.query.filter((Match.team_one == home_team.team_id) | (Match.team_two == home_team.team_id)).limit(x)
     if away_team:
-        away_matches = Match.query.filter(Match.team_two == away_team.team_id).all()
+        away_matches = Match.query.filter(Match.team_two == away_team.team_id).all().limit(x)
         if overall:
-            away_matches = Match.query.filter((Match.team_one == away_team.team_id) | (Match.team_two == away_team.team_id))
+            away_matches = Match.query.filter((Match.team_one == away_team.team_id) | (Match.team_two == away_team.team_id)).limit(x)
     return {
         'home': home_matches,
         'away': away_matches
         }
 
 
-def get_teams_mutual(home_team, away_team, league_name, respective=False):
+def get_teams_mutual(league_name, home_team, away_team, respective=False, x=6):
     """returns a dictionary of the recent 6 mutual matches that were played within the past 5 years"""
     league = League.query.filter_by(league_name=league_name).first()
     for team in league.teams:
@@ -210,9 +210,9 @@ def get_teams_mutual(home_team, away_team, league_name, respective=False):
         if team.team_name == away_team:
             away = team
     if respective:
-        matches = Match.query.filter((Match.team_one == home.team_id) & (Match.team_two == away.team_id))
+        matches = Match.query.filter((Match.team_one == home.team_id) & (Match.team_two == away.team_id)).limit(x)
         return {
             'mutual': matches
         }
-    matches = Match.query.filter(((Match.team_one == home.team_id) & (Match.team_two == away.team_id)) | ((Match.team_one == away.team_id) & (Match.team_two == home.team_id))).all()
-    return matches
+    matches = Match.query.filter(((Match.team_one == home.team_id) & (Match.team_two == away.team_id)) & ((Match.team_one == away.team_id) & (Match.team_two == home.team_id))).all()
+    return {'mutual': matches}

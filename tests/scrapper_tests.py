@@ -36,16 +36,18 @@ class ScrapperTest(unittest.TestCase):
 		"""See if the scrap dows return the expected number of links and also 
 		evaluate how well it handles errors.
 		"""
-		# here i check only for  the expected number of links
+		# here i check only for  the expected number of tuples
 		present_scrap = scrap_all_links(create_file_path('present_soccer_home.html'))
 		self.assertIsInstance(present_scrap, list)
+		# each instance is a tuples
+		self.assertIsInstance(present_scrap[0], tuple)
 		# each scrapped element is a full blown valid url without the #odds
-		self.assertTrue(url(present_scrap[0]))
-		self.assertTrue(url(present_scrap[2]))
+		self.assertTrue(url(present_scrap[0][2]))
+		self.assertTrue(url(present_scrap[2][2]))
 		# should not have the fragment #odds at the end of the url
 		# we also do not create a beatiful soup object here as we do in the other test fixtures
 		# because the scrap_all_links function does that by itself.
-		sample_url = present_scrap[0]
+		sample_url = present_scrap[0][0]
 		self.assertEqual(sample_url.find('#odds'), -1)
 		self.assertEqual(len(present_scrap), 200)
 		self.assertEqual(len(scrap_all_links(create_file_path('past_soccer_home.html'))), 1037)

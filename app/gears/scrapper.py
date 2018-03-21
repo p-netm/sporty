@@ -14,8 +14,9 @@ def _run_(url):
     """
     all_main_links = scrap_all_links(url)
     all_dictions_lists = []
-    for each_link in all_main_links:
-        full_page = requests.get(url)
+    for each_tuple in all_main_links:
+        each_link = each_tuple[2]
+        full_page = requests.get(each_link)
         insoup = BeautifulSoup(full_page.text, 'html.parser')
         diction = get_specific_match_details(insoup)
         diction.update(retrieve_mutual_matches_data(insoup))
@@ -47,15 +48,14 @@ def scrap_all_links(url):
     # main_div contains a div with the table that holds the match records
 
     tbody_list = main_div.find_all('tbody') # tbody tags: sample rendering: Avai0 - 1 Hercilio Luz1.334.307.76
-    td_list = [] # will hold the td tags that hold the href with the #odds
+    refactored_hrefs = [] # will hold the td tags that hold the href with the #odds
     for tag in tbody_list:
-        td_list.extend(tag.find_all('a', class_='tabOdds'))
+        a = tag.find_all('a', class_='tabOdds')[0].get('href')
+		a = urljoin('''http://www.sportstats.com''', urlparse(a).path)
+		home_team = tag.find_all('td', class_='table-home')[0].find_all('a')[0].get_text()
+		away_team = tag.find_all('td', class_='table-away')[0].find_all('a')[0].get_text()
+		refactored_hrefs.append((home_team, away_team, a))
 
-    all_hrefs = []
-    for link in td_list:
-        all_hrefs.append(link.get('href'))
-        
-    refatored_hrefs = [urljoin('''http://www.sportstats.com''', urlparse(a).path) for a in all_hrefs]
     return refactored_hrefs
 
 
