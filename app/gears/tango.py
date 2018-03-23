@@ -26,7 +26,7 @@ def saver_worker(diction):
     """saver subcommandant incharge of data verification and the actual work of saving.
     makes sure we do not have redundant info being added  to our databases"""
     # counries have unique names
-    # leagues may ahve similar names but not in the same country
+    # leagues may have similar names but not in the same country
     # teams may have similar names but not in the same league(i hope)
     return save_match(diction)
 

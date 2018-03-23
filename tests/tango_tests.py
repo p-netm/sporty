@@ -1,5 +1,6 @@
 import unittest
 from app.gears import *
+from .app import create_app(), db
 
 
 class TangoTests(unittest.TestCase):
@@ -7,11 +8,16 @@ class TangoTests(unittest.TestCase):
 
     def setUp(self):
         """setup the test database"""
+        app = create_app('testing')
+        app_context = app.app_context()
+        app_context.push()
+        db.drop_all()
         db.create_all()
-        
+
 
     def tearDown(self):
         """Teardown the test database"""
+        db.session.remove()
         db.drop_all()
 
     def test_saver_function_with_deformed_url(self):
