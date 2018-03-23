@@ -12,6 +12,11 @@ def create_file_path(filename):
 		return os.path.join(base_dir, filename)
 	else:
 		raise TypeError("Filename is {}, expecting str".format(type(filename)))
+		
+def read_data(path):
+	with open(path, 'r', encoding='utf-8') as handler:
+		data = handler.read()
+	return data
 
 class Reckless(unittest.TestCase):
 	
@@ -21,7 +26,6 @@ class Reckless(unittest.TestCase):
 		self.assertFalse(os.path.exists(path))
 		path = create_file_path('awarded.html')
 		self.assertTrue(os.path.exists(path))
-	
 	
 
 class ScrapperTest(unittest.TestCase):
@@ -50,8 +54,8 @@ class ScrapperTest(unittest.TestCase):
 		sample_url = present_scrap[0][0]
 		self.assertEqual(sample_url.find('#odds'), -1)
 		self.assertEqual(len(present_scrap), 200)
-		self.assertEqual(len(scrap_all_links(create_file_path('past_soccer_home.html'))), 1037)
-		self.assertEqual(len(scrap_all_links(create_file_path('future_soccer_home.html'))), 200)
+		self.assertEqual(len(scrap_all_links(create_file_path('past_soccer_home.html'))), 187)
+		self.assertEqual(len(scrap_all_links(create_file_path('future_soccer_home.html'))), 835)
 		
 	def test_date_from_string(self):
 		"""refer to method declaration"""
@@ -87,7 +91,7 @@ class ScrapperTest(unittest.TestCase):
 		
 	def test_get_specific_match_details_for_played_match(self):
 		"""This is more than a unit test"""
-		played_soup = BeautifulSoup(create_file_path('played.html'), 'html.parser')
+		played_soup = BeautifulSoup(read_data(create_file_path('played.html')), 'html.parser')
 		result = get_specific_match_details(played_soup)
 		self.assert_things(result)
 		# type and value checks
@@ -95,7 +99,7 @@ class ScrapperTest(unittest.TestCase):
 		self.assertEqual(result['country'], 'Cyprus')
 		self.assertEqual(result['home_team'], 'APOEL')
 		self.assertEqual(result['away_team'], 'AEK Larnaca')
-		self.assertEqual(result['date'], datetime.date(2018, 5, 11))
+		self.assertEqual(result['date'], datetime.date(2018, 3, 11))
 		self.assertEqual(result['time'], datetime.time(14, 0))
 		self.assertEqual(result['home_first_half_goals'], 0)
 		self.assertEqual(result['home_second_half_goals'], 0)
@@ -105,11 +109,11 @@ class ScrapperTest(unittest.TestCase):
 		
 	def test_get_specific_match_details_for_abandoned_match(self):
 		"""do abandoned matches html files abide by the same formats as the rest of them"""
-		abandoned_soup = BeautifulSoup(create_file_path('abandoned.html'), 'html.parser')
+		abandoned_soup = BeautifulSoup(read_data(create_file_path('abandoned.html')), 'html.parser')
 		result = get_specific_match_details(abandoned_soup)
 		self.assert_things(result)
 		# a brief check of value and types -> some attributes i wil not check since i do not expect them to have changed
-		self.assertEqual(result['date'], datetime.date(2018, 5, 11))
+		self.assertEqual(result['date'], datetime.date(2018, 3, 11))
 		self.assertEqual(result['time'], datetime.time(17, 30))
 		self.assertEqual(result['home_first_half_goals'], 0)
 		self.assertEqual(result['home_second_half_goals'], 0)
@@ -119,7 +123,7 @@ class ScrapperTest(unittest.TestCase):
 		
 	def test_get_specific_match_details_for_penalties_match(self):
 		"""test fixture for future matches html files"""
-		penalty_soup = BeautifulSoup(create_file_path('penalties.html'), 'html.parser')
+		penalty_soup = BeautifulSoup(read_data(create_file_path('penalties.html')), 'html.parser')
 		result = get_specific_match_details(penalty_soup)
 		self.assert_things(result)
 		# remember the system only recognizes result up until end of regulation time
@@ -133,7 +137,7 @@ class ScrapperTest(unittest.TestCase):
 		
 	def test_get_specific_match_details_for_postponed_match(self):
 		"""what about when we have a html file for a fixture that was postpponed"""
-		post_soup = BeautifulSoup(create_file_path('postponed.html'), 'html.parser')
+		post_soup = BeautifulSoup(read_data(create_file_path('postponed.html')), 'html.parser')
 		result = get_specific_match_details(post_soup)
 		self.assert_things(result)
 		self.assertEqual(result['home_first_half_goals'], None)
@@ -141,13 +145,13 @@ class ScrapperTest(unittest.TestCase):
 		self.assertEqual(result['away_first_half_goals'], None)
 		self.assertEqual(result['away_second_half_goals'], None)
 		self.assertEqual(result['home_match_goals'], None)
-		sefl.assertEqual(result['away_match_goals'], None)
+		self.assertEqual(result['away_match_goals'], None)
 		
 		#the test below requires a live connection to the internet to run.
 		
 # 	def test_retrieve_mutual_matches_data_for_played_match(self):
 # 		"""we just check that the mutual key has a value of the required format"""
-# 		played_soup = BeautifulSoup(create_file_path('played.html'), 'html.parser')
+# 		played_soup = BeautifulSoup(read_data(create_file_path('played.html')), 'html.parser')
 # 		result = retrieve_mutual_matches_data(played_soup)
 # 		self.assertEqual(type(result), dict)
 # 		self.assertIn('mutual', result.keys())
@@ -156,17 +160,16 @@ class ScrapperTest(unittest.TestCase):
 # 		match_instance = result['mutual'][0]
 # 		self.assert_things(match_instance)
 
-	def test_deformed_mutual_matches_data(self):
+	def test_no_data_mutual_matches_data(self):
 		"""what if the fed in html file does not have the data required"""
-		gold_soup = BeautifulSoup(create_file_path('gold.html'), 'html.parser')
-		result = retrieve_mutual_matches_data(gold_soup)
-		self.assertEqual(type(result), dict)
-		self.assertIn('mutual', result.keys())
-		self.assertIs(result['mutual'], None)
+		gold_soup = BeautifulSoup(read_data(create_file_path('gold.html')), 'html.parser')
+		with self.assertRaises(TagError):
+			result = retrieve_mutual_matches_data(gold_soup)
 		
-	def test_deformed_soccer_home_page(self):
+		
+	def test_no_data_soccer_home_page(self):
 		"""lets see what is the responde of the scrap all links function when it has 
 		nothing to scrap"""
-		gold_soup = BeautifulSoup(create_file_path('gold.html'), 'html.parser')
+		gold_path = create_file_path('gold.html')
 		with self.assertRaises(TagError):
-			scrap_all_links(gold_soup)
+			scrap_all_links(gold_path)
