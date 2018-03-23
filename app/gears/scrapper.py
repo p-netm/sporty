@@ -47,15 +47,14 @@ def scrap_all_links(url):
     main_div = soup.find_all(id='pos_62')[0]
     # main_div contains a div with the table that holds the match records
 
-    tbody_list = main_div.find_all('tbody') # tbody tags: sample rendering: Avai0 - 1 Hercilio Luz1.334.307.76
-    refactored_hrefs = [] # will hold the td tags that hold the href with the #odds
+    tbody_list = main_div.find_all('tbody')  # tbody tags: sample rendering: Avai0 - 1 Hercilio Luz1.334.307.76
+    refactored_hrefs = []  # will hold the td tags that hold the href with the #odds
     for tag in tbody_list:
         a = tag.find_all('a', class_='tabOdds')[0].get('href')
-		a = urljoin('''http://www.sportstats.com''', urlparse(a).path)
-		home_team = tag.find_all('td', class_='table-home')[0].find_all('a')[0].get_text()
-		away_team = tag.find_all('td', class_='table-away')[0].find_all('a')[0].get_text()
-		refactored_hrefs.append((home_team, away_team, a))
-
+        a = urljoin('''http://www.sportstats.com''', urlparse(a).path)
+        home_team = tag.find_all('td', class_='table-home')[0].find_all('a')[0].get_text()
+        away_team = tag.find_all('td', class_='table-away')[0].find_all('a')[0].get_text()
+        refactored_hrefs.append((home_team, away_team, a))
     return refactored_hrefs
 
 
@@ -122,8 +121,9 @@ def date_from_string(string):
         date_of_play = datetime.date(full_date.year, full_date.month, full_date.day)
         time_of_play = datetime.time(full_date.hour, full_date.minute)
     else:
-        raise PatternMatchError('Unparsable date day format, please recheck that the website has not changed its date format.')
-        
+        raise PatternMatchError(
+            'Unparsable date day format, please recheck that the website has not changed its date format.')
+
     return date_of_play, time_of_play
 
 
@@ -138,8 +138,10 @@ def retrieve_scores(div):
     first_half_scores = full_score_info[0]
     second_half_scores = full_score_info[1]
     score_pattern = r'\d+'
-    home_team_first_half_goals, away_team_first_half_goals = re.findall(score_pattern, first_half_scores)[0], re.findall(score_pattern, first_half_scores)[0]
-    home_team_second_half_goals, away_team_second_half_goals = re.findall(score_pattern, second_half_scores)[0], re.findall(score_pattern, second_half_scores)[1]
+    home_team_first_half_goals, away_team_first_half_goals = re.findall(score_pattern, first_half_scores)[0], \
+                                                             re.findall(score_pattern, first_half_scores)[0]
+    home_team_second_half_goals, away_team_second_half_goals = re.findall(score_pattern, second_half_scores)[0], \
+                                                               re.findall(score_pattern, second_half_scores)[1]
     return home_team_first_half_goals, away_team_first_half_goals, home_team_second_half_goals, away_team_second_half_goals
 
 
@@ -159,11 +161,12 @@ def parse_scores_for_match(div):
         away_goals = result[1]
 
         # now for the half time and full time results
-        home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = retrieve_scores(div)
+        home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = retrieve_scores(
+            div)
     else:
         home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = None, None, None, None
-    
-    return{
+
+    return {
         'home_match_goals': home_goals,
         'away_match_goals': away_goals,
         'home_first_half_goals': home_first_half_goals,
@@ -185,7 +188,7 @@ def retrieve_mutual_matches_data(soup):
         table = maintainable_content.find_all(id='maintable_0')[0]
     except IndexError as maintainable_error:
         return {'mutual': None}
-    links_list = table.find_all('a',  class_='tabOdds')
+    links_list = table.find_all('a', class_='tabOdds')
     all_hrefs = list()
     for link in links_list:
         href_text = link.get('href')

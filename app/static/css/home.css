@@ -107,12 +107,11 @@ html, body{
     min-height: 100%;
 }
 html{
-    background-color: #032c50
+    background-color: #122e48;
 }
 body{
     width: 100%;
-    background-color:white;
-    padding: 1.5%;
+    background:linear-gradient(#0E2337, #153655);
     font-family: "Times New roman", sans-serif;
 }
 .main, aside{
@@ -126,9 +125,11 @@ body{
 }
 aside{
     width: 25%;
+    background: #527494;
 }
 footer{
     clear: both;
+    background: #0D2133;
 }
 ol li{
     list-style: none;
