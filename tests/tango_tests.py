@@ -1,6 +1,9 @@
 import unittest
 from app.gears import *
-from .app import create_app(), db
+from app import create_app
+from app.models import *
+from app.gears.tango import *
+from .match import *
 
 
 class TangoTests(unittest.TestCase):
@@ -38,12 +41,12 @@ class TangoTests(unittest.TestCase):
         self.assertFalse(len(Match.query.all()))
         saver_worker(saverdata)
         self.assertTrue(len(Match.query.all()))
-        self.assertEqual(6, len(Match.query.all()))
+        self.assertEqual(1, len(Match.query.all()))
 
     def test_saver_worker_function_for_absent_data_mutual(self):
         """remove some expected fields and see how well it handles the deformation"""
         self.assertFalse(len(Match.query.all()))
-        saver_worker(saverdatanomutual)
+        saver_worker(saverdata)
         self.assertEqual(1, len(Match.query.all()))
         
     def test_saver_worker_function_for_absent_data_(self):
@@ -53,7 +56,7 @@ class TangoTests(unittest.TestCase):
         self.assertFalse(len(Match.query.all()))
         saver_worker(saverdatadeformed1) # say no country
         self.assertFalse(len(Match.query.all()))
-        saver_worker(saverdatadeformed1) # say no league
+        saver_worker(saverdatadeformed2) # say no league
         self.assertFalse(len(Match.query.all()))
 
     def test_worker_function_for_repeat_countries(self):
@@ -62,7 +65,7 @@ class TangoTests(unittest.TestCase):
         saver_worker(saverdata)
         self.assertTrue(len(Match.query.all()))
         saver_worker(saverdatacountry)
-        self.assertGreater(len(Match.query.all()), 12)
+        self.assertEqual(len(Match.query.all()), 2)
         self.assertEqual(1, len(Country.query.all()))
         
 
@@ -72,7 +75,7 @@ class TangoTests(unittest.TestCase):
         saver_worker(saverdata)
         self.assertTrue(len(Match.query.all()))
         saver_worker(saverdataleague)
-        self.assertEqual(len(Match.query.all()), 12)
+        self.assertEqual(len(Match.query.all()), 2)
         self.assertEqual(1, len(League.query.all()))
 
     def test_worker_function_for_repeated_match(self):
@@ -81,19 +84,19 @@ class TangoTests(unittest.TestCase):
         saver_worker(saverdata)
         self.assertTrue(len(Match.query.all()))
         saver_worker(saverdata)
-        self.assertEqual(6, len(Match.query.all()))
+        self.assertEqual(1, len(Match.query.all()))
 
     def test_save_country(self):
         """check to see that the system does save country data as it is supposed to"""
         save_country(save['country'])
         self.assertEqual(len(Country.query.all()), 1)
-        self.assertEqual(country.query.all()[0].country_name, save['country'])
+        self.assertEqual(Country.query.all()[0].country_name, save['country'])
 
     def test_save_country_duplicate_values(self):
         """save country: resave country"""
         save_country(save['country'])
         self.assertEqual(len(Country.query.all()), 1)
-        assertFalse(save_country(save['country']))
+        self.assertFalse(save_country(save['country']))
         self.assertEqual(len(Country.query.all()), 1)
 
     def test_save_league_optimally(self):
@@ -103,7 +106,7 @@ class TangoTests(unittest.TestCase):
         self.assertEqual(League.query.all()[0].league_name, save['league'])
 
         # now how about those leagues that belong to the same country
-        save_league(save['country'], save1['league'])
+        save_league(save['country'], 'league')
         self.assertEqual(len(League.query.all()), 2)
         # load country and confirm that itholds backrefs to the two added leagues
         country = Country.query.filter_by(country_name=save['country']).first()
@@ -120,22 +123,22 @@ class TangoTests(unittest.TestCase):
 
     def test_save_team_optimally(self):
         """test expectations"""
-        self.assertTrue(len(Team.query.all()), 0)
-        save_team(save['country'], save['league'], save['team'])
+        self.assertFalse(len(Team.query.all()), 0)
+        save_team(save['country'], save['league'], save['home_team'], save['home_logo_src'])
         self.assertTrue(len(Team.query.all()), 1)
         # add the same team to different leagues and see the response
-        save_team(save['country'], save1['league'], save['team'])
+        save_team('Kenya', 'league', save['home_team'], save['home_logo_src'] + 'asd')
         self.assertTrue(len(Team.query.all()), 2)
-        league = League.query.filter_by(league_name=save1['league']).first()
+        league = League.query.filter_by(league_name='league').first()
         self.assertEqual(len(league.teams), 1)
 
-    def test_save_team_with_duplicate_time(self):
-        """teams is duplicate in the same league otherwise teams
-        are not quaranteed to have unique names"""
-        self.assertTrue(len(Team.query.all()), 0)
-        save_team(save['country'], save['league'], save['team'])
+    def test_save_team_as_duplicate(self):
+        """teams cannot be duplicate in the same league otherwise teams
+        are not quaranteed to have unique names in a more global scope"""
+        self.assertEqual(len(Team.query.all()), 0)
+        save_team(save['country'], save['league'], save['home_team'], save['home_logo_src'])
         self.assertTrue(len(Team.query.all()), 1)
-        self.assertFalse(save_team(save['country'], save['league'], save['team']))
+        self.assertFalse(save_team(save['country'], save['league'], save['home_team'], save['home_logo_src']))
         self.assertTrue(len(Team.query.all()), 1)
 
     def test_save_match_optimally(self):
@@ -175,7 +178,7 @@ class TangoTests(unittest.TestCase):
 
     def test_save_flagged_match_function_for_duplicate_data(self):
         """and you know the drill right"""
-        self.assertFalse(len(Flagged.query.all()))
+        self.assertEqual(len(Flagged.query.all()), 0)
         save_flagged(saveflagged, 'ng')
         self.assertTrue(len(Flagged.query.all()))
         save_flagged(saveflagged, 'ng')

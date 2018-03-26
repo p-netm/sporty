@@ -161,8 +161,8 @@ def parse_scores_for_match(div):
     result = re.findall(pattern, full_time_score)
     if len(result) == 2:
         # we have valid scores ladies and gemtlemen, proceed
-        home_goals = result[0]
-        away_goals = result[1]
+        home_goals = int(result[0])
+        away_goals = int(result[1])
 
         # now for the half time and full time results
         home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = retrieve_scores(

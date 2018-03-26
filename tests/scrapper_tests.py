@@ -105,6 +105,8 @@ class ScrapperTest(unittest.TestCase):
 		self.assertEqual(result['home_second_half_goals'], 0)
 		self.assertEqual(result['away_first_half_goals'], 0)
 		self.assertEqual(result['away_second_half_goals'], 0)
+		self.assertEqual(result['home_match_goals'], 0)
+		self.assertEqual(result['away_match_goals'], 0)
 		
 		
 	def test_get_specific_match_details_for_abandoned_match(self):

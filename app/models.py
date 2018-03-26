@@ -15,7 +15,7 @@ class Team(db.Model):
     team_id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String())
     league_id = db.Column(db.Integer, db.ForeignKey('league.league_id'), nullable=False)
-    logo = db.Column(db.String(), nullable=True)
+    logo = db.Column(db.String(), nullable=True, unique=True)
     # the below flag attributes are for top-teams section
     over = db.Column(db.Boolean(), nullable=False, default=False)
     gg = db.Column(db.Boolean(), nullable=False, default=False)
@@ -36,7 +36,7 @@ class Country(db.Model):
     a one to many relationship to that of the league models
     """
     country_id = db.Column(db.Integer, primary_key=True)
-    country_name = db.column(db.String(), unique=True, nullable=False)
+    country_name = db.Column(db.String(), unique=True, nullable=False)
     flag_icon = db.Column(db.String, nullable=True)
     leagues = db.relationship('League', backref='country', lazy=True)
     
@@ -53,7 +53,7 @@ class League(db.Model):
     league_id = db.Column(db.Integer, primary_key=True)
     league_name = db.Column(db.String())
     country_id = db.Column(db.Integer, db.ForeignKey('country.country_id'), nullable=False)
-    teams = db.Relationship('Team', backref='league', lazy=True)
+    teams = db.relationship('Team', backref='league', lazy=True)
     
     def __repr__(self):
         """string serialisation"""
@@ -62,8 +62,8 @@ class League(db.Model):
 class Match(db.Model):
     """:realtion: one match will involves two teams"""
     match_id = db.Column(db.Integer, primary_key=True)
-    team_one = db.column(db.integer, db.ForeignKey('team.team_id'), nullable=False)
-    team_two = db.column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
+    team_one = db.Column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
+    team_two = db.Column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
     date = db.Column(db.Date(), nullable=False)
     time = db.Column(db.Time(), nullable=False)
     team_one_first_half_goals = db.Column(db.Integer, nullable=True)
@@ -81,8 +81,8 @@ class Match(db.Model):
 class Flagged(db.Model):
     """:relation just as that of a match, involves two matches"""
     flag_id = db.Column(db.Integer, primary_key=True)
-    team_one = db.column(db.integer, db.ForeignKey('team.team_id'), nullable=False)
-    team_two = db.column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
+    team_one = db.Column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
+    team_two = db.Column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
     date = db.Column(db.Date(), nullable=False)
     time = db.Column(db.Time(), nullable=False)
     over = db.Column(db.Boolean(), nullable=False, default=False)

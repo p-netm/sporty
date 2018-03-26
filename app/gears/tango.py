@@ -24,11 +24,16 @@ def saver(url="""http://www.sportstats.com/soccer/matches/"""):
 
 def saver_worker(diction):
     """saver subcommandant incharge of data verification and the actual work of saving.
-    makes sure we do not have redundant info being added  to our databases"""
+    makes sure we do not have redundant info being added  to our databases
+    :parameters: one diction instance without any further nested match objects
+    presence of usch objects e.g. lists and dictions will be ignored"""
     # counries have unique names
     # leagues may have similar names but not in the same country
     # teams may have similar names but not in the same league(i hope)
-    return save_match(diction)
+    try:
+        return save_match(diction)
+    except KeyError as e:
+        return
 
 
 def save_country(country):
@@ -37,7 +42,7 @@ def save_country(country):
     if the country is already existent
     """
     try:
-        country_obj = Country(counntry_name=country)
+        country_obj = Country(country_name=country)
         db.session.add(country_obj)
         db.session.commit()
         return country_obj
@@ -56,10 +61,10 @@ def save_league(country, league):
         country_obj = save_country(country)
 
     # query if the league exists and add it if it does not
-    leagues = League.filter(League.country_id == country_obj.country.id).filter(League.league_name == league).first()
+    leagues = League.query.filter(League.country_id == country_obj.country_id).filter(League.league_name == league).first()
     if leagues is None:
         # greenlight
-        league_obj = League(league_name=league, country_id=country_obj.id)
+        league_obj = League(league_name=league, country_id=country_obj.country_id)
         db.session.add(league_obj)
         db.session.commit()
         return league_obj
@@ -72,9 +77,9 @@ def save_team(country, league, team, logo):
     league_obj = League.query.filter_by(league_name=league).first()
     if league_obj is None:
         league_obj = save_league(country, league)
-    teams = Team.filter(Team.league_id == league_obj.id).filter(Team.team_name == team).first()
+    teams = Team.query.filter(Team.league_id == league_obj.league_id).filter(Team.team_name == team).first()
     if teams is None:
-        team_obj = Team(team_name=team, league_id=league_obj.id, logo=logo)
+        team_obj = Team(team_name=team, league_id=league_obj.league_id, logo=logo)
         db.session.add(team_obj)
         db.session.commit()
         return team_obj
@@ -88,15 +93,15 @@ def pre_save(diction):
         country_obj = Country.query.filter(Country.country_name == diction['country']).first()
     league_obj = save_league(diction['country'], diction['league'])
     if not league_obj:
-        league_obj = League.filter(League.country_id ==
-                                   country_obj.country.id).filter(League.league_name == diction['league']).first()
-    home_team_obj = save_team(diction['coutry'], diction['league'], diction['home_team'], diction['home_logo_src'])
-    away_team_obj = save_team(diction['coutry'], diction['league'], diction['away_team'], diction['away_logo_src'])
+        league_obj = League.query.filter(League.country_id ==
+                                   country_obj.country_id).filter(League.league_name == diction['league']).first()
+    home_team_obj = save_team(diction['country'], diction['league'], diction['home_team'], diction['home_logo_src'])
+    away_team_obj = save_team(diction['country'], diction['league'], diction['away_team'], diction['away_logo_src'])
     if not home_team_obj:
-        home_team_obj = Team.filter(Team.league_id == league_obj.id).filter(
+        home_team_obj = Team.query.filter(Team.league_id == league_obj.league_id).filter(
             Team.team_name == diction['home_team']).first()
     if not away_team_obj:
-        away_team_obj = Team.filter(Team.league_id == league_obj.id).filter(
+        away_team_obj = Team.query.filter(Team.league_id == league_obj.league_id).filter(
             Team.team_name == diction['away_team']).first()
     return country_obj, league_obj, home_team_obj, away_team_obj
 
@@ -107,10 +112,10 @@ def save_match(diction):
     # check for a duplicate record
     country_obj, league_obj, home_team_obj, away_team_obj = pre_save(diction)
     dup = Match.query.filter(Match.date == diction['date']).filter(Match.time == diction['time']).filter(
-        Match.team_two == away_team_obj.id).filter(Match.team_one == home_team_obj.id).first()
+        Match.team_two == away_team_obj.team_id).filter(Match.team_one == home_team_obj.team_id).first()
     if dup is None:
         # green light
-        match_obj = Match(team_one=home_team_obj.id, team_two=away_team_obj.id, date=diction['date'],
+        match_obj = Match(team_one=home_team_obj.team_id, team_two=away_team_obj.team_id, date=diction['date'],
                           time=diction['time'])
         match_obj.team_one_first_half_goals = diction['home_first_half_goals']
         match_obj.team_two_first_half_goals = diction['away_first_half_goals']
@@ -128,9 +133,10 @@ def save_flagged(diction, *vars):
     """:parameter dict"""
     country_obj, league_obj, home_team_obj, away_team_obj = pre_save(diction)
     flag_obj = Flagged.query.filter(Match.date == diction['date']).filter(Match.time == diction['time']).filter(
-        Match.team_two == away_team_obj.id).filter(Match.team_one == home_team_obj.id).first()
+        Match.team_two == away_team_obj.team_id).filter(Match.team_one == home_team_obj.team_id).first()
     if flag_obj is None:
-        flag_obj = Flagged(team_one=home_team_obj.id, team_two=away_team_obj.id, date=diction['date'],
+        # means that we do not have a record that persists this data in the database
+        flag_obj = Flagged(team_one=home_team_obj.team_id, team_two=away_team_obj.team_id, date=diction['date'],
                            time=diction['time'])
     if not len(vars):
         return
