@@ -33,7 +33,7 @@ def saver_worker(diction):
 
 def save_country(country):
     """:paramter: a string variable of the country name to be saved
-    :returns: True at successful completion of the operation, otherwise will return False
+    :returns: created object at successful completion of the operation, otherwise will return False
     if the country is already existent
     """
     try:

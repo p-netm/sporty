@@ -1,1 +1,117 @@
-{'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}{'mutual': [{'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}, {'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}, {'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}, {'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}, {'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}, {'home_team': 'Corinthians', 'home_logo_src': 'http://i.sportstats.com/EJjZAohQ-4GpinQcR.png', 'time': datetime.time(0, 0), 'away_logo_src': 'http://i.sportstats.com/ObzPomjQ-S2oksqYj.png', 'away_first_half_goals': 0, 'away_match_goals': '0', 'league': 'Campeonato Paulista', 'home_first_half_goals': 2, 'country': 'Brazil', 'away_team': 'Bragantino', 'date': datetime.date(2018, 3, 23), 'home_match_goals': '2', 'away_second_half_goals': 0, 'home_second_half_goals': 0}]}
+import datetime
+{  
+   "home_team":"Corinthians",
+   "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+   "time":datetime.time(0, 0),
+   "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+   "away_first_half_goals":0,
+   "away_match_goals":"0",
+   "league":"Campeonato Paulista",
+   "home_first_half_goals":2,
+   "country":"Brazil",
+   "away_team":"Bragantino",
+   "date":datetime.date(2018, 3, 23),
+   "home_match_goals":"2",
+   "away_second_half_goals":0,
+   "home_second_half_goals":0
+}
+{  
+   "mutual":[  
+      {  
+         "home_team":"Corinthians",
+         "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+         "time":datetime.time(0, 0),
+         "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+         "away_first_half_goals":0,
+         "away_match_goals":"0",
+         "league":"Campeonato Paulista",
+         "home_first_half_goals":2,
+         "country":"Brazil",
+         "away_team":"Bragantino",
+         "date":datetime.date(2018, 3, 23),
+         "home_match_goals":"2",
+         "away_second_half_goals":0,
+         "home_second_half_goals":0
+      },
+      {  
+         "home_team":"Corinthians",
+         "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+         "time":datetime.time(0, 0),
+         "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+         "away_first_half_goals":0,
+         "away_match_goals":"0",
+         "league":"Campeonato Paulista",
+         "home_first_half_goals":2,
+         "country":"Brazil",
+         "away_team":"Bragantino",
+         "date":datetime.date(2018, 3, 23),
+         "home_match_goals":"2",
+         "away_second_half_goals":0,
+         "home_second_half_goals":0
+      },
+      {  
+         "home_team":"Corinthians",
+         "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+         "time":datetime.time(0, 0),
+         "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+         "away_first_half_goals":0,
+         "away_match_goals":"0",
+         "league":"Campeonato Paulista",
+         "home_first_half_goals":2,
+         "country":"Brazil",
+         "away_team":"Bragantino",
+         "date":datetime.date(2018, 3, 23),
+         "home_match_goals":"2",
+         "away_second_half_goals":0,
+         "home_second_half_goals":0
+      },
+      {  
+         "home_team":"Corinthians",
+         "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+         "time":datetime.time(0, 0),
+         "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+         "away_first_half_goals":0,
+         "away_match_goals":"0",
+         "league":"Campeonato Paulista",
+         "home_first_half_goals":2,
+         "country":"Brazil",
+         "away_team":"Bragantino",
+         "date":datetime.date(2018, 3, 23),
+         "home_match_goals":"2",
+         "away_second_half_goals":0,
+         "home_second_half_goals":0
+      },
+      {  
+         "home_team":"Corinthians",
+         "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+         "time":datetime.time(0, 0),
+         "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+         "away_first_half_goals":0,
+         "away_match_goals":"0",
+         "league":"Campeonato Paulista",
+         "home_first_half_goals":2,
+         "country":"Brazil",
+         "away_team":"Bragantino",
+         "date":datetime.date(2018, 3, 23),
+         "home_match_goals":"2",
+         "away_second_half_goals":0,
+         "home_second_half_goals":0
+      },
+      {  
+         "home_team":"Corinthians",
+         "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
+         "time":datetime.time(0, 0),
+         "away_logo_src":"http://i.sportstats.com/ObzPomjQ-S2oksqYj.png",
+         "away_first_half_goals":0,
+         "away_match_goals":"0",
+         "league":"Campeonato Paulista",
+         "home_first_half_goals":2,
+         "country":"Brazil",
+         "away_team":"Bragantino",
+         "date":datetime.date(2018, 3, 23),
+         "home_match_goals":"2",
+         "away_second_half_goals":0,
+         "home_second_half_goals":0
+      }
+   ]
+}
