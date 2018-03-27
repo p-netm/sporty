@@ -9,6 +9,7 @@ pretest.py
 # virtual envnironment files
 /shlEnv/
 /designs/wireframes/Thumbs.db
+/testdata
 
 #editors
 .vscode

@@ -71,7 +71,7 @@ def save_league(country, league):
     return False
 
 
-def save_team(country, league, team, logo):
+def save_team(country, league, team, logo=None):
     """:prameters: the country_name, league_name, and the team_name, all as string
     :returns Boolean if operation successful otherwise false if team already existent"""
     league_obj = League.query.filter_by(league_name=league).first()
@@ -170,10 +170,6 @@ def save_flagged(diction, *vars):
     db.session.add(flag_obj)
     db.session.commit()
     return flag_obj
-
-def retriever():
-    """"""
-    pass
 
 
 def get_team_recent_x(country_name, league_name, home_team=None, away_team=None, x=5, overall=False):
