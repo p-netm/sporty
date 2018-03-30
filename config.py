@@ -30,6 +30,12 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app', 'files', 'database', 'test.db')
 
 
+class DataTestingConfig(Config):
+    DEBUG = True
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'tests', 'fixeddata.db')
+
+
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app', 'files', 'database', 'prod.db')
 
@@ -37,5 +43,6 @@ class ProductionConfig(Config):
 config = {'development': DevelopmentConfig,
           'testing': TestingConfig,
           'production': ProductionConfig,
-          'default': DevelopmentConfig
+          'default': DevelopmentConfig,
+          'datatesting': DataTestingConfig
           }

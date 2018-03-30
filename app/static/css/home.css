@@ -1,23 +1,19 @@
 html{
-    background-color: #f3fcf9;
 }
 body{
     width: 100%;
     /*background:linear-gradient(#0E2337, #153655);*/
     font-family: "Times New roman", sans-serif;
 }
-.main, aside{
-    display: inline-block;
-    float: left;
-    padding: 5px;
+.body-top{
+    min-height: 100vh;
+    background: url('../media/28.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
-.main{
-    width: 75%;
-    border-right:1px solid grey;
-}
-aside{
-    width: 25%;
-    background: #527494;
+.logo{
+    width: 3rem;
 }
 footer{
     clear: both;
@@ -33,28 +29,17 @@ ol li a{
     text-decoration: none;
 
 }
-nav.main-navigation ol li, nav.side-navigation ol li{
-    border-right: 1px groove white;
-    color: blue
-}
 nav.main-navigation ol li{
     width: 12%;
-}
-nav.side-navigation ol li{
-    width: 19%;
-}
-
-nav{
-    background-color:#cecece;
-    display: block;
-
 }
 nav.main-navigation{
     margin-bottom: 5px
 }
-nav.side-navigation{
+.side-navigation{
     width: 80%;
     margin: 0 auto;
+    margin-top: 10px;
+    font-size: 0.95rem;
 }
 table{
     width: 100%;
@@ -85,10 +70,10 @@ header hr{
 .display-filter{
     display: inline-block;
     margin-top: 10px;
-    background: #512978;
+    /*background: #512978;*/
 }
 .display-filter a{
-    background: blue;
+    /*background: blue;*/
     color: #fff;
     display: inline-block;
     padding: 3px 10px;
@@ -100,7 +85,7 @@ header hr{
 
 .data-table{
     padding-top: 5px;
-    background-color: #464646;
+    background-color: transparent;
     padding-bottom: 10px;
 }
 table{
@@ -139,18 +124,18 @@ nav ol li:last-of-type{
 nav ol{
     text-align: center;
 }
-section.subscribe, section.top-teams{
+div.subscribe, section.top-teams{
     padding: 5px;
     font-size: 18px
 }
-section.subscribe h3, p, form{
+div.subscribe h3, p, form{
     margin-bottom: 10px;
 }
-section.subscribe form input{
+div.subscribe form input{
     display: block;
     margin: 0 auto;
 }
-section.subscribe form input[type="button"]{
+div.subscribe form input[type="button"]{
     width: 33%;
     margin: 5px auto;
     background: #512978;
@@ -201,4 +186,21 @@ section.copyright{
     padding: 0;
     margin: 0;
     font-style: italic;
+}
+.trivial-header{
+    color: #a4a4a4;
+    font-size: small;
+}
+.card.top-teams{
+    min-width: 300px;
+    width: 30%;
+    display: inline-block;
+    float: left;
+    margin: 0 auto;
+}
+div.row{
+    margin: 5px auto;
+}
+.transparent{
+    background: transparent;
 }
