@@ -15,7 +15,7 @@ class Team(db.Model):
     team_id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String())
     league_id = db.Column(db.Integer, db.ForeignKey('league.league_id'), nullable=False)
-    logo = db.Column(db.String(), nullable=True, unique=True)
+    logo = db.Column(db.String(), nullable=True)  # can set unique to true
     # the below flag attributes are for top-teams section
     over = db.Column(db.Boolean(), nullable=False, default=False)
     gg = db.Column(db.Boolean(), nullable=False, default=False)

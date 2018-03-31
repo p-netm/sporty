@@ -58,6 +58,17 @@ def scrap_all_links(url):
             refactored_hrefs.append((home_team, away_team, a))
     return refactored_hrefs
 
+def process_league(league_name):
+    """
+    :parameter: a string value representing the name if the scrapped league
+    :returns: the string the preferred format for storage """
+    # for now just need to strip of padding spaces and season info if exists
+    league_name = league_name.strip()
+    season_info_pattern = r'[^\d{4}/\d{4}]'
+    res = ''.join(re.findall(season_info_pattern, league_name))
+    return res.strip()
+
+
 
 def get_specific_match_details(insoup):
     """:parameter: a beautiful soup object of the specific matches' details page
@@ -77,7 +88,7 @@ def get_specific_match_details(insoup):
     country = country_league[len(country_league) - 2].get_text()
 
     match_dict['country'] = country
-    match_dict['league'] = league
+    match_dict['league'] = process_league(league)
 
     teams = insoup.find('h1', class_='hidden').get_text()
     home_team = teams.split('-')[0].strip()
@@ -139,8 +150,11 @@ def retrieve_scores(div):
     # now we format
     full_score_info = full_score_info_div.p.get_text()
     full_score_info = re.findall(r'\S-\S', full_score_info)
-    first_half_scores = full_score_info[0]
-    second_half_scores = full_score_info[1]
+    try:
+        first_half_scores = full_score_info[0]
+        second_half_scores = full_score_info[1]
+    except IndexError as error:
+        return None, None, None, None
     score_pattern = r'\d+'
     home_team_first_half_goals, away_team_first_half_goals = re.findall(score_pattern, first_half_scores)[0], \
                                                              re.findall(score_pattern, first_half_scores)[1]

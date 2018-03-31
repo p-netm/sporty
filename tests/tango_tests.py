@@ -137,7 +137,7 @@ class TangoTests(unittest.TestCase):
         are not quaranteed to have unique names in a more global scope"""
         self.assertEqual(len(Team.query.all()), 0)
         save_team(save['country'], save['league'], save['home_team'], save['home_logo_src'])
-        self.assertTrue(len(Team.query.all()), 1)
+        self.assertEqual(len(Team.query.all()), 1)
         self.assertFalse(save_team(save['country'], save['league'], save['home_team'], save['home_logo_src']))
         self.assertTrue(len(Team.query.all()), 1)
 
@@ -183,3 +183,17 @@ class TangoTests(unittest.TestCase):
         self.assertTrue(len(Flagged.query.all()))
         save_flagged(saveflagged, 'ng')
         self.assertEqual(len(Flagged.query.all()), 1)
+
+        # here am going to add two cases that could have easily gone unnoticed
+    def test_save_past_matches_in_past_seasons(self):
+        """it so happens that my scrap methods will record the same league more than once
+        if it has a prefix or suffice of the season"""
+        # add a record from a match and then add a mutual match that was played in a past different season
+        # check that the league does not increment and the teams too
+        self.assertFalse(len(Match.query.all()))
+        save_match(save)
+        self.assertTrue(len(Match.query.all()))
+        save_match(ancestralpage)
+
+
+    # never checked if the records added to the database was valid data

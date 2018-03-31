@@ -122,7 +122,7 @@ def save_match(diction):
         match_obj.team_one_second_half_goals = diction['home_second_half_goals']
         match_obj.team_two_second_half_goals = diction['away_second_half_goals']
         match_obj.team_one_match_goals = diction['home_match_goals']
-        match_obj.team_two_match_gaols = diction['away_match_goals']
+        match_obj.team_two_match_goals = diction['away_match_goals']
         db.session.add(match_obj)
         db.session.commit()
         return match_obj

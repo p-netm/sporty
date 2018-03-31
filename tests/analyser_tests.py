@@ -39,6 +39,6 @@ class AnalyserTests(unittest.TestCase):
         """say one of the teams recent matches does not reach the threshold"""
         pass
 
-    def test_recent_eavluator(self):
+    def test_recent_evaluator(self):
         """"the abstraction"""
         pass

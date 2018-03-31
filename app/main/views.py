@@ -10,7 +10,7 @@ pages:
 
 from flask import render_template, session, redirect, url_for, request
 from . import main
-from .forms import 
+from .forms import Email
 from .. import db
 from ..models import *
 
