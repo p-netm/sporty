@@ -200,3 +200,9 @@ class ScrapperTest(unittest.TestCase):
         sure trivial hings such as seasons do not confuse our scrapper"""
         self.assertEqual(process_league('OFB Cup 2010/2011'),'OFB Cup')
         self.assertEqual('Erste Liga', process_league('Erste Liga 2016/2017'))
+
+    def test_process_team_name(self):
+        """Some team names are saved as variations of themselves due  to having unnecessary semantic suffixes
+        added to them. We might be dealing with only onse simple case here the team_name has a suffix of its country"""
+        self.assertEqual('FAC Wien', process_team_name('FAC Wien (Aut)'))
+        self.assertEqual('Austria Vienna', process_team_name('Austria Vienna (Aut)'))

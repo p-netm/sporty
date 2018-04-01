@@ -3,6 +3,7 @@ from app import create_app
 from app.models import *
 from app.gears.tango import get_teams_mutual, get_team_recent_x
 from app.gears.tango import saver_worker
+from app.gears.scrapper import process_team_name
 from .match import diction_list
 
 class RetrieverTests(unittest.TestCase):
@@ -15,6 +16,8 @@ class RetrieverTests(unittest.TestCase):
         db.drop_all()
         db.create_all()
         for diction in diction_list:
+            diction['home_team'] = process_team_name(diction['home_team'])
+            diction['away_team'] = process_team_name(diction['away_team'])
             saver_worker(diction)
 
     def tearDown(self):

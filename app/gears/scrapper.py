@@ -4,7 +4,7 @@ import datetime
 import re, os
 import time as Time
 from urllib.parse import urlparse, urljoin
-from errors import *
+from errors import TagError, PatternMatchError
 
 
 def _run_(url):
@@ -68,7 +68,15 @@ def process_league(league_name):
     res = ''.join(re.findall(season_info_pattern, league_name))
     return res.strip()
 
-
+def process_team_name(team_name):
+    """:parameter: the scraped team_name
+    :returns  a copy of the teamname with the unnecessary suffix striped out"""
+    # for now we just need to strtip the white space padding and the country suffix
+    index = team_name.find('(')
+    if index >= 0:
+        return team_name[0:index].strip()
+    else:
+        return team_name.strip()
 
 def get_specific_match_details(insoup):
     """:parameter: a beautiful soup object of the specific matches' details page
