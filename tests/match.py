@@ -1,6 +1,42 @@
 import datetime
 import copy
-saverdata = {  
+######################################## Analyser test data ############################################################
+class ValidData(object):
+    @staticmethod
+    def over():
+        for diction in diction_list:
+            diction['home_match_goals'] = 3
+            diction['away_match_goals'] = 0
+            yield diction
+
+    @staticmethod
+    def gg():
+        for diction in diction_list:
+            diction['home_match_goals'] = 1
+            diction['away_match_goals'] = 1
+            yield diction
+
+    @staticmethod
+    def under():
+        for diction in diction_list:
+            diction['home_match_goals'] = 2
+            diction['away_match_goals'] = 0
+            yield diction
+
+    @staticmethod
+    def ng():
+        for diction in diction_list:
+            diction['home_match_goals'] = 1
+            diction['away_match_goals'] = 0
+            yield diction
+
+class ValidDataThreshhold(object):
+    # 5 matches for valid home matches, 5 vlid away matches, 6 valid mutual matches
+    pass
+
+
+######################################## End of anayleser test data ####################################################
+saverdata = {
    "home_team":"Corinthians",
    "home_logo_src":"http://i.sportstats.com/EJjZAohQ-4GpinQcR.png",
    "time":datetime.time(0, 0),
@@ -165,7 +201,6 @@ ancestralpage = {
 }  # for the tango test
 
 ########################################################################################################################
-
 diction_list = [
     {
         "away_team":"Neustadt",

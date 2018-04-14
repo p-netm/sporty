@@ -7,6 +7,8 @@ from ..models import *
 from .scrapper import _run_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
+import datetime
+from sqlalchemy import desc
 
 
 def saver(url="""http://www.sportstats.com/soccer/matches/"""):
@@ -90,7 +92,8 @@ def pre_save(diction):
     league_obj = save_league(diction['country'], diction['league'])
     if not league_obj:
         league_obj = League.query.filter(League.country_name ==
-                                   country_obj.country_name).filter(League.league_name == diction['league']).first()
+                                         country_obj.country_name).filter(
+            League.league_name == diction['league']).first()
     home_team_obj = save_team(diction['home_team'], diction['home_logo_src'])
     away_team_obj = save_team(diction['away_team'], diction['away_logo_src'])
     if not home_team_obj:
@@ -126,6 +129,7 @@ def save_match(diction):
     except (IntegrityError, FlushError) as error:
         db.session.rollback()
         return False
+
 
 def save_flagged(diction, *vars):
     """:parameter dict"""
@@ -169,32 +173,66 @@ def save_flagged(diction, *vars):
     db.session.commit()
     return flag_obj
 
+def team_name_validator( team_name):
+    """raises a Valueerror if givene parameters are not strings"""
+    if not isinstance(team_name, str):
+        raise ValueError
 
-def get_team_recent_x(home_team=None, away_team=None, x=5, overall=False):
+def get_team_recent_x(home_team=None, away_team=None, x=5, overall=True):
     """extract the past upto x matches that the team has recently participated in"""
     # the matches should have been played within the past 6 years
+    date_threshhold = datetime.date.today() - datetime.timedelta(days=(365 * 5))
     home_matches, away_matches = [], []
     if home_team:
-        home_matches = Match.query.filter(Match.team_one == home_team).limit(x).all()
+        team_name_validator(home_team)
+        home_matches = Match.query.filter(Match.team_one == home_team).filter(Match.date > date_threshhold).order_by(
+            desc(Match.date)).limit(x).all()
         if overall:
-            home_matches = Match.query.filter((Match.team_one == home_team) | (Match.team_two == home_team)).limit(x)
+            home_matches = Match.query.filter((Match.team_one == home_team) | (Match.team_two == home_team)).filter(
+                Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
     if away_team:
-        away_matches = Match.query.filter(Match.team_two == away_team).all().limit(x)
+        team_name_validator(away_team)
+        away_matches = Match.query.filter(Match.team_two == away_team).filter(
+            Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
         if overall:
-            away_matches = Match.query.filter((Match.team_one == away_team) | (Match.team_two == away_team)).limit(x)
+            away_matches = Match.query.filter((Match.team_one == away_team) | (Match.team_two == away_team)).filter(
+                Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
     return {
         'home': home_matches,
         'away': away_matches
-        }
+    }
 
 
-def get_teams_mutual(league_name, home_team, away_team, respective=False, x=6):
+def get_teams_mutual(home_team, away_team, respective=False, x=6):
     """returns a dictionary of the recent 6 mutual matches that were played within the past 5 years"""
+    team_name_validator(home_team)
+    team_name_validator(away_team)
+    date_threshhold = datetime.date.today() - datetime.timedelta(days=(365 * 5))
     if respective:
-        matches = Match.query.filter((Match.team_one == home_team) & (Match.team_two == away_team)).limit(x)
+        matches = Match.query.filter((Match.team_one == home_team) & (Match.team_two == away_team)).filter(
+            Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
         return {
             'mutual': matches
         }
-    matches = Match.query.filter(((Match.team_one == home_team) & (Match.team_two == away_team)) &
-                                 ((Match.team_one == away_team) & (Match.team_two == home_team))).all()
+    matches = Match.query.filter(((Match.team_one == home_team) & (Match.team_two == away_team)) |
+                                 ((Match.team_one == away_team) & (Match.team_two == home_team))).filter(
+        Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
     return {'mutual': matches}
+
+def marshmallow(match_list):
+    """we need to create our function that serializes our match objects from the database to match our scrap
+    format from the website"""
+    for match in match_list:
+        match = {
+           "home_team": match.team_one,
+           "time": match.time,
+           "away_first_half_goals": match.team_two_first_half_goals,
+           "away_match_goals": match.team_two_match_goals,
+           "league":match.league,
+           "home_first_half_goals":match.team_one_first_half_goals,
+           "country":match.country,
+           "away_team":match.team_two,
+           "home_match_goals":match.team_one_match_goals,
+           "away_second_half_goals":match.team_two_second_half_goals,
+           "home_second_half_goals":match.team_one_second_half_goals
+        }

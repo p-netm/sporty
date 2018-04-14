@@ -2,6 +2,7 @@
 		Solely test the scrapper functionality
 """
 import unittest
+import os
 from app.gears.scrapper import *
 from validators import url
 
