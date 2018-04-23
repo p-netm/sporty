@@ -47,9 +47,9 @@ def ov(diction, market='ov'):
 def recent_evaluator(match_list, index, frac, market):
     if len(match_list) > 4:
         for match in match_list:
-            if market == 'un' and sum(match['home_match_goals'], match['away_match_goals']) < 2.5:
+            if market == 'un' and sum([match['home_match_goals'], match['away_match_goals']]) < 2.5:
                 index += 1
-            elif market == 'ov' and sum(match['home_match_goals'], match['away_match_goals']) > 2.5:
+            elif market == 'ov' and sum([match['home_match_goals'], match['away_match_goals']]) > 2.5:
                 index += 1
         frac = index / len(match_list)
     return index, frac
@@ -66,7 +66,8 @@ def recent_evaluator_for_g(match_list, index, frac, market):
         for match in match_list:
             if market == 'gg' and match['home_match_goals'] and match['away_match_goals']:
                 index += 1
-            elif market == 'ng' and not match['home_match_goals'] and match['away_match_goals']:
+            elif market == 'ng' and ((not match['home_match_goals'] and match['away_match_goals']) or
+                                     (match['home_match_goals'] and not match['away_match_goals'])):
                 index += 1
         frac = index / len(match_list)
     return index, frac
@@ -80,8 +81,8 @@ def mini_evaluator(diction, market):
     full_index = 0
     if market != 'gg' or market != 'ng':
         mutual_goals_index = sum(
-            [sum(match['home_match_goals'], match['away_match_goals']) for match in diction['mutual']])
-        no_ = len([sum(match['home_match_goals'], match['away_match_goals']) for match in diction['mutual']])
+            [sum([match['home_match_goals'], match['away_match_goals']]) for match in diction['mutual']])
+        no_ = len([sum([match['home_match_goals'], match['away_match_goals']]) for match in diction['mutual']])
         mutual_goals_frac = mutual_goals_index / no_
     if market == 'un':
         mutual_goals_frac = (3 * no_ - mutual_goals_index) / no_

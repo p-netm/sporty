@@ -222,17 +222,18 @@ def get_teams_mutual(home_team, away_team, respective=False, x=6):
 def marshmallow(match_list):
     """we need to create our function that serializes our match objects from the database to match our scrap
     format from the website"""
+    result_list = []
     for match in match_list:
-        match = {
+        result_list.append({
            "home_team": match.team_one,
            "time": match.time,
+           "date": match.date,
            "away_first_half_goals": match.team_two_first_half_goals,
            "away_match_goals": match.team_two_match_goals,
-           "league":match.league,
            "home_first_half_goals":match.team_one_first_half_goals,
-           "country":match.country,
            "away_team":match.team_two,
            "home_match_goals":match.team_one_match_goals,
            "away_second_half_goals":match.team_two_second_half_goals,
            "home_second_half_goals":match.team_one_second_half_goals
-        }
+        })
+    return result_list

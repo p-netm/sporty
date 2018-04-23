@@ -1,43 +1,24 @@
 import unittest
+from .analysertestdata import qualifiedov, qualifiedun, qualifiedgg, qualifiedng
+from app.gears.analyser import ov, un, gg, ng
 
 class AnalyserTests(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def TearDown(self):
-        pass
 
     def test_ov_function_with_full_data(self):
         """"all dictionary fields are well supplied with the required data"""
-        pass
-
-    def test_ov_function_with_unfull_data(self):
-        """say one of the teams recent matches does not reach the threshold"""
-        pass
+        self.assertTrue(ov(qualifiedov))
 
     def test_un_function_with_full_data(self):
         """"all dictionary fields are well supplied with the required data"""
-        pass
-
-    def test_un_function_with_unfull_data(self):
-        """say one of the teams recent matches does not reach the threshold"""
-        pass
-
+        self.assertTrue(un(qualifiedun))
+        
     def test_gg_function_with_full_data(self):
         """"all dictionary fields are well supplied with the required data"""
-        pass
-
-    def test_gg_function_with_unfull_data(self):
-        """say one of the teams recent matches does not reach the threshold"""
-        pass
+        self.assertTrue(gg(qualifiedgg))
 
     def test_ng_function_with_full_data(self):
         """"all dictionary fields are well supplied with the required data"""
-        pass
-
-    def test_ng_function_with_unfull_data(self):
-        """say one of the teams recent matches does not reach the threshold"""
-        pass
+        self.assertTrue(ng(qualifiedng))
 
     def test_recent_evaluator(self):
         """"the abstraction"""
