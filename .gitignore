@@ -10,6 +10,8 @@ pretest.py
 /shlEnv/
 /designs/wireframes/Thumbs.db
 /testdata
+/projects
+test.log
 
 #editors
 .vscode

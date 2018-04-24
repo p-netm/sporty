@@ -113,3 +113,9 @@ class Flagged(db.Model):
         return '<{} {} {} {} {} 1.{} x.{} 2.{}>'.format(self.flag_id, self.team_one, self.team_two, self.date, self.time,
                                                         self._1, self._x, self._2)
     
+class SubscribedEmail(db.Model):
+    email = db.Column(db.String(), primary_key=True)
+    
+    def __repr__(self):
+        return '<email {}>'.format(self.email)
+    

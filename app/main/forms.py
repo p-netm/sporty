@@ -13,6 +13,3 @@ class Email(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), InputRequired(), Email()])
     submit = SubmitField('subscribe')
     
-class DateFilter(FlaskForm):
-    """Decision pending"""
-    pass
