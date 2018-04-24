@@ -90,6 +90,8 @@ def mini_evaluator(diction, market):
     if market  == 'ov' or market == 'un':
         full_index = (home_frac * 5) / 5 * (away_frac * 5) / 5 * (mutual_frac * 6) / 6 * ((mutual_goals_frac * 6) / 6) / 2.5
         threshhold = 0.3675
+        if market == 'un':
+            threshhold = 0.147
     if market == 'gg' or market == 'ng':
         full_index = (home_frac * 5) / 5 * (away_frac * 5) / 5 * (mutual_frac * 6) / 6
         threshhold = 0.48
