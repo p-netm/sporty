@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Data transmission testing</title>
+    </head>
+    <body>
+        <form action="{{url_for('main.index')}}" method="post">
+            <label>email: <input type="email" name="email" id="email"></label>
+            <input type="button" id="submit" value="submit">
+        </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(main);
+            function main(){
+                $('#submit').click(function(){
+                    email_obj = {
+                        email : $('#email').val()
+                    };
+                    $.ajax('http://port-9000.sporty-pmuriuki98873352.codeanyapp.com/',
+                           {
+                                method: "POST",
+                                headers: {
+                                        'Content-Type':'application/json'
+                                    },
+                                success: function(data, status){
+                                console.log(data);
+                                console.log(status);
+                            },
+                            dataType: "json",
+                            processData: false
+                            
+
+                            }
+                          );
+            };
+                                   }
+        </script>
+    </body>
+</html>
