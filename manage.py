@@ -13,7 +13,7 @@ migrate = Migrate(app, db)
 def make_shell_content():
     return dict(app=app, db=db, Team=Team, Match=Match)
 
-manager.add_command('runserver', Server(host='0.0.0.0', port='9000')) # use when developing on codeanywhere
+# manager.add_command('runserver', Server(host='0.0.0.0', port='9000')) # use when developing on codeanywhere
 manager.add_command('shell', Shell(make_context=make_shell_content))
 manager.add_command('db', MigrateCommand)
 

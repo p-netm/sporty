@@ -42,24 +42,20 @@ def index():
     """
     We have an email subscription form and possible sijax integration
     """
-    
-    json_bytes = request.get_data()
-    json_data = (json_bytes.decode('utf-8'))
     if request.method == 'POST':
-        print(json_data)
-        import pdb; pdb.set_trace()
-        subscribed_email = json_data
+        subscribed_email = request.form.get('email')
         if subscribed_email is not None:
             try:
-                raise KeyError
                 new_subscriber = SubscribedEmail(email=subscribed_email)
                 db.session.add(new_subscriber)
                 db.session.commit()
-            except(FlushError, IntegrityError, KeyError):
-                jsonify({
+            except(FlushError, IntegrityError):
+                return jsonify({
+                    'status': 'bad',
                 'message': 'Email is already subscribed'
             })
             return jsonify({
+                'status': 'ok',
                 'message': 'Email succesfully subscribed'
             })
     return render_template('email.html'), 200
