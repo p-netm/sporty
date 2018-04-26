@@ -3,6 +3,7 @@ unlike for the eanmble ts, te eanmble sp will be a bit different due the increas
 data manipulations involved in getting to a reasonable fixture prediction analysis
 """
 from . import db
+from marshmallow import Schema, fields
 
 
 class Team(db.Model):
@@ -25,6 +26,10 @@ class Team(db.Model):
     def __repr__(self):
         """formats a string into an arbitrary string presentation"""
         return '<Team {}>'.format(self.team_name)
+    
+class TeamSchema(Schema):
+    team_name = fields.Str()
+    logo = fields.Str()
     
     
 class Country(db.Model):
@@ -74,8 +79,9 @@ class Leam(db.Model):
 class Match(db.Model):
     """:realation: one match will involves two teams"""
     match_id = db.Column(db.Integer, primary_key=True)
-    team_one = db.Column(db.Integer, db.ForeignKey('team.team_name'), nullable=False)
-    team_two = db.Column(db.Integer, db.ForeignKey('team.team_name'), nullable=False)
+    team_one = db.Column(db.String(), db.ForeignKey('team.team_name'), nullable=False)
+    team_two = db.Column(db.String(), db.ForeignKey('team.team_name'), nullable=False)
+    league_id = db.Column(db.Integer, db.ForeignKey('league.league_id'), nullable=False)
     date = db.Column(db.Date(), nullable=False)
     time = db.Column(db.Time(), nullable=False)
     team_one_first_half_goals = db.Column(db.Integer, nullable=True)
@@ -92,11 +98,13 @@ class Match(db.Model):
         return '<Match {} {} {} {} {} {} {}>'.format(self.match_id, self.team_one, self.team_two, self.date, self.time,
                                            self.team_one_match_goals, self.team_two_match_goals)
     
+    
 class Flagged(db.Model):
     """:relation just as that of a match, involves two matches"""
     flag_id = db.Column(db.Integer, primary_key=True)
-    team_one = db.Column(db.Integer, db.ForeignKey('team.team_name'), nullable=False)
-    team_two = db.Column(db.Integer, db.ForeignKey('team.team_name'), nullable=False)
+    team_one = db.Column(db.String(), db.ForeignKey('team.team_name'), nullable=False)
+    team_two = db.Column(db.String(), db.ForeignKey('team.team_name'), nullable=False)
+    league_id = db.Column(db.Integer, db.ForeignKey('league.league_id'), nullable=False)
     date = db.Column(db.Date(), nullable=False)
     time = db.Column(db.Time(), nullable=False)
     over = db.Column(db.Boolean(), nullable=False, default=False)
@@ -112,6 +120,12 @@ class Flagged(db.Model):
         """This is pretty basic"""
         return '<{} {} {} {} {} 1.{} x.{} 2.{}>'.format(self.flag_id, self.team_one, self.team_two, self.date, self.time,
                                                         self._1, self._x, self._2)
+
+class FlaggedSchema(Schema):
+    team_one = fields.Str()
+    team_two = fields.Str()
+    date = fields.Date()
+    time = fields.Time()
     
 class SubscribedEmail(db.Model):
     email = db.Column(db.String(), primary_key=True)

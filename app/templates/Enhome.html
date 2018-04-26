@@ -5,13 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eanmblesp</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kotta+One">
-    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
-    <link rel="stylesheet" href="assets/css/Newsletter-Subscription-Form.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/shards.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Footer-Clean.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Newsletter-Subscription-Form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shards.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
 
 </head>
 
@@ -29,15 +30,15 @@
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs nav-justified card-header-tabs" id="dates">
-                                <li class="nav-item"><a class="nav-link" href="#">yesterday</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">yesterday</a></li>
-                                <li class="nav-item"><a class="nav-link active" href="#">today</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">tomorrow</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">tomorrow</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#"><time datetime="">yesterday</time></a></li>
+                                <li class="nav-item"><a class="nav-link" href="#"><time datetime="">yesterday</time></a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#"><time datetime="">yesterday</time></a></li>
+                                <li class="nav-item"><a class="nav-link" href="#"><time datetime="">yesterday</time></a></li>
+                                <li class="nav-item"><a class="nav-link" href="#"><time datetime="">yesterday</time></a></li>
                             </ul>
                         </div>
                         <div class="card-body" id="dates-card-body">
-                            <h6 class="card-subtitle" id="stats-date">date: 23rd march 2018.</h6>
+                            
                             <section id="date-market-section">
                                 <ul class="nav nav-tabs nav-justified" id="markets">
                                     <li class="nav-item"><a class="nav-link active" href="#">over 25</a></li>
@@ -46,25 +47,56 @@
                                     <li class="nav-item"><a class="nav-link" href="#">gg</a></li>
                                 </ul>
                                 <section id="stats-section">
+                                    <div class="display-filter">
+                    <a class="active" href="">kickoff</a>
+                    <a href="">league name</a>
+                </div>
                                     <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Column 1</th>
-                                                    <th>Column 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Cell 1</td>
-                                                    <td>Cell 2</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Cell 3</td>
-                                                    <td>Cell 4</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <table class="">
+                        <thead class="date">
+                        <tr>
+                            <td colspan="4"><h6 class="card-subtitle" id="stats-date">date: 23rd march 2018.</h6></td>
+                        </tr>
+                        </thead>
+                        <thead class="breadcrumps">
+                        <tr>
+                            <td colspan="4">soccer > country > league</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>time</td>
+                            <td>home-team</td>
+                            <td> -</td>
+                            <td>away-team</td>
+                        </tr>
+                        </tbody>
+                        <thead class="breadcrumps">
+                        <tr>
+                            <td colspan="4">soccer > country > league</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>time</td>
+                            <td>home-team</td>
+                            <td> -</td>
+                            <td>away-team</td>
+                        </tr>
+                        <tr>
+                            <td>time</td>
+                            <td>home-team</td>
+                            <td> -</td>
+                            <td>away-team</td>
+                        </tr>
+                        <tr>
+                            <td>time</td>
+                            <td>home-team</td>
+                            <td> -</td>
+                            <td>away-team</td>
+                        </tr>
+                        </tbody>                        
+                    </table>
                                     </div>
                                 </section>
                             </section>
@@ -89,7 +121,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <img class="card-img-top" src="images/sample.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title">TOP OVER 25 TEAMs</h4>
                             <section class="top-teams">
@@ -112,7 +144,7 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <img class="card-img-top" src="images/sample.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title">Sample Card Title</h4>
                             <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed in his length hid...</p>
@@ -122,7 +154,7 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <img class="card-img-top" src="images/sample.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title">Sample Card Title</h4>
                             <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed in his length hid...</p>
@@ -168,9 +200,17 @@
             </div>
         </footer>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/shards.min.js"></script>
+    
+    <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static', filename='js/shards.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 
 </html>

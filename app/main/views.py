@@ -17,13 +17,15 @@ import datetime, json
 def links():
     """create the filter links name and values,"""
     today = datetime.date.today()
-    links_values = [today + datetime.timedelta(days=counter) for counter in range(-3,4,1)]
+    links_values = [(today + datetime.timedelta(days=counter)).strftime('%Y-%m-%d') for counter in range(-2,3,1)]
     markets = ['over', 'under', 'bts yes', 'bts no']
+    return [links_values, markets]
     
 def get_flagged_fixtures(date_obj):
     if not isinstance(date_obj, datetime.date):
         raise TypeError('expected {}, got {}'.format('datetime.date','type(date_obj)'))
     fixtures = Flagged.query.filter(Flagged.date == date_obj).all()
+    return 
     
 def get_teams(market):
     top_over = Team.query.filter(Team.ov == True).all()
@@ -35,6 +37,13 @@ def get_teams(market):
                   'top_gg': top_gg,
                   'top_ng': top_ng}
     return result_dict
+
+def package():
+    links, markets = links()
+    return {
+        'dates_nav': links,
+        'markets'  : markets,
+    }
     
 
 @main.route('/', methods = ['GET', 'POST'])
@@ -58,7 +67,7 @@ def index():
                 'status': 'ok',
                 'message': 'Email succesfully subscribed'
             })
-    return render_template('email.html'), 200
+    return render_template('Enhome.html'), 200
 
 @main.route('/terms')
 def terms():
