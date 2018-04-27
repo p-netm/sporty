@@ -9,7 +9,7 @@ pages:
 from flask import render_template, session, redirect, url_for, request, jsonify
 from . import main
 from .. import db
-from ..gears.tango import get_matches
+from ..gears.tango import get_matches, get_teams
 from ..models import Flagged, Team, SubscribedEmail
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
@@ -24,19 +24,15 @@ def _links():
     
 def get_flagged_fixtures(date_obj):
     if not isinstance(date_obj, datetime.date):
-        raise TypeError('expected {}, got {}'.format('datetime.date','type(date_obj)'))
-    fixtures = get_matches(Flagged, datetime)
+        raise TypeError('expected {}, got {}'.format('datetime.date', type(date_obj)))
+    fixtures = get_matches(Flagged, date_obj)
     return fixtures
     
-def get_teams(market):
-    top_over = Team.query.filter(Team.ov == True).all()
-    top_under = Team.query.filter(Team.un == True).all()
-    top_gg = Team.query.filter(Team.gg == True).all()
-    top_ng = Team.query.filter(Team.ng == True).all()
-    result_dict = {'top-over': top_over,
-                  'top_under': top_under,
-                  'top_gg': top_gg,
-                  'top_ng': top_ng}
+def teams():
+    result_dict = {'top-over': get_teams(over=True),
+                  'top_under': get_teams(under=True),
+                  'top_gg': get_teams(gg=True),
+                  'top_ng': get_teams(ng=True)}
     return result_dict
 
 def package():
@@ -44,6 +40,8 @@ def package():
     return {
         'dates_nav': links,
         'markets'  : markets,
+        'teams_dict-list': teams(),
+        'match_stats': get_flagged_fixtures(datetime.date.today())
     }
     
 
@@ -54,6 +52,9 @@ def index():
     """
     if request.method == 'POST':
         subscribed_email = request.form.get('email')
+        full_data = request.form.get('full_data')
+        if full_data is not None:
+            return jsonify(package())
         if subscribed_email is not None:
             try:
                 new_subscriber = SubscribedEmail(email=subscribed_email)
@@ -68,7 +69,7 @@ def index():
                 'status': 'ok',
                 'message': 'Email succesfully subscribed'
             })
-    return render_template('Enhome.html'), 200
+    return render_template('sample.html'), 200
 
 @main.route('/terms')
 def terms():

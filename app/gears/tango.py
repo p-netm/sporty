@@ -219,20 +219,33 @@ def get_teams_mutual(home_team, away_team, respective=False, x=6):
         Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
     return {'mutual': matches}
 
-def explain(match):
-    return {
-        "home_team": match.team_one,
-        "time": match.time,
-        "date": match.date,
-        "league": match.league_id,  # probably should not display the league_id here, it is meaningless
-        "away_first_half_goals": match.team_two_first_half_goals,
-        "away_match_goals": match.team_two_match_goals,
-        "home_first_half_goals": match.team_one_first_half_goals,
-        "away_team": match.team_two,
-        "home_match_goals": match.team_one_match_goals,
-        "away_second_half_goals": match.team_two_second_half_goals,
-        "home_second_half_goals": match.team_one_second_half_goals
-    }
+def explain(obj, view=False):
+    if isinstance(obj, Match):
+        _date = obj.date
+        _time = obj.time
+        if view:
+            _date = _date.strftime('%Y-%m-%d')
+            _time = _time.strftime('%H:%M')
+        return {
+            "home_team": obj.team_one,
+            "time": _date,
+            "date": _time,
+            "league": obj.league_id,  # probably should not display the league_id here, it is meaningless
+            "away_first_half_goals": obj.team_two_first_half_goals,
+            "away_match_goals": obj.team_two_match_goals,
+            "home_first_half_goals": obj.team_one_first_half_goals,
+            "away_team": obj.team_two,
+            "home_match_goals": obj.team_one_match_goals,
+            "away_second_half_goals": obj.team_two_second_half_goals,
+            "home_second_half_goals": obj.team_one_second_half_goals
+        }
+    elif isinstance(obj, Team):
+        return {
+            "team_name": obj.team_name,
+            "logo": obj.logo
+        }
+    else:
+        raise TypeError('only Match and Team objects can be explained into dicts, got {}'.format(type(obj)))
 
 def marshmallow(match_list):
     """we need to create our function that serializes our match objects from the database to match our scrap
@@ -243,14 +256,25 @@ def marshmallow(match_list):
     return result_list
 
 def get_matches(model, date_obj):
-    res = model.query.join(League, Match.league_id == League.league_id).\
+    res = model.query.join(League, model.league_id == League.league_id).\
         join(Country, Country.country_name == League.country_name).\
-        with_entities(League.league_name, Match, Country.country_name).\
-        filter(Match.date == date_obj).all()
+        with_entities(League.league_name, model, Country.country_name).\
+        filter(model.date == date_obj).all()
     result_list = []
     for collection in res:
-        match_dict = explain(collection[1])
+        match_dict = explain(collection[1], view=True)
         match_dict["country"] = collection[2]
         match_dict["league"] = collection[0]
         result_list.append(match_dict)
     return result_list
+
+def get_teams(over=False, under=False, gg=False, ng=False):
+    res = Team.query
+    if over:
+        return list(map(explain, res.filter(Team.over == True).all()))
+    elif under:
+        return list(map(explain, res.filter(Team.under == True).all()))
+    elif gg:
+        return list(map(explain, res.filter(Team.ng == True).all()))
+    elif ng:
+        return list(map(explain, res.filter(Team.ng == True).all()))
