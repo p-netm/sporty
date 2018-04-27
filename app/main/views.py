@@ -9,12 +9,13 @@ pages:
 from flask import render_template, session, redirect, url_for, request, jsonify
 from . import main
 from .. import db
+from ..gears.tango import get_matches
 from ..models import Flagged, Team, SubscribedEmail
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
 import datetime, json
 
-def links():
+def _links():
     """create the filter links name and values,"""
     today = datetime.date.today()
     links_values = [(today + datetime.timedelta(days=counter)).strftime('%Y-%m-%d') for counter in range(-2,3,1)]
@@ -24,8 +25,8 @@ def links():
 def get_flagged_fixtures(date_obj):
     if not isinstance(date_obj, datetime.date):
         raise TypeError('expected {}, got {}'.format('datetime.date','type(date_obj)'))
-    fixtures = Flagged.query.filter(Flagged.date == date_obj).all()
-    return 
+    fixtures = get_matches(Flagged, datetime)
+    return fixtures
     
 def get_teams(market):
     top_over = Team.query.filter(Team.ov == True).all()
@@ -39,7 +40,7 @@ def get_teams(market):
     return result_dict
 
 def package():
-    links, markets = links()
+    links, markets = _links()
     return {
         'dates_nav': links,
         'markets'  : markets,

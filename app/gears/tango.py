@@ -116,7 +116,7 @@ def save_match(diction):
     country_obj, league_obj, home_team_obj, away_team_obj = pre_save(diction)
     try:
         match_obj = Match(team_one=home_team_obj.team_name, team_two=away_team_obj.team_name, date=diction['date'],
-                          time=diction['time'])
+                          time=diction['time'], league_id=league_obj.league_id)
         match_obj.team_one_first_half_goals = diction['home_first_half_goals']
         match_obj.team_two_first_half_goals = diction['away_first_half_goals']
         match_obj.team_one_second_half_goals = diction['home_second_half_goals']
@@ -139,7 +139,7 @@ def save_flagged(diction, *vars):
     if flag_obj is None:
         # means that we do not have a record that persists this data in the database
         flag_obj = Flagged(team_one=home_team_obj.team_name, team_two=away_team_obj.team_name, date=diction['date'],
-                           time=diction['time'])
+                           time=diction['time'], league_id=league_obj.league_id)
     if not len(vars):
         return
     for arg in vars:
@@ -219,21 +219,38 @@ def get_teams_mutual(home_team, away_team, respective=False, x=6):
         Match.date > date_threshhold).order_by(desc(Match.date)).limit(x).all()
     return {'mutual': matches}
 
+def explain(match):
+    return {
+        "home_team": match.team_one,
+        "time": match.time,
+        "date": match.date,
+        "league": match.league_id,  # probably should not display the league_id here, it is meaningless
+        "away_first_half_goals": match.team_two_first_half_goals,
+        "away_match_goals": match.team_two_match_goals,
+        "home_first_half_goals": match.team_one_first_half_goals,
+        "away_team": match.team_two,
+        "home_match_goals": match.team_one_match_goals,
+        "away_second_half_goals": match.team_two_second_half_goals,
+        "home_second_half_goals": match.team_one_second_half_goals
+    }
+
 def marshmallow(match_list):
     """we need to create our function that serializes our match objects from the database to match our scrap
     format from the website"""
     result_list = []
     for match in match_list:
-        result_list.append({
-           "home_team": match.team_one,
-           "time": match.time,
-           "date": match.date,
-           "away_first_half_goals": match.team_two_first_half_goals,
-           "away_match_goals": match.team_two_match_goals,
-           "home_first_half_goals":match.team_one_first_half_goals,
-           "away_team":match.team_two,
-           "home_match_goals":match.team_one_match_goals,
-           "away_second_half_goals":match.team_two_second_half_goals,
-           "home_second_half_goals":match.team_one_second_half_goals
-        })
+        result_list.append(explain(match))
+    return result_list
+
+def get_matches(model, date_obj):
+    res = model.query.join(League, Match.league_id == League.league_id).\
+        join(Country, Country.country_name == League.country_name).\
+        with_entities(League.league_name, Match, Country.country_name).\
+        filter(Match.date == date_obj).all()
+    result_list = []
+    for collection in res:
+        match_dict = explain(collection[1])
+        match_dict["country"] = collection[2]
+        match_dict["league"] = collection[0]
+        result_list.append(match_dict)
     return result_list

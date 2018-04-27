@@ -1,7 +1,7 @@
 import unittest, os
 from app import create_app, db
 from app.models import *
-from app.gears.tango import get_teams_mutual, get_team_recent_x
+from app.gears.tango import get_teams_mutual, get_team_recent_x, get_matches
 from app.gears.tango import saver_worker
 from app.gears.scrapper import process_team_name
 from app.models import Match
@@ -186,3 +186,12 @@ class RetrieverTests(unittest.TestCase):
             self.assertGreater(match.date, datetime.date.today() - datetime.timedelta(days=(365 * 5)))
             self.assertEqual('FAC Wien', match.team_one)
             self.assertEqual('Kapfenberg', match.team_two)
+
+    def test_get_matches(self):
+        res = get_matches(Match, datetime.date(2018, 3, 12))
+        self.assertEqual(1, len(res))
+        import random
+        self.assertIsInstance(random.choice(res), dict)
+        res = get_matches(Match, datetime.date(2018, 3, 9))
+        self.assertIsInstance(random.choice(res), dict)
+        self.assertEqual(2, len(res))

@@ -3,7 +3,6 @@ unlike for the eanmble ts, te eanmble sp will be a bit different due the increas
 data manipulations involved in getting to a reasonable fixture prediction analysis
 """
 from . import db
-from marshmallow import Schema, fields
 
 
 class Team(db.Model):
@@ -26,10 +25,6 @@ class Team(db.Model):
     def __repr__(self):
         """formats a string into an arbitrary string presentation"""
         return '<Team {}>'.format(self.team_name)
-    
-class TeamSchema(Schema):
-    team_name = fields.Str()
-    logo = fields.Str()
     
     
 class Country(db.Model):
@@ -121,12 +116,6 @@ class Flagged(db.Model):
         return '<{} {} {} {} {} 1.{} x.{} 2.{}>'.format(self.flag_id, self.team_one, self.team_two, self.date, self.time,
                                                         self._1, self._x, self._2)
 
-class FlaggedSchema(Schema):
-    team_one = fields.Str()
-    team_two = fields.Str()
-    date = fields.Date()
-    time = fields.Time()
-    
 class SubscribedEmail(db.Model):
     email = db.Column(db.String(), primary_key=True)
     
