@@ -52,7 +52,8 @@ def index():
     """
     if request.method == 'POST':
         subscribed_email = request.form.get('email')
-        full_data = request.form.get('full_data')
+        full_data = request.form.get('data')
+        import pdb; pdb.set_trace()
         if full_data is not None:
             return jsonify(package())
         if subscribed_email is not None:
@@ -69,7 +70,7 @@ def index():
                 'status': 'ok',
                 'message': 'Email succesfully subscribed'
             })
-    return render_template('sample.html'), 200
+    return render_template('Enhome.html'), 200
 
 @main.route('/terms')
 def terms():
