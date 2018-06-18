@@ -40,8 +40,7 @@ def package():
     return {
         'dates_nav': links,
         'markets'  : markets,
-        'teams_dict-list': teams(),
-        'match_stats': get_flagged_fixtures(datetime.date.today())
+        'teams_dict-list': teams()
     }
     
 
@@ -52,11 +51,10 @@ def index():
     """
     if request.method == 'POST':
         subscribed_email = request.form.get('email')
-        full_data = request.form.get('data')
-        import pdb; pdb.set_trace()
-        if full_data is not None:
+        full_data = request.form.get('requestData')
+        if full_data:
             return jsonify(package())
-        if subscribed_email is not None:
+        if subscribed_email:
             try:
                 new_subscriber = SubscribedEmail(email=subscribed_email)
                 db.session.add(new_subscriber)

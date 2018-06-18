@@ -91,3 +91,23 @@ thead.date tr td{
 .transparent{
     background: transparent;
 }
+#top-div{
+    padding-bottom: 20px;
+}
+.intro, .card{
+    margin-bottom: 10px;
+}
+#center-div{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+.subscription-form{
+    text-align: center;
+}
+.subscription-form form-group{
+    margin-bottom: 0;
+}
+.card img{
+    max-height: 200px;
+}
