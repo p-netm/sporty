@@ -18,14 +18,21 @@ import datetime, json
 def _links():
     """create the filter links name and values,"""
     today = datetime.date.today()
-    links_values = [(today + datetime.timedelta(days=counter)).strftime('%Y-%m-%d') for counter in range(-2,3,1)]
+    links_values = [(today + datetime.timedelta(days=counter)).strftime('%Y-%m-%d') for counter in range(-2, 3, 1)]
     markets = ['over', 'under', 'bts yes', 'bts no']
     return [links_values, markets]
     
-def get_flagged_fixtures(date_obj):
+def get_flagged_fixtures(date_obj, market):
     if not isinstance(date_obj, datetime.date):
         raise TypeError('expected {}, got {}'.format('datetime.date', type(date_obj)))
-    fixtures = get_matches(Flagged, date_obj)
+    if market == "over":
+        fixtures = get_matches(Flagged, date_obj, over=True)
+    if market == "under":
+        fixtures = get_matches(Flagged, date_obj, under=True)
+    if market == "gg":
+        fixtures = get_matches(Flagged, date_obj, gg=True)
+    if market == "ng":
+        fixtures = get_matches(Flagged, date_obj, ng=True)
     return fixtures
     
 def teams():
@@ -52,6 +59,9 @@ def index():
     if request.method == 'POST':
         subscribed_email = request.form.get('email')
         full_data = request.form.get('requestData')
+        _date = request.form.get("date")
+        market = request.form.get("market")
+
         if full_data:
             return jsonify(package())
         if subscribed_email:
@@ -62,17 +72,24 @@ def index():
             except(FlushError, IntegrityError):
                 return jsonify({
                     'status': 'bad',
-                'message': 'Email is already subscribed'
-            })
+                    'message': 'Email is already subscribed'
+                })
             return jsonify({
                 'status': 'ok',
                 'message': 'Email succesfully subscribed'
             })
+        if _date and market:
+            # we need to return data for a certain date for the specified market
+            date_obj = datetime.strptime(_date, '%Y-%m-%d')
+            return jsonify({
+                'tips': get_flagged_fixtures(date_obj, market)
+            })
+
     return render_template('Enhome.html'), 200
 
 @main.route('/terms')
 def terms():
-    """terms and lisence page"""
+    """terms and license page"""
     pass
 
 @main.route('/unsubscribe/<token>')
@@ -86,4 +103,4 @@ def unsubscribe(token):
         pass
     else:
         SubscribedEmail.remove(res)
-        db.session
+        db.session.commit()

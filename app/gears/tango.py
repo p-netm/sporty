@@ -255,12 +255,25 @@ def marshmallow(match_list):
         result_list.append(explain(match))
     return result_list
 
-def get_matches(model, date_obj):
-    res = model.query.join(League, model.league_id == League.league_id).\
+
+def get_matches(model, date_obj, over=False, under=False, gg=False, ng=False):
+    partial_res = model.query.join(League, model.league_id == League.league_id).\
         join(Country, Country.country_name == League.country_name).\
         with_entities(League.league_name, model, Country.country_name).\
-        filter(model.date == date_obj).all()
+        filter(model.date == date_obj)
     result_list = []
+    if model == Flagged:
+        if over:
+            res = partial_res.filter(model.over == True).all()
+        if under:
+            res = partial_res.filter(model.under == True).all()
+        if gg:
+            res = partial_res.filter(model.gg == True).all()
+        if ng:
+            res = partial_res.filter(model.ng == True).all()
+    else:
+        res = partial_res.all()
+
     for collection in res:
         match_dict = explain(collection[1], view=True)
         match_dict["country"] = collection[2]

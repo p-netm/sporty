@@ -16,7 +16,8 @@ function tabulateData(data){
 function populateStatsForDates(){
     console.log(this, 'i was clicked');
     //get the values of the active dates and markets tab and create an ajax request
-    dateString = this.attr("datetime");
+    thisTimeTag = $(this);
+    dateString = thisTimeTag.attr("datetime");
     market = $('#markets li a.active').val();
     $.ajax(window.location.href, {
         method : "POST",
@@ -26,14 +27,16 @@ function populateStatsForDates(){
         }
     }).done(function (data){
         // place data in the table
-        console.log(data);
+        $('#dates li a.active').removeClass("active");
+        thisTimeTag.parent().addClass("active");
         tabulateData(data.tips);
     });
 }
 
 function populateStatsForMarkets(){
     console.log(this, 'market was clicked');
-    market = this.val();
+    thisMarketTag = $(this);
+    market = thisMarketTag.val();
     dateString = $('#dates li a.active time').attr('datetime');
     $.ajax(window.location.href, {
         method : "POST",
@@ -43,38 +46,36 @@ function populateStatsForMarkets(){
         }
     }).done(function (data){
         // place data in the table
+        //toggle the active class
         console.log(data);
         tabulateData(data.tips);
     });
 }
 
 function withData(data){
-    alert('Data is currently being displayed');
     datesNavigation = data.dates_nav;
     marketNavigation = data.markets;
     setDatesNavigation(datesNavigation);
     setMarketsNavigation(marketNavigation);
-    console.log(data);
 }
+
 function setDatesNavigation(alist){
-    //populate the dates navigation with the correct data, bind the required event listeners
-    var anchorTags = $('#dates li a time')
-    for (var forCounter = 0; forCounter < alist.length; forCounter++){
-        //modify the datetime attr and the html value
-        anchorTags[forCounter].InnerHTML = "asdkada w" ; // `${alist[forCounter]}`;
-        anchorTags[forCounter].setAttribute('datetime', alist[forCounter]);
-        anchorTags[forCounter].addEventListener("click", populateStatsForDates);
-        console.log(anchorTags[forCounter], alist[forCounter]);
-    }
+    // populate the dates navigation with the correct data, bind the required event listeners
+    var anchorTags = $('#dates li a time');
+    $.each(anchorTags, function(index, value){
+        $(value).html(alist[index]);
+        $(value).attr('datetime', alist[index]);
+        $(value).on("click", populateStatsForDates);
+    });
+
 }
 
 function setMarketsNavigation(alist){
     var anchorTags = $('#markets li a');
-    for (var forCounter = 0; forCounter < alist.length; forCounter++){
-        //modify the datetime attr and the html value
-        anchorTags[forCounter].innerHTML = '' + alist[forCounter];
-        anchorTags[forCounter].addEventListener("click", populateStatsForMarkets);
-    }
+    $.each(anchorTags, function(index, value){
+        $(value).html(alist[index]);
+        $(value).on("click", populateStatsForMarkets);
+    });
 }
 
 function main(){

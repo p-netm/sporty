@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
 
+    <!-- Scripts-->
+    <script src="{{url_for('static', filename='js/jquery.js') }}" defer></script>
+    <script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js') }}" defer></script>
+    <script src="{{url_for('static', filename='js/shards.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}" defer></script>
+
 </head>
 
 <body style="font-family:'Kotta One', serif;">
@@ -249,10 +255,6 @@
 
 {#<!-- Latest compiled JavaScript -->#}
 {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>#}
-    <script src="{{url_for('static', filename='js/jqueryDev3.js') }}"></script>
-    <script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{url_for('static', filename='js/shards.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 
 </html>
