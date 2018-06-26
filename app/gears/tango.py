@@ -228,8 +228,8 @@ def explain(obj, view=False):
             _time = _time.strftime('%H:%M')
         return {
             "home_team": obj.team_one,
-            "time": _date,
-            "date": _time,
+            "date": _date,
+            "time": _time,
             "league": obj.league_id,  # probably should not display the league_id here, it is meaningless
             "away_first_half_goals": obj.team_two_first_half_goals,
             "away_match_goals": obj.team_two_match_goals,
@@ -239,6 +239,14 @@ def explain(obj, view=False):
             "away_second_half_goals": obj.team_two_second_half_goals,
             "home_second_half_goals": obj.team_one_second_half_goals
         }
+    elif isinstance(obj, Flagged):
+        return{
+            "home_team": obj.team_one,
+            "date": obj.date.strftime('%Y-%m-%d'),
+            "time": obj.time.strftime('%H:%M'),
+            "away_team": obj.team_two
+        }
+
     elif isinstance(obj, Team):
         return {
             "team_name": obj.team_name,
@@ -273,7 +281,6 @@ def get_matches(model, date_obj, over=False, under=False, gg=False, ng=False):
             res = partial_res.filter(model.ng == True).all()
     else:
         res = partial_res.all()
-
     for collection in res:
         match_dict = explain(collection[1], view=True)
         match_dict["country"] = collection[2]

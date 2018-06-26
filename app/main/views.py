@@ -23,15 +23,17 @@ def _links():
     return [links_values, markets]
     
 def get_flagged_fixtures(date_obj, market):
+    # remove this***
+    date_obj = datetime.date(2018, 6, 26)
     if not isinstance(date_obj, datetime.date):
         raise TypeError('expected {}, got {}'.format('datetime.date', type(date_obj)))
     if market == "over":
         fixtures = get_matches(Flagged, date_obj, over=True)
     if market == "under":
         fixtures = get_matches(Flagged, date_obj, under=True)
-    if market == "gg":
+    if market == 'bts yes':
         fixtures = get_matches(Flagged, date_obj, gg=True)
-    if market == "ng":
+    if market == 'bts no':
         fixtures = get_matches(Flagged, date_obj, ng=True)
     return fixtures
     
@@ -62,6 +64,7 @@ def index():
         _date = request.form.get("date")
         market = request.form.get("market")
 
+
         if full_data:
             return jsonify(package())
         if subscribed_email:
@@ -80,7 +83,7 @@ def index():
             })
         if _date and market:
             # we need to return data for a certain date for the specified market
-            date_obj = datetime.strptime(_date, '%Y-%m-%d')
+            date_obj = datetime.datetime.strptime(_date, '%Y-%m-%d')
             return jsonify({
                 'tips': get_flagged_fixtures(date_obj, market)
             })

@@ -72,7 +72,7 @@ class Leam(db.Model):
 
     
 class Match(db.Model):
-    """:realation: one match will involves two teams"""
+    """:relation: one match will involves two teams"""
     match_id = db.Column(db.Integer, primary_key=True)
     team_one = db.Column(db.String(), db.ForeignKey('team.team_name'), nullable=False)
     team_two = db.Column(db.String(), db.ForeignKey('team.team_name'), nullable=False)
