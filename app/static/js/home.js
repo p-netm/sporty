@@ -3,22 +3,56 @@
  */
 $(document).ready(main());
 
-function deactivateNavs(){
-    $('.nav-link.active').each(function(index, tag){
-        tag.removeClass('active')
+function tabulateData(dataArray){
+    //fill data to the display table, dataArray is array, and can be sorted in two ways:
+    // by kickoff time, by league title
+    var table = $('#data-table');
+    table.empty();
+    date_thead = createDateTHead(dataArray[0].date);
+    table.append(date_thead);
+    var currentLeague;
+    $.each(dataArray, function(index, obj){
+        if (currentLeague && obj.league === currentLeague){
+            table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+        }
+        else if (currentLeague && obj.league !== currentLeague){
+            table.append('</tbody>');
+            let breadcrumbs = createBreadcrumbs(obj.country, obj.league);
+            currentLeague = obj.league;
+            table.append(breadcrumbs);
+            table.append('<tbody>');
+            table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+        }
+        else if (!currentLeague){
+            //the start
+            let breadcrumbs = createBreadcrumbs(obj.country, obj.league);
+            currentLeague = obj.league;
+            table.append(breadcrumbs);
+            table.append('<tbody>');
+            table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+        }
     });
+
 }
 
-function tabulateData(data){
-    //fill data to the display table, data is a list
+function createDateTHead(dateAsString){
+    const tags = '<thead class="date"><tr><td colspan="4">'+ dateAsString + '.</td></tr></thead>';
+    return tags
+}
+function createBreadcrumbs(countryName, leagueName){
+    const tags = '<thead class="breadcrumps"><tr><td colspan="4">SOCCER>' + countryName +'>'+ leagueName +'</td></tr></thead>';
+    return tags
+}
+function createSingleMatch(homeTeam, awayTeam, time){
+    const tags = '<tr><td> '+ time + '</td><td>'+ homeTeam + '</td><td> - </td><td>'+ awayTeam + '</td></tr>'
+    return tags
 }
 
 function populateStatsForDates(){
-    console.log(this, 'i was clicked');
     //get the values of the active dates and markets tab and create an ajax request
-    thisTimeTag = $(this);
-    dateString = thisTimeTag.attr("datetime");
-    market = $('#markets li a.active').val();
+    var thisTimeTag = $(this);
+    var dateString = thisTimeTag.attr("datetime");
+    var market = $('#markets li a.active').val();
     $.ajax(window.location.href, {
         method : "POST",
         data : {
@@ -34,10 +68,9 @@ function populateStatsForDates(){
 }
 
 function populateStatsForMarkets(){
-    console.log(this, 'market was clicked');
-    thisMarketTag = $(this);
-    market = thisMarketTag.val();
-    dateString = $('#dates li a.active time').attr('datetime');
+    var thisMarketTag = $(this);
+    var market = thisMarketTag.text();
+    var dateString = $('#dates li a.active time').attr('datetime');
     $.ajax(window.location.href, {
         method : "POST",
         data : {
@@ -47,7 +80,8 @@ function populateStatsForMarkets(){
     }).done(function (data){
         // place data in the table
         //toggle the active class
-        console.log(data);
+        incumbent_active = $('#markets li a.active').removeClass('active');
+        thisMarketTag.addClass('active');
         tabulateData(data.tips);
     });
 }
@@ -90,6 +124,7 @@ function main(){
             }
             ).done(function (data){
             withData(data);
+            activeMarket = $('#markets li a.active').trigger('click');
         });
     })();
     
@@ -110,7 +145,4 @@ function main(){
                 //display if error
         });
     });
-    (function(){
-        //asynchronous ajax requests for the pills
-    })();
 }

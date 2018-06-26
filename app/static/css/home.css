@@ -31,6 +31,7 @@ header hr{
     border-radius: 2px;
     text-decoration: none;
     font-weight: bold;
+    background: #797979;
 
 }
 
@@ -66,7 +67,7 @@ thead.date tr td{
     color: #fff;
 }
 .display-filter a.active{
-    background-color: #464646;
+    background-color: #313131;
     color: white;
 }
 
