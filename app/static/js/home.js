@@ -4,9 +4,10 @@
 $(document).ready(main());
 
 var dataStore = {};
-function sortDataArray(dataArray, sortOrder = "kickoff"){
+function sortDataArray(dataArray){
     /*{away_team: "A. Lustenau", country: "Austria", time: "18:30", home_team: "FAC Wien", league: "Erste Liga", …}*/
     dataArray = Array.from(dataArray);
+    let sortOrder = $('.display-filter a.active').text();
     function condenseTime(time){
         let hours = time.split(":")[0];
         let minutes = time.split(":")[1];
@@ -31,10 +32,10 @@ function sortDataArray(dataArray, sortOrder = "kickoff"){
     return dataArray;
 }
 
-function tabulateData(dataArray, sortOrder){
+function tabulateData(dataArray){ /*   *****   */
     //fill data to the display table, dataArray is array, and can be sorted in two ways:
     // by kickoff time, by league title
-    dataArray = sortDataArray(dataArray, sortOrder);
+    dataArray = sortDataArray(dataArray);
     var table = $('#data-table');
     table.empty();
     date_thead = createDateTHead(dataArray[0].date);
@@ -51,6 +52,9 @@ function tabulateData(dataArray, sortOrder){
             table.append(breadcrumbs);
             table.append('<tbody>');
             table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+        }
+        else if (++index === dataArray.length){
+            table.append('</tbody>');
         }
         else if (!currentLeague){
             //the start
@@ -69,7 +73,7 @@ function createDateTHead(dateAsString){
     return tags
 }
 function createBreadcrumbs(countryName, leagueName){
-    const tags = '<thead class="breadcrumps"><tr><td colspan="4">SOCCER>' + countryName +'>'+ leagueName +'</td></tr></thead>';
+    const tags = '<thead class="breadcrumps"><tr><td colspan="4">soccer>' + countryName +'>'+ leagueName +'</td></tr></thead>';
     return tags
 }
 function createSingleMatch(homeTeam, awayTeam, time){
@@ -156,7 +160,7 @@ function main(){
             }
             ).done(function (data){
             withData(data);
-            activeMarket = $('#markets li a.active').trigger('click');
+            $('#markets li a.active').trigger('click');
         });
     })();
     
@@ -164,8 +168,8 @@ function main(){
     $('#subscription-form').on('submit', function(event){
         event.preventDefault();
         //email verification code here
-        pattern = /\s|\d+@\s\.com/;
-        email_data = {
+        var pattern = /\s|\d+@\s\.com/;
+        var email_data = {
             email: $('#subscription-form').val()
         }
         $.ajax(window.location.href,
@@ -174,7 +178,10 @@ function main(){
                 method: "POST"
             }
             ).done(function(data){
-                //display if error
+                //display feedback above the email input field
+                let emailInputField = $('[placeholder = "Your Email"]')
+                //data.message
+                console.log(data);
         });
     });
 
@@ -183,8 +190,6 @@ function main(){
         event.preventDefault();
         $(".display-filter a.active").removeClass('active');
         $(this).addClass('active');
-        sortOrder = $(this).text();
-        tabulateData(dataStore.tips, sortOrder);
-
+        tabulateData(dataStore.tips);
     });
 }
