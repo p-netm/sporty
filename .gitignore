@@ -121,3 +121,4 @@ ENV/
 /notes.py
 .pytest_cache/
 /tests/integrationtestdataforflaggedud.py
+/app/static/js/test_js.js

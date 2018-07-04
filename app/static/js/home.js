@@ -41,31 +41,27 @@ function tabulateData(dataArray){ /*   *****   */
     date_thead = createDateTHead(dataArray[0].date);
     table.append(date_thead);
     var currentLeague;
-    $.each(dataArray, function(index, obj){
-        if (currentLeague && obj.league === currentLeague){
-            table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+    for (let index=0; index < dataArray.length; index++) {
+        let obj = dataArray[index];
+        if (currentLeague && obj.league === currentLeague) {
+            //get the last tbody and append the below match to that
+            var lastAddedTbody = $('#data-table tbody:last');
+            lastAddedTbody.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
         }
-        else if (currentLeague && obj.league !== currentLeague){
-            table.append('</tbody>');
+        else if (currentLeague && obj.league !== currentLeague) {
             let breadcrumbs = createBreadcrumbs(obj.country, obj.league);
             currentLeague = obj.league;
             table.append(breadcrumbs);
-            table.append('<tbody>');
-            table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+            table.append('<tbody>' + createSingleMatch(obj.home_team, obj.away_team, obj.time) + '</tbody>');
         }
-        else if (++index === dataArray.length){
-            table.append('</tbody>');
-        }
-        else if (!currentLeague){
+        else if (!currentLeague) {
             //the start
             let breadcrumbs = createBreadcrumbs(obj.country, obj.league);
             currentLeague = obj.league;
             table.append(breadcrumbs);
-            table.append('<tbody>');
-            table.append(createSingleMatch(obj.home_team, obj.away_team, obj.time));
+            table.append('<tbody>' + createSingleMatch(obj.home_team, obj.away_team, obj.time) + '</tbody>');
         }
-    });
-
+    }
 }
 
 function createDateTHead(dateAsString){
