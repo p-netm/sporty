@@ -26,8 +26,3 @@ def run():
     
     saver(yesterday_url)
     starter(today_url)
-    
-    
-def launch():
-    # execute the run command at their respective appropriate times
-    pass

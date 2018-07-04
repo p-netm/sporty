@@ -3,7 +3,7 @@ Defines routes
 
 pages:
 1. home page
-2. lisence page/terms and conditions page
+2. license page/terms and conditions page
 """
 
 from flask import render_template, session, redirect, url_for, request, jsonify
@@ -14,6 +14,7 @@ from ..models import Flagged, Team, SubscribedEmail
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
 import datetime, json
+from ..ignite import run
 
 def _links():
     """create the filter links name and values,"""
@@ -89,6 +90,12 @@ def index():
             })
 
     return render_template('Enhome.html'), 200
+
+
+@main.route('/run')
+def run_sequence():
+    """Patch: as a specific route for node use for intervals """
+    run()  # specify the time intervals in the route calling server
 
 @main.route('/terms')
 def terms():
