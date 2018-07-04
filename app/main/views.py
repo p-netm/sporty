@@ -11,10 +11,9 @@ from . import main
 from .. import db
 from ..gears.tango import get_matches, get_teams
 from ..models import Flagged, Team, SubscribedEmail
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import FlushError
 import datetime, json
 from ..ignite import run
+from ..email import add_email
 
 def _links():
     """create the filter links name and values,"""
@@ -69,19 +68,11 @@ def index():
         if full_data:
             return jsonify(package())
         if subscribed_email:
-            try:
-                new_subscriber = SubscribedEmail(email=subscribed_email)
-                db.session.add(new_subscriber)
-                db.session.commit()
-            except(FlushError, IntegrityError):
-                return jsonify({
-                    'status': 'bad',
-                    'message': 'Email is already subscribed'
-                })
-            return jsonify({
-                'status': 'ok',
-                'message': 'Email succesfully subscribed'
-            })
+            # get the return object as well as  the response  code
+            response = add_email(subscribed_email)
+            if response['status'] == 'ok':
+                return jsonify(response), 200
+            else: return jsonify(response), 500
         if _date and market:
             # we need to return data for a certain date for the specified market
             date_obj = datetime.datetime.strptime(_date, '%Y-%m-%d')
