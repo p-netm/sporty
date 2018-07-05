@@ -146,6 +146,10 @@ function setMarketsNavigation(alist){
 
 function main(){
     (function (){
+        //deactivate the email submit button and set othere default html behaviours
+        
+    })();
+    (function (){
         //get all the data and render
         $.ajax(window.location.href,
             {
@@ -161,11 +165,8 @@ function main(){
     })();
     
     //form
-    $('#subscription-form').on('submit', function(event){
-        event.preventDefault();
-        //email verification code here
-        var pattern = /\s|\d+@\s\.com/i;
-
+    $('#subscription-form button[type="submit"]').on('click', function(event){
+        console.log("email being sent");
         var email_data = {
             email: $('#subscription-form').val()
         }
@@ -189,9 +190,22 @@ function main(){
         $(this).addClass('active');
         tabulateData(dataStore.tips);
     });
-
-    function email_verify(){
+    
+    function emailVerifies(email){
         const pattern = /\s|\d+@\s\.com/i;
-        $('#email').on('mouse')
+        return pattern.test(email)
     }
+
+        
+    $('#email').on('input', function (){
+        let userInput = $(this).val();
+        if (!emailVerifies(userInput)){
+            //add a dismissable error message above the input tag
+            $('#subscription-message').html(userInput);
+        }
+        else{
+            //activate the email submit button
+        }
+    });
+    
 }
