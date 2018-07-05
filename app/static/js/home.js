@@ -164,7 +164,8 @@ function main(){
     $('#subscription-form').on('submit', function(event){
         event.preventDefault();
         //email verification code here
-        var pattern = /\s|\d+@\s\.com/;
+        var pattern = /\s|\d+@\s\.com/i;
+
         var email_data = {
             email: $('#subscription-form').val()
         }
@@ -188,4 +189,9 @@ function main(){
         $(this).addClass('active');
         tabulateData(dataStore.tips);
     });
+
+    function email_verify(){
+        const pattern = /\s|\d+@\s\.com/i;
+        $('#email').on('mouse')
+    }
 }
