@@ -146,7 +146,7 @@ function setMarketsNavigation(alist){
 
 function main(){
     (function (){
-        //deactivate the email submit button and set othere default html behaviours
+        //deactivate the email submit button and set other default html behaviours
         
     })();
     (function (){
@@ -165,11 +165,11 @@ function main(){
     })();
     
     //form
-    $('#subscription-form button[type="submit"]').on('click', function(event){
-        console.log("email being sent");
+    $('#submit').on('click', function(event){
+        event.preventDefault();
         var email_data = {
             email: $('#subscription-form').val()
-        }
+        };
         $.ajax(window.location.href,
             {
                 data: email_data,
@@ -177,8 +177,7 @@ function main(){
             }
             ).done(function(data){
                 //display feedback above the email input field
-                let emailInputField = $('[placeholder = "Your Email"]')
-                //data.message
+                $('#subscription-message').html(data["message"]);
                 console.log(data);
         });
     });
@@ -192,8 +191,8 @@ function main(){
     });
     
     function emailVerifies(email){
-        const pattern = /\s|\d+@\s\.com/i;
-        return pattern.test(email)
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
     }
 
         
@@ -201,10 +200,16 @@ function main(){
         let userInput = $(this).val();
         if (!emailVerifies(userInput)){
             //add a dismissable error message above the input tag
-            $('#subscription-message').html(userInput);
+            $("#submit").attr("disabled",true);
+            $('#subscription-message').empty();
+            $('#subscription-message').addClass("error-message");
+            $('#subscription-message').html("Invalid Email");
         }
         else{
             //activate the email submit button
+            $('#subscription-message').empty();
+            $('#subscription-message').removeClass("error-message");
+            $("#submit").attr("disabled",false);
         }
     });
     

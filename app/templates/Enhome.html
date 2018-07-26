@@ -7,8 +7,9 @@
     <title>eanmblesp</title>
     {#    <!-- Latest compiled and minified CSS -->#}
     {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">#}
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kotta+One">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/shards.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Footer-Clean.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Newsletter-Subscription-Form.css') }}">
@@ -90,7 +91,7 @@
                     <div class="form-group"><input id="email" class="form-control" type="email" name="email"
                                                    placeholder="Your Email"></div>
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                        <button id="submit" class="btn btn-primary" disabled type="submit">Subscribe</button>
                     </div>
                 </form>
                 <div class="card">
@@ -194,11 +195,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-4 col-md-3 item">
-                <h3>Services</h3>
+                <h3>recommendations</h3>
                 <ul>
-                    <li><a href="#">Web design</a></li>
-                    <li><a href="#">Development</a></li>
-                    <li><a href="#">Hosting</a></li>
+                    <li><a href="#">Eanmble TS</a></li>
+                    <li><a href="sportstats.com/soccer/matches">Sportstats</a></li>
+                    <li><a href="typersi.com">typersi.com</a></li>
                 </ul>
             </div>
             <div class="col-sm-4 col-md-3 item">
@@ -210,16 +211,14 @@
                 </ul>
             </div>
             <div class="col-sm-4 col-md-3 item">
-                <h3>Careers</h3>
+                <h3>testimonials</h3>
                 <ul>
-                    <li><a href="#">Job openings</a></li>
-                    <li><a href="#">Employee success</a></li>
-                    <li><a href="#">Benefits</a></li>
                 </ul>
             </div>
-            <div class="col-lg-3 item social"><a href="#"><i class="icon icon-social-facebook"></i></a><a href="#"><i
-                    class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a
-                    href="#"><i class="icon ion-social-instagram"></i></a>
+            <div class="col-lg-3 "><a href="#"><i class="fa fa-facebook-square" style="font-size:48px;color:#5676ff"></i></a>
+                <a href="#">
+                <i class="fa fa-twitter-square" style="font-size:48px;color:dodgerblue"></i>
+            </a>
                 <p class="copyright">Eanmble Sp © 2018</p>
             </div>
         </div>

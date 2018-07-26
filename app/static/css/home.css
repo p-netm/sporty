@@ -112,3 +112,6 @@ thead.date tr td{
 .card img{
     max-height: 200px;
 }
+.error-message{
+    color: red;
+}
