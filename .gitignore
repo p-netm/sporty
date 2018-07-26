@@ -6,9 +6,6 @@ app/__pycache__/
 app/__pycache__/scrapper.cpython-34.pyc
 testit.py
 pretest.py
-<<<<<<< HEAD
->>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
-=======
 # virtual envnironment files
 /shlEnv/
 /designs/wireframes/Thumbs.db
@@ -125,4 +122,3 @@ ENV/
 .pytest_cache/
 /tests/integrationtestdataforflaggedud.py
 /app/static/js/test_js.js
->>>>>>> scrapper
