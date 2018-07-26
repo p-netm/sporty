@@ -1,0 +1,117 @@
+.body-top{
+    min-height: 100vh;
+    background: url('../media/28.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+footer{
+    clear: both;
+    background: #0D2133;
+}
+
+table{
+    width: 100%;
+}
+header hr{
+    margin: 5px;
+}
+
+.display-filter{
+    display: inline-block;
+    margin-top: 10px;
+    /*background: #512978;*/
+}
+.display-filter a{
+    /*background: blue;*/
+    color: #fff;
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-weight: bold;
+    background: #797979;
+
+}
+
+.data-table{
+    padding-top: 5px;
+    background-color: transparent;
+    padding-bottom: 10px;
+}
+table{
+    background-color: white;
+    width: 100%;
+    font-size: 0.9em;
+    border: 1px solid white;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+td,th{
+    padding: 5px;
+    text-align: left;
+    color: black;
+}
+thead{
+    background: #bababa;
+}
+tbody tr:nth-child(even){
+    background: #ebebeb;
+}
+thead.date{
+    background: navy;
+    font-weight: bold;
+}
+thead.date tr td{
+    color: #fff;
+}
+.display-filter a.active{
+    background-color: #313131;
+    color: white;
+}
+
+.footer-section{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 33%;
+    padding: 5px;
+    display:block;
+    float: left;
+    border-right: 1px solid grey;
+    height: 100px;
+    overflow: hidden;
+}
+
+.trivial-header{
+    color: #a4a4a4;
+    font-size: small;
+}
+
+
+.transparent{
+    background: transparent;
+}
+#top-div{
+    padding-bottom: 20px;
+}
+.intro, .card{
+    margin-bottom: 10px;
+}
+#center-div{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+.subscription-form{
+    text-align: center;
+}
+.subscription-form form-group{
+    margin-bottom: 0;
+}
+.card img{
+    max-height: 200px;
+}
+.error-message{
+    color: red;
+}

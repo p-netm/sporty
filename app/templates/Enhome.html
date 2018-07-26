@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eanmblesp</title>
+    {#    <!-- Latest compiled and minified CSS -->#}
+    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kotta+One">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shards.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Footer-Clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Newsletter-Subscription-Form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+    <!-- Scripts-->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/shards.min.js') }}" defer></script>
+    <!--<script src="{{ url_for('static', filename='js/test_js.js') }}" defer></script> -->
+    <script src="{{ url_for('static', filename='js/home.js') }}" defer></script>
+
+</head>
+
+<body style="font-family:'Kotta One', serif;">
+<div id="top-div">
+    <nav class="navbar navbar-light navbar-expand-md" id="eanmble-nav">
+        <div class="container"><a class="navbar-brand" href="#">
+            <img id="logo-img" src="{{ url_for('static', filename='media/logo.png') }}"></a>
+        </div>
+    </nav>
+    <hr>
+    <div class="container-fluid" id="main-stats-container">
+        <div class="row" id="main-stats-row">
+            <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9" id="main-stats-column">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs nav-justified card-header-tabs" id="dates">
+                            <li class="nav-item"><a class="nav-link" href="#">
+                                <time datetime="">yesterday</time>
+                            </a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">
+                                <time datetime="">yesterday</time>
+                            </a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#">
+                                <time datetime="">yesterday</time>
+                            </a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">
+                                <time datetime="">yesterday</time>
+                            </a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">
+                                <time datetime="">yesterday</time>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body" id="dates-card-body">
+
+                        <section id="date-market-section">
+                            <ul class="nav nav-tabs nav-justified" id="markets">
+                                <li class="nav-item"><a class="nav-link active" href="#">over 25</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">under 25</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">gg</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">gg</a></li>
+                            </ul>
+                            <section id="stats-section">
+                                <div class="display-filter">
+                                    <a class="active" href="">kickoff</a>
+                                    <a href="">league</a>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="data-table" class="">
+
+                                    </table>
+                                </div>
+                            </section>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3" id="email-subscription-column">
+                <div class="intro">
+                    <h2 class="text-center">Subscribe&nbsp;</h2>
+                    <p class="text-center">want to receive our system's recommendations straight into your email? ps:
+                        you emails are kept a secret to third parties.</p>
+                </div>
+                <form class="subscription-form" method="post">
+                    <p id="subscription-message" class="hidden"></p>
+                    <div class="form-group"><input id="email" class="form-control" type="email" name="email"
+                                                   placeholder="Your Email"></div>
+                    <div class="form-group">
+                        <button id="submit" class="btn btn-primary" disabled type="submit">Subscribe</button>
+                    </div>
+                </form>
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='media/goldenbt.jpg') }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">TOP OVER 25 TEAMs</h4>
+                        <section id="over25-section" class="top-teams">
+                            <ol>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                            </ol>
+
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="center-div" style="width:100%;min-height:50vh;background-color:rgba(224,222,235,0.5);">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='media/solounder.jpg') }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">TOP UNDER 25 TEAMs</h4>
+                        <section id="under25-section" class="top-teams">
+                            <ol>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                            </ol>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='media/gg.jpg') }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">BTS YES</h4>
+                        <section id="gg-section" class="top-teams">
+                            <ol>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                            </ol>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='media/ng.jpg') }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">BTS NO</h4>
+                        <section id="ng-section" class="top-teams">
+                            <ol>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                                <li>country>league><em>team name</em></li>
+                            </ol>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 col-md-3 item">
+                <h3>recommendations</h3>
+                <ul>
+                    <li><a href="#">Eanmble TS</a></li>
+                    <li><a href="sportstats.com/soccer/matches">Sportstats</a></li>
+                    <li><a href="typersi.com">typersi.com</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4 col-md-3 item">
+                <h3>About</h3>
+                <ul>
+                    <li><a href="#">Company</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Legacy</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4 col-md-3 item">
+                <h3>testimonials</h3>
+                <ul>
+                </ul>
+            </div>
+            <div class="col-lg-3 "><a href="#"><i class="fa fa-facebook-square" style="font-size:48px;color:#5676ff"></i></a>
+                <a href="#">
+                <i class="fa fa-twitter-square" style="font-size:48px;color:dodgerblue"></i>
+            </a>
+                <p class="copyright">Eanmble Sp © 2018</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- jQuery library
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+{##}
+{#<!-- Popper JS -->#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>#}
+
+{#<!-- Latest compiled JavaScript -->#}
+{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>#}
+</body>
+
+</html>

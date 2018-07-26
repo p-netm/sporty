@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data transmission testing</title>
+</head>
+<body>
+<form action="{{ url_for('main.index') }}" method="post">
+    <label>email: <input type="email" name="email" id="email"></label>
+    <input type="button" id="submit" value="submit">
+</form>
+<p id="info"></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(main);
+    function main() {
+        $('#submit').click(function (event) {
+
+            email_obj = {
+                email: $('#email').val()
+            };
+            $.ajax('http://127.0.0.1:5000/',
+                {
+                    method: "POST",
+                    data: email_obj
+                }
+            ).done(function (data) {
+                console.log(data);
+                $('#info').html(data.message);
+            });
+        });
+    }
+</script>
+</body>
+</html>

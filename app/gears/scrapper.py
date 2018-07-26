@@ -5,12 +5,13 @@ import os
 >>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
 from bs4 import BeautifulSoup
 import datetime
-import re
+import re, os
 import time as Time
 from urllib.parse import urlparse, urljoin
-from errors import *
+from errors import TagError, PatternMatchError
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 def stringify(a):
     if len(str(a)) == 1:
@@ -100,14 +101,18 @@ def scrap_for_mutual_matches(url):
     td_list = list()  # will hold the td tags that hold the href with the #odds
 =======
 def _run_(url="""http://www.sportstats.com/soccer/matches/"""):
+=======
+def _run_(url):
+>>>>>>> scrapper
     """The project manager, his main job will to motivate the other functions and  then consolidate their
     work into the last meaningful required product.
     :parameters: wil have an optional url of a certain soccer page from which to pull data from
     """
     all_main_links = scrap_all_links(url)
     all_dictions_lists = []
-    for each_link in all_main_links:
-        full_page = requests.get(url)
+    for each_tuple in all_main_links:
+        each_link = each_tuple[2]
+        full_page = requests.get(each_link)
         insoup = BeautifulSoup(full_page.text, 'html.parser')
         diction = get_specific_match_details(insoup)
         diction.update(retrieve_mutual_matches_data(insoup))
@@ -123,15 +128,21 @@ def scrap_all_links(url):
     """
     if os.environ.get('CONFIGURATION') == "testing":
         # we are loading file from disk,
-        with open(url) as handler:
+        if not os.path.exists(url):
+            raise ValueError('The file path does not exists')
+        with open(url, 'r', encoding='utf-8') as handler:
             webpage_text = handler.read()
     else:
         full_webpage = requests.get(url)
         webpage_text = full_webpage.text
     soup = BeautifulSoup(webpage_text, 'html.parser')
-    main_div = soup.find_all(id='pos_62')[0]
-    # main_div contains a div with the table that holds the match records
+    try:
+        main_div = soup.find_all(id='pos_62')[0]
+        # main_div contains a div with the table that holds the match records
+    except IndexError as e:
+        raise TagError('{}'.format('main_div#pos_62'))
 
+<<<<<<< HEAD
     tbody_list = main_div.find_all('tbody') # tbody tags: sample rendering: Avai0 - 1 Hercilio Luz1.334.307.76
     td_list = [] # will hold the td tags that hold the href with the #odds
 >>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
@@ -246,8 +257,39 @@ def get_specific_match_details(url):
 =======
         
     refatored_hrefs = [urljoin('''http://www.sportstats.com''', urlparse(a).path) for a in all_hrefs]
+=======
+    tbody_list = main_div.find_all('tbody')  # tbody tags: sample rendering: Avai0 - 1 Hercilio Luz1.334.307.76
+    refactored_hrefs = []  # will hold the td tags that hold the href with the #odds
+    for tag in tbody_list:
+        trs = tag.find_all('tr')
+        for tag in trs:
+            a = tag.find_all('a', class_='tabOdds')[0].get('href')
+            a = urljoin('''http://www.sportstats.com''', urlparse(a).path)
+            home_team = tag.find_all('td', class_='table-home')[0].find_all('a')[0].get_text()
+            away_team = tag.find_all('td', class_='table-away')[0].find_all('a')[0].get_text()
+            refactored_hrefs.append((home_team, away_team, a))
+>>>>>>> scrapper
     return refactored_hrefs
 
+def process_league(league_name):
+    """
+    :parameter: a string value representing the name if the scrapped league
+    :returns: the string the preferred format for storage """
+    # for now just need to strip of padding spaces and season info if exists
+    league_name = league_name.strip()
+    season_info_pattern = r'[^\d{4}/\d{4}]'
+    res = ''.join(re.findall(season_info_pattern, league_name))
+    return res.strip()
+
+def process_team_name(team_name):
+    """:parameter: the scraped team_name
+    :returns  a copy of the teamname with the unnecessary suffix striped out"""
+    # for now we just need to strtip the white space padding and the country suffix
+    index = team_name.find('(')
+    if index >= 0:
+        return team_name[0:index].strip()
+    else:
+        return team_name.strip()
 
 def get_specific_match_details(insoup):
     """:parameter: a beautiful soup object of the specific matches' details page
@@ -258,14 +300,17 @@ def get_specific_match_details(insoup):
     """
 >>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
     match_dict = dict()
-    country_league = insoup.find_all(id='center')
+    try:
+        country_league = insoup.find_all(id='center')
+    except IndexError as e:
+        raise TagError('{} is missing'.format('#pos_62'))
     country_league = country_league[0].find_all('div', class_='bread')
     country_league = country_league[0].find_all('a')
     league = country_league[len(country_league) - 1].get_text()
     country = country_league[len(country_league) - 2].get_text()
 
     match_dict['country'] = country
-    match_dict['league'] = league
+    match_dict['league'] = process_league(league)
 
     teams = insoup.find('h1', class_='hidden').get_text()
     home_team = teams.split('-')[0].strip()
@@ -306,17 +351,14 @@ def date_from_string(string):
     time_pattern = r'(\d+:\d+)'
     # first confirm that the patterns match
     _day = re.findall(date_pattern, string)
-    if len(_day) > 0:
-        stringed_date = _day[0]
-        day_of_play = datetime.datetime.strptime(stringed_date, '%d %b %Y')
-    else:
-        raise PatternMatchError('Unparsable date day format, please recheck that the website has not changed its date format.')
-
     _time = re.findall(time_pattern, string)
-    if len(_time) > 0:
-        stringed_time = _time[0]
-        time_of_play = datetime.datetime.strptime(stringed_time, '%H:%M')
+    if len(_day) > 0 and len(_time) > 0:
+        stringed_datetime = _day[0] + ' ' + _time[0]
+        full_date = datetime.datetime.strptime(stringed_datetime, '%d %b %Y %H:%M')
+        date_of_play = datetime.date(full_date.year, full_date.month, full_date.day)
+        time_of_play = datetime.time(full_date.hour, full_date.minute)
     else:
+<<<<<<< HEAD
 <<<<<<< HEAD
         raise Exception('Unparsable date time format, please check that the website has not changed its time format.')
     # we now create the  final object that we send back
@@ -327,6 +369,12 @@ def date_from_string(string):
         
     return day_of_play, time_of_play
 >>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
+=======
+        raise PatternMatchError(
+            'Unparsable date day format, please recheck that the website has not changed its date format.')
+
+    return date_of_play, time_of_play
+>>>>>>> scrapper
 
 
 def retrieve_scores(div):
@@ -355,12 +403,17 @@ def retrieve_scores(div):
     # now we format
     full_score_info = full_score_info_div.p.get_text()
     full_score_info = re.findall(r'\S-\S', full_score_info)
-    first_half_scores = full_score_info[0]
-    second_half_scores = full_score_info[1]
+    try:
+        first_half_scores = full_score_info[0]
+        second_half_scores = full_score_info[1]
+    except IndexError as error:
+        return None, None, None, None
     score_pattern = r'\d+'
-    home_team_first_half_goals, away_team_first_half_goals = re.findall(score_pattern, first_half_scores)[0], re.findall(score_pattern, first_half_scores)[0]
-    home_team_second_half_goals, away_team_second_half_goals = re.findall(score_pattern, second_half_scores)[0], re.findall(score_pattern, second_half_scores)[1]
-    return home_team_first_half_goals, away_team_first_half_goals, home_team_second_half_goals, away_team_second_half_goals
+    home_team_first_half_goals, away_team_first_half_goals = re.findall(score_pattern, first_half_scores)[0], \
+                                                             re.findall(score_pattern, first_half_scores)[1]
+    home_team_second_half_goals, away_team_second_half_goals = re.findall(score_pattern, second_half_scores)[0], \
+                                                               re.findall(score_pattern, second_half_scores)[1]
+    return int(home_team_first_half_goals), int(away_team_first_half_goals), int(home_team_second_half_goals), int(away_team_second_half_goals)
 
 
 def parse_scores_for_match(div):
@@ -429,16 +482,22 @@ def score_validator(first_score, second_score, full_score):
     result = re.findall(pattern, full_time_score)
     if len(result) == 2:
         # we have valid scores ladies and gemtlemen, proceed
-        home_goals = result[0]
-        away_goals = result[1]
+        home_goals = int(result[0])
+        away_goals = int(result[1])
 
         # now for the half time and full time results
+<<<<<<< HEAD
         home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = retrieve_scores(div)
 >>>>>>> 106c6f1de13e7616203fcad48f5c8f779fe02b43
+=======
+        home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = retrieve_scores(
+            div)
+>>>>>>> scrapper
     else:
+        home_goals, away_goals = None, None
         home_first_half_goals, away_first_half_goals, home_second_half_goals, away_second_half_goals = None, None, None, None
-    
-    return{
+
+    return {
         'home_match_goals': home_goals,
         'away_match_goals': away_goals,
         'home_first_half_goals': home_first_half_goals,
@@ -459,14 +518,17 @@ def retrieve_mutual_matches_data(soup):
     :parameter: a beatiful soup object of the specific matches' details page
     :returns: a dictionary of a single mutual_matches key with a list of dictionaries
     """
-    sub_content = soup.find_all(id='subContent_0')[0]
+    try:
+        sub_content = soup.find_all(id='subContent_0')[0]
+    except IndexError as e:
+        raise TagError('{} is missing'.format('sub_content#subcontent_0'))
     mutual_block = sub_content.find_all(id='pos_21')[0]
     maintainable_content = mutual_block.find_all(id='LS_maintableContent')[0]
     try:
         table = maintainable_content.find_all(id='maintable_0')[0]
     except IndexError as maintainable_error:
         return {'mutual': None}
-    links_list = table.find_all('a',  class_='tabOdds')
+    links_list = table.find_all('a', class_='tabOdds')
     all_hrefs = list()
     for link in links_list:
         href_text = link.get('href')
@@ -474,7 +536,9 @@ def retrieve_mutual_matches_data(soup):
 
     all_mutual_matches = list()
     for href in all_hrefs:
-        mutual_match_instance = get_specific_match_details(href)
+        href = urljoin('http://www.sportstats.com', href)
+        semi_soup = BeautifulSoup(requests.get(href).text, 'html.parser')
+        mutual_match_instance = get_specific_match_details(soup)
         all_mutual_matches.append(mutual_match_instance)
     # create a dictionary to be returned
 

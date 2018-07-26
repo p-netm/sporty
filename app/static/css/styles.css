@@ -1,0 +1,35 @@
+#top-div {
+  width:100%;
+  min-height:80vh;
+  background-color:rgba(217,214,230,0.8);
+  font-family:inherit;
+}
+
+.navbar-light .navbar-brand {
+  color:#000000;
+}
+
+#date-market-section {
+  width:90%;
+  margin: auto;
+  background-color:rgb(247,247,247);
+}
+
+#markets {
+}
+
+#dates-card-body {
+  background-color:rgb(255,255,255);
+}
+
+#stats-section {
+  background-color:rgb(255,255,255);
+}
+
+#stats-date {
+  margin-bottom:10px;
+}
+
+#center-div {
+}
+
