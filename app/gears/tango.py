@@ -1,13 +1,14 @@
 """
 Tango is where operation controls happen, defined here, you will find
 methods ready to initialise the scrap engine, save the data in our trusty
-databases and then invoke the evalator on the saved data 
+databases and then invoke the evaluator on the saved data
 """
 from ..models import *
 from .scrapper import _run_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
 import datetime
+from .analyser import gg, ng, ov, un, top_team
 from sqlalchemy import desc
 
 
@@ -74,15 +75,32 @@ def save_team(team, logo=None):
     """
     :parameters:  the team_name, all as string
     :returns Boolean if operation successful otherwise false if team already existent"""
-    try:
+    # so hapa if after saving the team retrieve its past played matches run them through the analyser
+    # and resave them
+    this = Team.query.filter(Team.team_name == team).first()
+    if this is None:
         team_obj = Team(team_name=team, logo=logo)
         db.session.add(team_obj)
         db.session.commit()
         return team_obj
-    except (IntegrityError, FlushError) as error:
-        db.session.rollback()
-        return False
-
+    else:
+        # we have it already in the database and thus has matches it has played in recorded in matches table
+        res = get_team_recent_x(home_team=team, x=10000, overall=True)
+        res['home'] = marshmallow(res['home'])
+        # res represents the past matches that the team has been involved in, its the input data
+        # for our teams analyser
+        flag_response = top_team(res['home'])
+        this.ov, this.un, this.gg, this.ng = False, False, False, False
+        if 'ov' in flag_response:
+            this.ov = True
+        if 'un' in flag_response:
+            this.un = True
+        if 'gg' in flag_response:
+            this.gg = True
+        if 'ng' in flag_response:
+            this.ng = True
+        db.session.commit()
+    return this
 
 def pre_save(diction):
     """Abstracts  common operation to both the save_match and the save_flagged methods"""
@@ -96,6 +114,7 @@ def pre_save(diction):
             League.league_name == diction['league']).first()
     home_team_obj = save_team(diction['home_team'], diction['home_logo_src'])
     away_team_obj = save_team(diction['away_team'], diction['away_logo_src'])
+
     if not home_team_obj:
         home_team_obj = Team.query.filter(Team.team_name == diction['home_team']).first()
     if not away_team_obj:
@@ -180,7 +199,7 @@ def team_name_validator( team_name):
 
 def get_team_recent_x(home_team=None, away_team=None, x=5, overall=True):
     """extract the past upto x matches that the team has recently participated in"""
-    # the matches should have been played within the past 6 years
+    # the matches should have been played within the past 5 years
     date_threshhold = datetime.date.today() - datetime.timedelta(days=(365 * 5))
     home_matches, away_matches = [], []
     if home_team:
@@ -230,7 +249,7 @@ def explain(obj, view=False):
             "home_team": obj.team_one,
             "date": _date,
             "time": _time,
-            "league": obj.league_id,  # probably should not display the league_id here, it is meaningless
+            "league": obj.league_id,
             "away_first_half_goals": obj.team_two_first_half_goals,
             "away_match_goals": obj.team_two_match_goals,
             "home_first_half_goals": obj.team_one_first_half_goals,

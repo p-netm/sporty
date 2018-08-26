@@ -115,3 +115,7 @@ thead.date tr td{
 .error-message{
     color: red;
 }
+.top-team-logo{
+    width: 20px;
+    margin-right: 10px;
+}

@@ -111,7 +111,7 @@ function populateStatsForMarkets(){
     }).done(function (data){
         // place data in the table
         //toggle the active class
-        incumbent_active = $('#markets li a.active').removeClass('active');
+        var incumbent_active = $('#markets li a.active').removeClass('active');
         thisMarketTag.addClass('active');
         dataStore = data;
         tabulateData(data.tips);
@@ -119,12 +119,29 @@ function populateStatsForMarkets(){
 }
 
 function withData(data){
-    datesNavigation = data.dates_nav;
-    marketNavigation = data.markets;
+    var datesNavigation = data.dates_nav;
+    var marketNavigation = data.markets;
+    var topTeams = data.teams_dict_list; // top teams is a dictionary with keys: top_ov[un[gg[ng]]]
     setDatesNavigation(datesNavigation);
     setMarketsNavigation(marketNavigation);
+    renderTopTeams(topTeams);
 }
-
+function listData(topTeamData, ulElement){
+    for (index = 0; index< topTeamData.length; index++){
+        ulElement.append('<li><img class="top-team-logo" src=' + topTeamData[index].logo+'><em>' + topTeamData[index].team_name + '</em></li>')
+    }
+}
+function renderTopTeams(diction){
+    // get the respective card displays and parse the required data into each display
+    var topOv = $('#ov-section ul');
+    var topUn = $('#un-section ul');
+    var topGg = $('#gg-section ul');
+    var topNg = $('#ng-section ul');
+    listData(diction.top_ov, topOv);
+    listData(diction.top_un, topUn);
+    listData(diction.top_gg, topGg);
+    listData(diction.top_ng, topNg);
+}
 function setDatesNavigation(alist){
     // populate the dates navigation with the correct data, bind the required event listeners
     var anchorTags = $('#dates li a time');
