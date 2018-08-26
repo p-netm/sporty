@@ -3,7 +3,7 @@
 # we then scrap the matches for today and run the analyser functions for them and save the flagged
 import datetime
 from app.gears.tango import saver  # used for saving past date data
-from app.gears.analyser import starter  # used for getting the present dates data, analysing and flagging
+from app.gears.linker import starter  # used for getting the present dates data, analysing and flagging
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 sched = BlockingScheduler()

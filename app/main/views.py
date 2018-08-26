@@ -12,7 +12,6 @@ from .. import db
 from ..gears.tango import get_matches, get_teams
 from ..models import Flagged, Team, SubscribedEmail
 import datetime, json
-from ..ignite import run
 from ..email import add_email
 
 def _links():
@@ -23,8 +22,7 @@ def _links():
     return [links_values, markets]
     
 def get_flagged_fixtures(date_obj, market):
-    # remove this***
-    date_obj = datetime.date(2018, 6, 26)
+    # date_obj = datetime.date(2018, 6, 26)
     if not isinstance(date_obj, datetime.date):
         raise TypeError('expected {}, got {}'.format('datetime.date', type(date_obj)))
     if market == "over":
@@ -38,8 +36,8 @@ def get_flagged_fixtures(date_obj, market):
     return fixtures
     
 def teams():
-    result_dict = {'top-over': get_teams(over=True),
-                  'top_under': get_teams(under=True),
+    result_dict = {'top_ov': get_teams(over=True),
+                  'top_un': get_teams(under=True),
                   'top_gg': get_teams(gg=True),
                   'top_ng': get_teams(ng=True)}
     return result_dict
@@ -49,7 +47,7 @@ def package():
     return {
         'dates_nav': links,
         'markets'  : markets,
-        'teams_dict-list': teams()
+        'teams_dict_list': teams()
     }
     
 
@@ -83,10 +81,6 @@ def index():
     return render_template('Enhome.html'), 200
 
 
-@main.route('/run')
-def run_sequence():
-    """Patch: as a specific route for node use for intervals """
-    run()  # specify the time intervals in the route calling server
 
 @main.route('/terms')
 def terms():
