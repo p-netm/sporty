@@ -29,7 +29,11 @@ def run():
     saver(yesterday_url)
     starter(today_url)
 
+<<<<<<< HEAD
 @sched.scheduled_job('cron', day_of_week="sun-sat", hour=1)
+=======
+@sched.scheduled_job('cron', day_of_week="sat-sun", hour=3)
+>>>>>>> 5451efca8d282582c00104b14b2274e2f136c88f
 def scheduled_job():
     run()
 
